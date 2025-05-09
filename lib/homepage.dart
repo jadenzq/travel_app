@@ -6,7 +6,14 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-    );
+      appBar: AppBar(
+        title: Text(
+          "Testing Title",
+          style: TextStyle(
+            color: Colors.red,
+          ),
+          )
+        )
+      );
   }
 }
