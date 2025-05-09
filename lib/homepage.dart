@@ -10,10 +10,14 @@ class HomePage extends StatelessWidget {
         title: Text(
           "Testing Title",
           style: TextStyle(
-            color: Colors.red,
+            //color: Colors.red,
+
+            color: Colors.green,
           ),
           )
         )
       );
   }
 }
+
+// This is from Zhu XP branch
