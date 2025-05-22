@@ -1,18 +1,18 @@
 // For testing purpose only
 import 'package:flutter/material.dart';
 
-class Booking extends StatelessWidget
+class BookingFlight extends StatelessWidget
 {
-  const Booking({super.key});
+  const BookingFlight({super.key});
 
   @override
   Widget build(context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Booking',
+          'Booking Flight',
           style: TextStyle(
-            color: Colors.white12
+            color: Colors.white
           ),
         ),
         backgroundColor: Colors.blueAccent
