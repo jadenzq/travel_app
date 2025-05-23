@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:travel_app/Forum/Forum.dart';
+import 'package:travel_app/Login/Login.dart';
+import 'package:travel_app/Memo/Memo.dart';
 import 'package:travel_app/home_page.dart';
 
 class App extends StatefulWidget {
@@ -13,11 +16,13 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   int currentPageIndex = 0;
 
+  List<Widget> pages = [HomePage(), Forum(), Memo(), Login()];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 245, 245, 245),
-      body: HomePage(),
+      body: pages[currentPageIndex],
       bottomNavigationBar: ClipRRect(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(15),
