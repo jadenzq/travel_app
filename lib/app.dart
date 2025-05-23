@@ -16,7 +16,7 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   int currentPageIndex = 0;
 
-  List<Widget> pages = [HomePage(), Forum(), Memo(), Login()];
+  List<Widget> pages = [HomePage(), Forum(), Memo(), LoginPage()];
 
   @override
   Widget build(BuildContext context) {

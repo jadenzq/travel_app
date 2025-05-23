@@ -5,13 +5,16 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SizedBox.expand(
+    return SafeArea(
+      child: SizedBox.expand(
         child: Stack(
           children: [
             // 可滚动的主要内容区域
             SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 15.0),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 12.0,
+                vertical: 15.0,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -67,10 +70,7 @@ class LoginPage extends StatelessWidget {
 
   // Account Input Field
   Widget _buildAccountInput() {
-    return _buildInputField(
-      label: 'Username',
-      icon: Icons.person_outline,
-    );
+    return _buildInputField(label: 'Username', icon: Icons.person_outline);
   }
 
   // Password Input Field
@@ -178,4 +178,3 @@ class LoginPage extends StatelessWidget {
     );
   }
 }
-
