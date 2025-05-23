@@ -21,7 +21,7 @@ class LoginPage extends StatelessWidget {
                   const SizedBox(height: 20),
                   _buildPasswordInput(),
                   const SizedBox(height: 10),
-                  _buildForgotPassword(),
+                  _buildFooterLinks(),
                   const SizedBox(height: 40),
                   _buildLoginButton(),
                   const SizedBox(height: 30),
@@ -83,13 +83,26 @@ class LoginPage extends StatelessWidget {
   }
 
   // Forgot Password Link
-  Widget _buildForgotPassword() {
-    return Align(
-      alignment: Alignment.centerRight,
-      child: InkWell(
-        onTap: () {
-          // 点击忘记密码后的逻辑
-        },
+  Widget _buildFooterLinks() {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      InkWell(
+        onTap: () {}, // 点击事件暂留空
+        child: Padding(
+          padding: const EdgeInsets.only(left: 8.0),
+          child: Text(
+            'Do not have an account?',
+            style: TextStyle(
+              color: Colors.blue[700],
+              fontSize: 14,
+              decoration: TextDecoration.underline,
+            ),
+          ),
+        ),
+      ),
+      InkWell(
+        onTap: () {}, // 保持原有点击事件
         child: Padding(
           padding: const EdgeInsets.only(right: 8.0),
           child: Text(
@@ -102,8 +115,9 @@ class LoginPage extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
+    ],
+  );
+}
 
   // Login Button
   Widget _buildLoginButton() {
