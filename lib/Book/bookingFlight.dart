@@ -15,27 +15,8 @@ class BookingFlight extends StatelessWidget
             color: Colors.white
           ),
         ),
-        backgroundColor: Colors.blueAccent,
-        centerTitle: true,
-      ),
-
-      body: Center(
-        child: Text(
-          'Booking Flight Page',
-          style: TextStyle(
-            fontSize: 24,
-            color: Colors.black
-          ),
-        ),
-      ),
-
-
-
-
-
-
-
-
+        backgroundColor: Colors.blueAccent
+      )
     );
   }
 }
