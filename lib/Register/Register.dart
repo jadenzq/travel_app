@@ -1,53 +1,53 @@
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+class RegisterPage extends StatelessWidget {
+  const RegisterPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+ Widget build(BuildContext context) {
     return Scaffold(
       body: SizedBox.expand(
         child: Stack(
-          children: [
-            // 可滚动的主要内容区域
-            SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 15.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildHeader(),
-                  const SizedBox(height: 30),
-                  _buildAccountInput(),
-                  const SizedBox(height: 20),
-                  _buildPasswordInput(),
-                  const SizedBox(height: 10),
-                  _buildForgotPassword(),
-                  const SizedBox(height: 40),
-                  _buildLoginButton(),
-                  const SizedBox(height: 30),
-                ],
-              ),
+        children: [
+          // 可滚动的主要内容区域
+          SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 15.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildHeader(),
+                const SizedBox(height: 30),
+                _buildPhoneInput(),
+                const SizedBox(height: 20),
+                _buildUsernameInput(),
+                const SizedBox(height: 20),
+                _buildPasswordInput(),
+                const SizedBox(height: 40),
+                _buildConfirmButton(),
+                const SizedBox(height: 30),
+              ],
             ),
+          ),
 
-            // 固定在底部的Welcome
-            Positioned(
-              bottom: 30,
-              left: 0,
-              right: 0,
-              child: Center(
-                child: Text(
-                  'Welcome to myapp',
-                  style: TextStyle(
-                    fontSize: 32,
-                    color: const Color(0xFFA8F1FF),
-                    fontWeight: FontWeight.normal,
-                  ),
+          // 固定在底部的Welcome
+          Positioned(
+            bottom: 30,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: Text(
+                'Welcome to myapp',
+                style: TextStyle(
+                  fontSize: 32,
+                  color: const Color(0xFFA8F1FF),  // 浅蓝色 #A8F1FF
+                  fontWeight: FontWeight.normal,
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
+    ),
     );
   }
 
@@ -55,18 +55,27 @@ class LoginPage extends StatelessWidget {
   Widget _buildHeader() {
     return const Center(
       child: Text(
-        'Login',
-        style: TextStyle(
-          fontSize: 32,
-          fontWeight: FontWeight.bold,
-          color: Colors.blue,
-        ),
+      'Register',
+      style: TextStyle(
+        fontSize: 32,
+        fontWeight: FontWeight.bold,
+        color: Colors.blue,
       ),
+    ),
     );
   }
 
-  // Account Input Field
-  Widget _buildAccountInput() {
+  // Phone Input Field
+  Widget _buildPhoneInput() {
+    return _buildInputField(
+      label: 'Phone Number',
+      icon: Icons.phone_iphone_outlined,
+      keyboardType: TextInputType.phone,
+    );
+  }
+
+  // Username Input Field
+  Widget _buildUsernameInput() {
     return _buildInputField(
       label: 'Username',
       icon: Icons.person_outline,
@@ -82,37 +91,14 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  // Forgot Password Link
-  Widget _buildForgotPassword() {
-    return Align(
-      alignment: Alignment.centerRight,
-      child: InkWell(
-        onTap: () {
-          // 点击忘记密码后的逻辑
-        },
-        child: Padding(
-          padding: const EdgeInsets.only(right: 8.0),
-          child: Text(
-            'Forgot password?',
-            style: TextStyle(
-              color: Colors.blue[700],
-              fontSize: 14,
-              decoration: TextDecoration.underline,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  // Login Button
-  Widget _buildLoginButton() {
+  // Confirm Button
+  Widget _buildConfirmButton() {
     return SizedBox(
       width: double.infinity,
       height: 50,
       child: InkWell(
         onTap: () {
-          // 点击登录后的逻辑
+          //点击后的事件
         },
         borderRadius: BorderRadius.circular(12),
         child: Ink(
@@ -136,7 +122,7 @@ class LoginPage extends StatelessWidget {
           ),
           child: const Center(
             child: Text(
-              'Login',
+              'Confirm',
               style: TextStyle(
                 fontSize: 18,
                 color: Colors.white,
@@ -149,7 +135,6 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  // 复用相同的输入框组件
   Widget _buildInputField({
     required String label,
     required IconData icon,
@@ -178,4 +163,3 @@ class LoginPage extends StatelessWidget {
     );
   }
 }
-
