@@ -19,14 +19,34 @@ class BookingFlight extends StatelessWidget
         centerTitle: true,
       ),
 
-      body: Center(
-        child: Text(
-          'Booking Flight Page',
-          style: TextStyle(
-            fontSize: 24,
-            color: Colors.black
+      body: ListView(
+        padding: EdgeInsets.all(16),
+        children: [
+          Card(
+            child: ListTile(
+              leading: Icon(Icons.flight_takeoff, color: Colors.blueAccent),
+              title: Text('Flight: CA1234'),
+              subtitle: Text('Beijing → Shanghai\nDeparture: 08:00\nArrival:10:30'),
+              trailing: Icon(Icons.arrow_forward_ios),
+            ),
           ),
-        ),
+          Card(
+            child: ListTile(
+              leading: Icon(Icons.flight_takeoff, color: Colors.blueAccent),
+              title: Text('Flight:MU5678'),
+              subtitle: Text('Xiamen → Kuala Lumpur\nDeparture:12:00\nArrival:14:45'),
+              trailing: Icon(Icons.arrow_forward_ios),
+            ),
+          ),
+          Card(
+            child: ListTile(
+              leading: Icon(Icons.flight_takeoff, color: Colors.blueAccent),
+              title: Text('Flight: CZ9101'),
+              subtitle: Text('Kuala Lumpur → Kota Kinabalu\nDeparture：16:00\nArrival：16:50'),
+              trailing: Icon(Icons.arrow_forward_ios),
+            ),
+          ),
+        ],
       ),
     );
   }

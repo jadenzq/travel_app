@@ -12,12 +12,12 @@ void main () {
     MaterialApp(
       debugShowCheckedModeBanner: false,
       //// 这里是主页
-      home: App(),
+      // home: App(),
       
 
       //// 这两个是预定的两个页面
       // home: BookingHotel(),
-      // home: BookingFlight(),
+      home: BookingFlight(),
 
 
       //// 这里是memo页面
