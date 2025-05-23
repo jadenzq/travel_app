@@ -23,6 +23,8 @@ class RegisterPage extends StatelessWidget {
                 const SizedBox(height: 20),
                 _buildPasswordInput(),
                 const SizedBox(height: 40),
+                _buildJunpToLoginPage(),
+                const SizedBox(height: 40),
                 _buildConfirmButton(),
                 const SizedBox(height: 30),
               ],
@@ -134,6 +136,28 @@ class RegisterPage extends StatelessWidget {
       ),
     );
   }
+
+  Widget _buildJunpToLoginPage(){
+    return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      InkWell(
+        onTap: () {}, // 点击事件暂留空
+        child: Padding(
+          padding: const EdgeInsets.only(left: 8.0),
+          child: Text(
+            'Have an account?',
+            style: TextStyle(
+              color: Colors.blue[700],
+              fontSize: 14,
+              decoration: TextDecoration.underline,
+            ),
+          ),
+        ),
+      ),
+    ]
+  );
+}
 
   Widget _buildInputField({
     required String label,
