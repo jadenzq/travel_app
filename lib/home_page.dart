@@ -1,10 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:travel_app/Book/bookingFlight.dart';
+import 'package:travel_app/Book/bookingHotel.dart';
 import 'package:travel_app/Models/post.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
 
   List<Post> posts = [];
+
+  void selectFlight(context) {
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (ctx) => BookingFlight()));
+  }
+
+  void selectHotel(context) {
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (ctx) => BookingHotel()));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +30,7 @@ class HomePage extends StatelessWidget {
         children: [
           _searchBar(),
           SizedBox(height: 30),
-          _flightAndHotel(),
+          _flightAndHotel(context),
           SizedBox(height: 30),
           _topExperiences(),
         ],
@@ -118,7 +132,6 @@ class HomePage extends StatelessWidget {
                           child: Text(
                             post.title,
                             overflow: TextOverflow.ellipsis,
-                            maxLines: 2,
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
@@ -136,7 +149,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Column _flightAndHotel() {
+  Column _flightAndHotel(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -154,7 +167,9 @@ class HomePage extends StatelessWidget {
           children: <Widget>[
             Material(
               child: InkWell(
-                onTap: () {},
+                onTap: () {
+                  selectFlight(context);
+                },
                 borderRadius: BorderRadius.circular(12),
                 child: Ink(
                   decoration: BoxDecoration(
@@ -191,7 +206,9 @@ class HomePage extends StatelessWidget {
             ),
             Material(
               child: InkWell(
-                onTap: () {},
+                onTap: () {
+                  selectHotel(context);
+                },
                 borderRadius: BorderRadius.circular(12),
                 child: Ink(
                   decoration: BoxDecoration(
