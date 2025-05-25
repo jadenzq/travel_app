@@ -5,6 +5,8 @@ class Post {
   List<String> images;
   String authorName;
   String authorImage;
+  String location;
+  bool isLike = false;
 
   Post({
     required this.title,
@@ -13,6 +15,7 @@ class Post {
     required this.images,
     required this.authorName,
     required this.authorImage,
+    required this.location
   });
 
   static List<Post> getAllPosts() {
@@ -24,9 +27,10 @@ class Post {
         content:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut scelerisque neque aliquam sollicitudin interdum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut scelerisque neque aliquam sollicitudin interdum.",
         views: "60k",
-        images: ["assets/images/xmum.jpg"],
+        images: ["assets/images/xmum.jpg", "assets/images/melina.jpg"],
         authorName: "Melina",
         authorImage: "assets/images/melina.jpg",
+        location: "Malaysia",
       ),
     );
 
@@ -39,6 +43,7 @@ class Post {
         images: ["assets/images/xmum.jpg"],
         authorName: "Melina",
         authorImage: "assets/images/melina.jpg",
+        location: "Malaysia",
       ),
     );
 
@@ -51,6 +56,7 @@ class Post {
         images: ["assets/images/xmum.jpg"],
         authorName: "Melina",
         authorImage: "assets/images/melina.jpg",
+        location: "Malaysia",
       ),
     );
 
@@ -63,6 +69,7 @@ class Post {
         images: ["assets/images/xmum.jpg"],
         authorName: "Melina",
         authorImage: "assets/images/melina.jpg",
+        location: "Malaysia",
       ),
     );
 
@@ -75,6 +82,7 @@ class Post {
         images: ["assets/images/xmum.jpg"],
         authorName: "Melina",
         authorImage: "assets/images/melina.jpg",
+        location: "Malaysia",
       ),
     );
 
@@ -87,6 +95,7 @@ class Post {
         images: ["assets/images/xmum.jpg"],
         authorName: "Melina",
         authorImage: "assets/images/melina.jpg",
+        location: "Malaysia",
       ),
     );
 
