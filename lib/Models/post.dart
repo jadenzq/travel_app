@@ -1,4 +1,5 @@
 class Post {
+  int? id;
   String title;
   String content;
   String views;
@@ -99,6 +100,37 @@ class Post {
       ),
     );
 
-    return posts;
+    posts.add(
+      Post(
+        title: "A memorable summer adventure in Malaysia",
+        content:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut scelerisque neque aliquam sollicitudin interdum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut scelerisque neque aliquam sollicitudin interdum.",
+        views: "60k",
+        images: ["assets/images/xmum.jpg"],
+        authorName: "Melina",
+        authorImage: "assets/images/melina.jpg",
+        location: "Malaysia",
+      ),
+    );
+
+    posts.add(
+      Post(
+        title: "A memorable summer adventure in Malaysia",
+        content:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut scelerisque neque aliquam sollicitudin interdum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut scelerisque neque aliquam sollicitudin interdum.",
+        views: "60k",
+        images: ["assets/images/xmum.jpg"],
+        authorName: "Melina",
+        authorImage: "assets/images/melina.jpg",
+        location: "Malaysia",
+      ),
+    );
+
+    for (int i = 0; i < posts.length; i++) 
+    {
+      posts[i].id = i;
+    }
+
+    return posts; 
   }
 }

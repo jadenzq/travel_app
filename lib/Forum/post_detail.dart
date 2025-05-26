@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:travel_app/Models/post.dart';
 
-class PostDetail extends StatefulWidget {
+class PostDetail extends StatefulWidget 
+{
   final Post post;
   final VoidCallback onToggleLike;
 
@@ -15,34 +16,38 @@ class PostDetail extends StatefulWidget {
   State<PostDetail> createState() => _PostDetailState();
 }
 
-class _PostDetailState extends State<PostDetail> {
+class _PostDetailState extends State<PostDetail> 
+{
   late bool _isLiked;
-  late PageController _pageController;
+  late PageController _imagePageController;
   int _currentPage = 0;
 
   @override
-  void initState() {
+  void initState() 
+  {
     super.initState();
     _isLiked = widget.post.isLike;
-    _pageController = PageController();
+    _imagePageController = PageController();
 
-    _pageController.addListener(() {
+    _imagePageController.addListener(() {
       setState(() {
-        if (_pageController.page != null) 
+        if (_imagePageController.page != null) 
         {
-          _currentPage = _pageController.page!.round();
+          _currentPage = _imagePageController.page!.round();
         }
       });
     });
   }
 
-    @override
-    void dispose() {
-    _pageController.dispose();
-    super.dispose();
+  @override
+  void dispose() 
+  {
+  _imagePageController.dispose();
+  super.dispose();
   }
 
-  void _handleLikeToggle() {
+  void _handleLikeToggle() 
+  {
     setState(() {
       _isLiked = !_isLiked;
       widget.onToggleLike();
@@ -50,7 +55,8 @@ class _PostDetailState extends State<PostDetail> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) 
+  {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blueAccent,
@@ -90,17 +96,44 @@ class _PostDetailState extends State<PostDetail> {
                 children: [
                   Stack(
                     children: [
+                      //For blur background
+                      // Container(
+                      //   height: 300,
+                      //   child: ClipRect(
+                      //     child: Stack(
+                      //       children: [
+                      //         Image.asset(
+                      //           widget.post.images[_currentPage],
+                      //           fit: BoxFit.cover,
+                      //           width: double.infinity,
+                      //           height: double.infinity,
+                      //         ),
+                      //         BackdropFilter(
+                      //           filter: ImageFilter.blur(
+                      //             sigmaX: 10.0,
+                      //             sigmaY: 10.0,
+                      //           ), 
+                      //           child: Container(
+                      //             color: Colors.black.withOpacity(0.3),
+                      //           ),
+                      //         ),
+                      //       ],
+                      //     ),
+                      //   ),
+                      // ),
                       Container(
                         height: 300,
-                        color: Colors.black.withOpacity(0.9),
                         child: PageView.builder(
-                          controller: _pageController,
+                          controller: _imagePageController,
                           itemCount: widget.post.images.length,
                           itemBuilder: (context, index) {
                             return Center(
                               child: Image.asset(
                                 widget.post.images[index],
-                                fit: BoxFit.contain,
+                                //fit: BoxFit.contain //This is for blur background
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                                height: double.infinity,
                               ),
                             );
                           },
@@ -166,9 +199,11 @@ class _PostDetailState extends State<PostDetail> {
           ),
           Container(
             color: Theme.of(context).cardColor,
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16.0,
-              vertical: 8.0,
+            padding: const EdgeInsets.only(
+              left: 12.0,
+              right: 12.0,
+              bottom: 16.0,
+              top: 8.0
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
