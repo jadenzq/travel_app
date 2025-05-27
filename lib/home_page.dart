@@ -58,88 +58,86 @@ class HomePage extends StatelessWidget {
           ),
           children: [
             for (final post in posts)
-              Material(
-                child: InkWell(
-                  onTap: () {},
-                  borderRadius: BorderRadius.circular(12),
-                  child: Ink(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      gradient: LinearGradient(
-                        colors: [
-                          Color.fromARGB(255, 255, 255, 255),
-                          Color.fromARGB(255, 255, 255, 255),
-                        ],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
+              InkWell(
+                onTap: () {},
+                borderRadius: BorderRadius.circular(12),
+                child: Ink(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    gradient: LinearGradient(
+                      colors: [
+                        Color.fromARGB(255, 255, 255, 255),
+                        Color.fromARGB(255, 255, 255, 255),
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: const Color.fromARGB(54, 0, 0, 0),
+                        blurRadius: 10,
+                        offset: Offset(0, 6),
                       ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: const Color.fromARGB(54, 0, 0, 0),
-                          blurRadius: 10,
-                          offset: Offset(0, 6),
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      children: [
-                        AspectRatio(
-                          aspectRatio: 1 / 1.1,
-                          child: Ink(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(12),
-                                topRight: Radius.circular(12),
-                              ),
-                              image: DecorationImage(
-                                image: Image.asset(post.images[0]).image,
-                                fit: BoxFit.cover,
-                              ),
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      AspectRatio(
+                        aspectRatio: 1 / 1.1,
+                        child: Ink(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(12),
+                              topRight: Radius.circular(12),
                             ),
-                          ),
-                        ), // Display the first image as thumbnail
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 10.0,
-                            vertical: 5,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                spacing: 5,
-                                children: [
-                                  CircleAvatar(
-                                    maxRadius: 12,
-                                    backgroundImage:
-                                        Image.asset(post.authorImage).image,
-                                  ),
-                                  Text(post.authorName),
-                                ],
-                              ),
-                              Row(
-                                spacing: 5,
-                                children: [
-                                  Text(post.views),
-                                  Icon(Icons.remove_red_eye_outlined),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                          child: Text(
-                            post.title,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
+                            image: DecorationImage(
+                              image: Image.asset(post.images[0]).image,
+                              fit: BoxFit.cover,
                             ),
                           ),
                         ),
-                      ],
-                    ),
+                      ), // Display the first image as thumbnail
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10.0,
+                          vertical: 5,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              spacing: 5,
+                              children: [
+                                CircleAvatar(
+                                  maxRadius: 12,
+                                  backgroundImage:
+                                      Image.asset(post.authorImage).image,
+                                ),
+                                Text(post.authorName),
+                              ],
+                            ),
+                            Row(
+                              spacing: 5,
+                              children: [
+                                Text(post.views),
+                                Icon(Icons.remove_red_eye_outlined),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: Text(
+                          post.title,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -165,81 +163,77 @@ class HomePage extends StatelessWidget {
           mainAxisSpacing: 15.0,
           childAspectRatio: 1 / 0.5,
           children: <Widget>[
-            Material(
-              child: InkWell(
-                onTap: () {
-                  selectFlight(context);
-                },
-                borderRadius: BorderRadius.circular(12),
-                child: Ink(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    gradient: LinearGradient(
-                      colors: [
-                        Color.fromARGB(255, 255, 255, 255),
-                        Color.fromARGB(255, 255, 255, 255),
-                      ],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
+            InkWell(
+              onTap: () {
+                selectFlight(context);
+              },
+              borderRadius: BorderRadius.circular(12),
+              child: Ink(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  gradient: LinearGradient(
+                    colors: [
+                      Color.fromARGB(255, 255, 255, 255),
+                      Color.fromARGB(255, 255, 255, 255),
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color.fromARGB(54, 0, 0, 0),
+                      blurRadius: 10,
+                      offset: Offset(0, 6),
                     ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: const Color.fromARGB(54, 0, 0, 0),
-                        blurRadius: 10,
-                        offset: Offset(0, 6),
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.flight, size: 40, color: Colors.black),
-                      SizedBox(height: 5),
-                      Text(
-                        "Flight",
-                        style: TextStyle(fontSize: 16, color: Colors.black),
-                      ),
-                    ],
-                  ),
+                  ],
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.flight, size: 40, color: Colors.black),
+                    SizedBox(height: 5),
+                    Text(
+                      "Flight",
+                      style: TextStyle(fontSize: 16, color: Colors.black),
+                    ),
+                  ],
                 ),
               ),
             ),
-            Material(
-              child: InkWell(
-                onTap: () {
-                  selectHotel(context);
-                },
-                borderRadius: BorderRadius.circular(12),
-                child: Ink(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    gradient: LinearGradient(
-                      colors: [
-                        Color.fromARGB(255, 255, 255, 255),
-                        Color.fromARGB(255, 255, 255, 255),
-                      ],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
+            InkWell(
+              onTap: () {
+                selectHotel(context);
+              },
+              borderRadius: BorderRadius.circular(12),
+              child: Ink(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  gradient: LinearGradient(
+                    colors: [
+                      Color.fromARGB(255, 255, 255, 255),
+                      Color.fromARGB(255, 255, 255, 255),
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color.fromARGB(54, 0, 0, 0),
+                      blurRadius: 10,
+                      offset: Offset(0, 6),
                     ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: const Color.fromARGB(54, 0, 0, 0),
-                        blurRadius: 10,
-                        offset: Offset(0, 6),
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.hotel, size: 40, color: Colors.black),
-                      SizedBox(height: 5),
-                      Text(
-                        "Hotel",
-                        style: TextStyle(fontSize: 16, color: Colors.black),
-                      ),
-                    ],
-                  ),
+                  ],
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.hotel, size: 40, color: Colors.black),
+                    SizedBox(height: 5),
+                    Text(
+                      "Hotel",
+                      style: TextStyle(fontSize: 16, color: Colors.black),
+                    ),
+                  ],
                 ),
               ),
             ),
