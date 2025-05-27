@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:travel_app/Book/bookingFlight.dart';
 import 'package:travel_app/Book/bookingHotel.dart';
@@ -7,6 +8,7 @@ class HomePage extends StatelessWidget {
   HomePage({super.key});
 
   List<Post> posts = [];
+  List carouselImages = ["carousel1.png", "carousel2.png", "carousel3.png"];
 
   void selectFlight(context) {
     Navigator.of(
@@ -28,6 +30,36 @@ class HomePage extends StatelessWidget {
       child: ListView(
         padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 15.0),
         children: [
+          CarouselSlider(
+            options: CarouselOptions(
+              height: 200.0,
+              autoPlay: true,
+              viewportFraction: 1,
+            ),
+            items:
+                carouselImages.map((i) {
+                  return Builder(
+                    builder: (BuildContext context) {
+                      return Container(
+                        width: MediaQuery.of(context).size.width,
+                        margin: EdgeInsets.symmetric(horizontal: 5.0),
+                        decoration: BoxDecoration(
+                          color: Colors.amber,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Image.asset(
+                            "assets/images/$i",
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                }).toList(),
+          ),
+          SizedBox(height: 30),
           _searchBar(),
           SizedBox(height: 30),
           _flightAndHotel(context),
@@ -277,7 +309,7 @@ class HomePage extends StatelessWidget {
       suggestionsBuilder: (BuildContext context, SearchController controller) {
         return List<ListTile>.generate(5, (int index) {
           final String item = 'item $index';
-          
+
           return ListTile(title: Text(item), onTap: () {});
         });
       },
