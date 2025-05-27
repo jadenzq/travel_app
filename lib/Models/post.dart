@@ -141,7 +141,7 @@ class Post {
           "assets/images/post-image/Turkey-House-View.jpg"
         ],
         authorName: "Olivia",
-        authorImage: "assets/images/Olivia.jpg",
+        authorImage: "assets/images/user/Olivia.jpg",
         location: "Cappadocia, Turkey",
       ),
     );
