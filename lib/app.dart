@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:travel_app/Forum/Forum.dart';
+import 'package:travel_app/Forum/forum.dart';
 import 'package:travel_app/Login/Login.dart';
 import 'package:travel_app/Memo/Memo.dart';
 import 'package:travel_app/home_page.dart';
