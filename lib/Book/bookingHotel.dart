@@ -18,29 +18,27 @@ class _BookingHotelState extends State<BookingHotel> {
   Widget build(context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Booking Hotel',
-          style: TextStyle(color: Colors.white),
-        ),
+        title: Text('Booking Hotel', style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.blueAccent,
         centerTitle: true,
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          // 顶部图片（无Padding，紧贴边缘）
-          ClipRRect(
-            borderRadius: BorderRadius.zero,
-            child: Image.asset(
-              'assets/images/Hotel.png',
-              height: 200,
-              width: double.infinity,
-              fit: BoxFit.cover,
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // 顶部图片（无Padding，紧贴边缘）
+            ClipRRect(
+              borderRadius: BorderRadius.zero,
+              child: Image.asset(
+                'assets/images/Hotel.png',
+                height: 200,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          // 其余内容加Padding
-          Expanded(
-            child: Padding(
+
+            // 其余内容加Padding
+            Padding(
               padding: const EdgeInsets.all(24.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -84,7 +82,8 @@ class _BookingHotelState extends State<BookingHotel> {
                           if (picked != null) {
                             setState(() {
                               checkInDate = picked;
-                              if (checkOutDate != null && checkOutDate!.isBefore(checkInDate!)) {
+                              if (checkOutDate != null &&
+                                  checkOutDate!.isBefore(checkInDate!)) {
                                 checkOutDate = null;
                               }
                             });
@@ -130,9 +129,8 @@ class _BookingHotelState extends State<BookingHotel> {
                       Text('Guests:', style: TextStyle(fontSize: 16)),
                       IconButton(
                         icon: Icon(Icons.remove),
-                        onPressed: guests > 1
-                            ? () => setState(() => guests--)
-                            : null,
+                        onPressed:
+                            guests > 1 ? () => setState(() => guests--) : null,
                       ),
                       Text('$guests', style: TextStyle(fontSize: 16)),
                       IconButton(
@@ -144,7 +142,9 @@ class _BookingHotelState extends State<BookingHotel> {
                   SizedBox(height: 32),
                   ElevatedButton(
                     onPressed: () {
-                      if (locationController.text.isNotEmpty && checkInDate != null && checkOutDate != null) {
+                      if (locationController.text.isNotEmpty &&
+                          checkInDate != null &&
+                          checkOutDate != null) {
                         Navigator.pushNamed(
                           context,
                           '/hotelDetails',
@@ -160,7 +160,10 @@ class _BookingHotelState extends State<BookingHotel> {
                         );
                       }
                     },
-                    child: Text('Search', style: TextStyle(fontSize: 18, color: Colors.white)),
+                    child: Text(
+                      'Search',
+                      style: TextStyle(fontSize: 18, color: Colors.white),
+                    ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blueAccent,
                     ),
@@ -168,8 +171,8 @@ class _BookingHotelState extends State<BookingHotel> {
                 ],
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
