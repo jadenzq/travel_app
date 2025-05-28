@@ -26,7 +26,7 @@ class RegisterPage extends StatelessWidget {
                 const SizedBox(height: 40),
                 _buildJunpToLoginPage(context),
                 const SizedBox(height: 40),
-                _buildConfirmButton(),
+                _buildConfirmButton(context),
                 const SizedBox(height: 30),
               ],
             ),
@@ -97,12 +97,12 @@ class RegisterPage extends StatelessWidget {
   }
 
   // Confirm Button
-  Widget _buildConfirmButton() {
+  Widget _buildConfirmButton(BuildContext context) {
     return SizedBox(
       width: double.infinity,
       height: 50,
       child: InkWell(
-        onTap: () {
+        onTap: () {Navigator.of(context).pop();
           //点击后的事件
         },
         borderRadius: BorderRadius.circular(12),
@@ -145,7 +145,7 @@ class RegisterPage extends StatelessWidget {
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
       InkWell(
-        onTap: () {Navigator.of(context).pop();}, // 点击事件暂留空
+        onTap: () {Navigator.of(context).pop();},
         child: Padding(
           padding: const EdgeInsets.only(left: 8.0),
           child: Text(
