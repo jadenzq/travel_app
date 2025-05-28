@@ -6,6 +6,7 @@ class RegisterPage extends StatelessWidget {
   @override
  Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xfff5f5f5),
       body: SafeArea(
       child: SizedBox.expand(
         child: Stack(
@@ -109,14 +110,7 @@ class RegisterPage extends StatelessWidget {
         child: Ink(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
-            gradient: const LinearGradient(
-              colors: [
-                Color.fromARGB(255, 25, 118, 210),
-                Color.fromARGB(255, 13, 71, 161),
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
+              color: Colors.blue,
             boxShadow: const [
               BoxShadow(
                 color: Color.fromARGB(54, 0, 0, 0),
@@ -174,9 +168,13 @@ class RegisterPage extends StatelessWidget {
       decoration: InputDecoration(
         labelText: label,
         prefixIcon: Icon(icon, color: Colors.grey[600]),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide.none,
+       border: const OutlineInputBorder(
+          borderRadius: BorderRadius.zero,
+          borderSide: BorderSide(color: Colors.grey),
+          ),
+        focusedBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.zero,
+          borderSide: BorderSide(color: Colors.blue, width: 1.5),
         ),
         filled: true,
         fillColor: Colors.grey[100],

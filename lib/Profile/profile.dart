@@ -10,7 +10,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  String userName = "Travel Explorer";
+  String userName = "Gloria";
   String email = "user@gmail.com";
   String phone = "+60 123 456 789";
   File? _selectedImage;
