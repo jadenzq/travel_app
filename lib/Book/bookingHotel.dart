@@ -144,15 +144,21 @@ class _BookingHotelState extends State<BookingHotel> {
                   SizedBox(height: 32),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.pushNamed(
-                        context,
-                        '/hotelDetails',
-                        arguments: {
-                          'location': locationController.text,
-                          'checkIn': checkInDate?.toIso8601String(),
-                          'checkOut': checkOutDate?.toIso8601String(),
-                        },
-                      );
+                      if (locationController.text.isNotEmpty && checkInDate != null && checkOutDate != null) {
+                        Navigator.pushNamed(
+                          context,
+                          '/hotelDetails',
+                          arguments: {
+                            'location': locationController.text,
+                            'checkIn': checkInDate?.toIso8601String(),
+                            'checkOut': checkOutDate?.toIso8601String(),
+                          },
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Please fill all fields')),
+                        );
+                      }
                     },
                     child: Text('Search', style: TextStyle(fontSize: 18, color: Colors.white)),
                     style: ElevatedButton.styleFrom(
