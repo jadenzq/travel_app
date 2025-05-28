@@ -30,35 +30,7 @@ class HomePage extends StatelessWidget {
       child: ListView(
         padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 15.0),
         children: [
-          CarouselSlider(
-            options: CarouselOptions(
-              height: 200.0,
-              autoPlay: true,
-              viewportFraction: 1,
-            ),
-            items:
-                carouselImages.map((i) {
-                  return Builder(
-                    builder: (BuildContext context) {
-                      return Container(
-                        width: MediaQuery.of(context).size.width,
-                        margin: EdgeInsets.symmetric(horizontal: 5.0),
-                        decoration: BoxDecoration(
-                          color: Colors.amber,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(12),
-                          child: Image.asset(
-                            "assets/images/$i",
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                }).toList(),
-          ),
+          _carousel(),
           SizedBox(height: 30),
           _searchBar(),
           SizedBox(height: 30),
@@ -67,6 +39,35 @@ class HomePage extends StatelessWidget {
           _topExperiences(),
         ],
       ),
+    );
+  }
+
+  CarouselSlider _carousel() {
+    return CarouselSlider(
+      options: CarouselOptions(
+        height: 200.0,
+        autoPlay: true,
+        viewportFraction: 1,
+      ),
+      items:
+          carouselImages.map((i) {
+            return Builder(
+              builder: (BuildContext context) {
+                return Container(
+                  width: MediaQuery.of(context).size.width,
+                  margin: EdgeInsets.symmetric(horizontal: 5.0),
+                  decoration: BoxDecoration(
+                    color: Colors.amber,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: Image.asset("assets/images/$i", fit: BoxFit.cover),
+                  ),
+                );
+              },
+            );
+          }).toList(),
     );
   }
 
@@ -161,6 +162,7 @@ class HomePage extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10.0),
                         child: Text(
+                          textAlign: TextAlign.start,
                           post.title,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
