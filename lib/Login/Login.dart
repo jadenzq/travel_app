@@ -3,7 +3,9 @@ import 'package:travel_app/Profile/profile.dart';
 import 'package:travel_app/Register/register.dart';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+  const LoginPage({super.key, required this.onLogIn});
+
+  final VoidCallback onLogIn;
 
   @override
   Widget build(BuildContext context) {
@@ -86,51 +88,56 @@ class LoginPage extends StatelessWidget {
 
   // Forgot Password Link
   Widget _buildFooterLinks(BuildContext context) {
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: [
-      InkWell(
-        onTap: () {   Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => const RegisterPage()),
-          );}, // 点击事件暂留空
-        child: Padding(
-          padding: const EdgeInsets.only(left: 8.0),
-          child: Text(
-            'Do not have an account?',
-            style: TextStyle(
-              color: Colors.blue[700],
-              fontSize: 14,
-              decoration: TextDecoration.underline,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        InkWell(
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => const RegisterPage()),
+            );
+          }, // 点击事件暂留空
+          child: Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: Text(
+              'Do not have an account?',
+              style: TextStyle(
+                color: Colors.blue[700],
+                fontSize: 14,
+                decoration: TextDecoration.underline,
+              ),
             ),
           ),
         ),
-      ),
-      InkWell(
-        onTap: () {}, // 保持原有点击事件
-        child: Padding(
-          padding: const EdgeInsets.only(right: 8.0),
-          child: Text(
-            'Forgot password?',
-            style: TextStyle(
-              color: Colors.blue[700],
-              fontSize: 14,
-              decoration: TextDecoration.underline,
+        InkWell(
+          onTap: () {}, // 保持原有点击事件
+          child: Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: Text(
+              'Forgot password?',
+              style: TextStyle(
+                color: Colors.blue[700],
+                fontSize: 14,
+                decoration: TextDecoration.underline,
+              ),
             ),
           ),
         ),
-      ),
-    ],
-  );
-}
+      ],
+    );
+  }
 
   // Login Button
-    Widget _buildLoginButton(BuildContext context) {
+  Widget _buildLoginButton(BuildContext context) {
     return SizedBox(
       width: double.infinity,
       height: 50,
       child: InkWell(
-       onTap: () {//跳转profile page
-      },
+        onTap: () {
+          //跳转profile page
+          // Navigator.pushNamed(context, '/profilePage');
+          onLogIn();
+        },
         borderRadius: BorderRadius.circular(12),
         child: Ink(
           decoration: BoxDecoration(
