@@ -6,7 +6,8 @@ class RegisterPage extends StatelessWidget {
   @override
  Widget build(BuildContext context) {
     return Scaffold(
-      body: SizedBox.expand(
+      body: SafeArea(
+      child: SizedBox.expand(
         child: Stack(
         children: [
           // 可滚动的主要内容区域
@@ -23,13 +24,14 @@ class RegisterPage extends StatelessWidget {
                 const SizedBox(height: 20),
                 _buildPasswordInput(),
                 const SizedBox(height: 40),
-                _buildJunpToLoginPage(),
+                _buildJunpToLoginPage(context),
                 const SizedBox(height: 40),
                 _buildConfirmButton(),
                 const SizedBox(height: 30),
               ],
             ),
           ),
+
 
           // 固定在底部的Welcome
           Positioned(
@@ -50,6 +52,7 @@ class RegisterPage extends StatelessWidget {
         ],
       ),
     ),
+      ),
     );
   }
 
@@ -137,12 +140,12 @@ class RegisterPage extends StatelessWidget {
     );
   }
 
-  Widget _buildJunpToLoginPage(){
+  Widget _buildJunpToLoginPage(BuildContext context){
     return Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
       InkWell(
-        onTap: () {}, // 点击事件暂留空
+        onTap: () {Navigator.of(context).pop();}, // 点击事件暂留空
         child: Padding(
           padding: const EdgeInsets.only(left: 8.0),
           child: Text(
