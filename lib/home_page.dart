@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:travel_app/Book/bookingFlight.dart';
 import 'package:travel_app/Book/bookingHotel.dart';
 import 'package:travel_app/Forum/post_detail.dart';
@@ -54,18 +55,38 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     posts = Post.getAllPosts();
 
-    return SafeArea(
-      child: ListView(
-        padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 15.0),
-        children: [
-          _carousel(),
-          SizedBox(height: 30),
-          _searchBar(),
-          SizedBox(height: 30),
-          _flightAndHotel(context),
-          SizedBox(height: 30),
-          _topExperiences(),
-        ],
+    return Scaffold(
+      backgroundColor: Color(0xFFF5F5F5),
+      body: NestedScrollView(
+        floatHeaderSlivers: true,
+        headerSliverBuilder:
+            (context, innerBoxIsScrolled) => [
+              SliverAppBar(
+                floating: true,
+                snap: true,
+                title: Text(
+                  "TripleFun",
+                  style: GoogleFonts.ubuntu(
+                    fontSize: 25,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                backgroundColor: Color(0xff41729f),
+              ),
+            ],
+        body: ListView(
+          padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 15.0),
+          children: [
+            _carousel(),
+            SizedBox(height: 30),
+            _searchBar(),
+            SizedBox(height: 30),
+            _flightAndHotel(context),
+            SizedBox(height: 30),
+            _topExperiences(),
+          ],
+        ),
       ),
     );
   }
@@ -102,13 +123,15 @@ class _HomePageState extends State<HomePage> {
   Column _topExperiences() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 0,
       children: [
         Text(
           "Top Experiences",
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+          style: GoogleFonts.ubuntu(fontSize: 20, fontWeight: FontWeight.w600),
         ),
         SizedBox(height: 10),
         MasonryGridView.count(
+          padding: EdgeInsets.zero,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           crossAxisCount: 2,
@@ -131,7 +154,7 @@ class _HomePageState extends State<HomePage> {
               },
               child: Container(
                 decoration: BoxDecoration(
-                  color: Theme.of(context).cardColor,
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
@@ -185,7 +208,7 @@ class _HomePageState extends State<HomePage> {
                                   Flexible(
                                     child: Text(
                                       data.location,
-                                      style: TextStyle(
+                                      style: GoogleFonts.ubuntu(
                                         color: Colors.white,
                                         fontSize: 16,
                                         shadows: [
@@ -250,7 +273,7 @@ class _HomePageState extends State<HomePage> {
                                   const Spacer(),
                                   Text(
                                     data.views,
-                                    style: TextStyle(
+                                    style: GoogleFonts.ubuntu(
                                       color: Colors.white,
                                       fontSize: 16,
                                       shadows: [
@@ -300,7 +323,7 @@ class _HomePageState extends State<HomePage> {
                         padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 0.0),
                         child: Text(
                           data.title,
-                          style: const TextStyle(
+                          style: GoogleFonts.ubuntu(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                             color: Colors.black,
@@ -321,7 +344,7 @@ class _HomePageState extends State<HomePage> {
                             Flexible(
                               child: Text(
                                 data.authorName,
-                                style: TextStyle(
+                                style: GoogleFonts.ubuntu(
                                   fontSize: 14,
                                   color: Colors.grey[700],
                                 ),
@@ -349,10 +372,11 @@ class _HomePageState extends State<HomePage> {
       children: [
         Text(
           "Starts Here",
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+          style: GoogleFonts.ubuntu(fontSize: 20, fontWeight: FontWeight.w600),
         ),
         SizedBox(height: 10),
         GridView.count(
+          padding: EdgeInsets.zero,
           shrinkWrap: true, // To avoid the grid grows infinitely error
           crossAxisCount: 2,
           crossAxisSpacing: 15.0,
@@ -366,15 +390,8 @@ class _HomePageState extends State<HomePage> {
               borderRadius: BorderRadius.circular(12),
               child: Ink(
                 decoration: BoxDecoration(
+                  color: Color(0xffffffff),
                   borderRadius: BorderRadius.circular(12),
-                  gradient: LinearGradient(
-                    colors: [
-                      Color.fromARGB(255, 255, 255, 255),
-                      Color.fromARGB(255, 255, 255, 255),
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
                   boxShadow: [
                     BoxShadow(
                       color: const Color.fromARGB(54, 0, 0, 0),
@@ -386,11 +403,15 @@ class _HomePageState extends State<HomePage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.flight, size: 40, color: Colors.black),
+                    Icon(Icons.flight, size: 40, color: Color(0xff41729f)),
                     SizedBox(height: 5),
                     Text(
                       "Flight",
-                      style: TextStyle(fontSize: 16, color: Colors.black),
+                      style: GoogleFonts.ubuntu(
+                        fontSize: 16,
+                        color: Color(0xff41729f),
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ],
                 ),
@@ -403,15 +424,8 @@ class _HomePageState extends State<HomePage> {
               borderRadius: BorderRadius.circular(12),
               child: Ink(
                 decoration: BoxDecoration(
+                  color: Color(0xffffffff),
                   borderRadius: BorderRadius.circular(12),
-                  gradient: LinearGradient(
-                    colors: [
-                      Color.fromARGB(255, 255, 255, 255),
-                      Color.fromARGB(255, 255, 255, 255),
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
                   boxShadow: [
                     BoxShadow(
                       color: const Color.fromARGB(54, 0, 0, 0),
@@ -423,11 +437,15 @@ class _HomePageState extends State<HomePage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.hotel, size: 40, color: Colors.black),
+                    Icon(Icons.hotel, size: 40, color: Color(0xff41729f)),
                     SizedBox(height: 5),
                     Text(
                       "Hotel",
-                      style: TextStyle(fontSize: 16, color: Colors.black),
+                      style: GoogleFonts.ubuntu(
+                        fontSize: 16,
+                        color: Color(0xff41729f),
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ],
                 ),
@@ -474,7 +492,10 @@ class _HomePageState extends State<HomePage> {
         return List<ListTile>.generate(5, (int index) {
           final String item = 'item $index';
 
-          return ListTile(title: Text(item), onTap: () {});
+          return ListTile(
+            title: Text(item, style: GoogleFonts.ubuntu()),
+            onTap: () {},
+          );
         });
       },
       isFullScreen: false,
