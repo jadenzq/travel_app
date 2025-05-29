@@ -3,38 +3,30 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:travel_app/Models/post.dart';
 
-class PostDetail extends StatefulWidget 
-{
+class PostDetail extends StatefulWidget {
   final Post post;
   final VoidCallback onToggleLike;
 
-  const PostDetail({
-    super.key,
-    required this.post,
-    required this.onToggleLike,
-  });
+  const PostDetail({super.key, required this.post, required this.onToggleLike});
 
   @override
   State<PostDetail> createState() => _PostDetailState();
 }
 
-class _PostDetailState extends State<PostDetail> 
-{
+class _PostDetailState extends State<PostDetail> {
   late bool _isLiked;
   late PageController _imagePageController;
   int _currentPage = 0;
 
   @override
-  void initState() 
-  {
+  void initState() {
     super.initState();
     _isLiked = widget.post.isLike;
     _imagePageController = PageController();
 
     _imagePageController.addListener(() {
       setState(() {
-        if (_imagePageController.page != null) 
-        {
+        if (_imagePageController.page != null) {
           _currentPage = _imagePageController.page!.round();
         }
       });
@@ -42,14 +34,12 @@ class _PostDetailState extends State<PostDetail>
   }
 
   @override
-  void dispose() 
-  {
-  _imagePageController.dispose();
-  super.dispose();
+  void dispose() {
+    _imagePageController.dispose();
+    super.dispose();
   }
 
-  void _handleLikeToggle() 
-  {
+  void _handleLikeToggle() {
     setState(() {
       _isLiked = !_isLiked;
       widget.onToggleLike();
@@ -57,17 +47,14 @@ class _PostDetailState extends State<PostDetail>
   }
 
   @override
-  Widget build(BuildContext context) 
-  {
+  Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 245, 245, 245),
       appBar: AppBar(
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back, 
-            color: Colors.white
-          ),
+          icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
             Navigator.of(context).pop();
           },
@@ -81,10 +68,7 @@ class _PostDetailState extends State<PostDetail>
             SizedBox(width: 10),
             Text(
               widget.post.authorName,
-              style: TextStyle(
-                color: Colors.white, 
-                fontSize: 18
-              ),
+              style: TextStyle(color: Colors.black, fontSize: 18),
             ),
           ],
         ),
@@ -114,7 +98,7 @@ class _PostDetailState extends State<PostDetail>
                                 filter: ImageFilter.blur(
                                   sigmaX: 15.0,
                                   sigmaY: 15.0,
-                                ), 
+                                ),
                                 child: Container(
                                   color: Colors.black.withOpacity(0.3),
                                 ),
@@ -132,7 +116,9 @@ class _PostDetailState extends State<PostDetail>
                             return Center(
                               child: Image.asset(
                                 widget.post.images[index],
-                                fit: BoxFit.contain //This is for blur background
+                                fit:
+                                    BoxFit
+                                        .contain, //This is for blur background
                                 // Expand images
                                 // fit: BoxFit.cover,
                                 // width: double.infinity,
@@ -149,10 +135,10 @@ class _PostDetailState extends State<PostDetail>
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: List.generate(
-                            widget.post.images.length, 
-                            (idx) => buildDot(idx)
+                            widget.post.images.length,
+                            (idx) => buildDot(idx),
                           ),
-                        )
+                        ),
                       ),
                     ],
                   ),
@@ -174,14 +160,14 @@ class _PostDetailState extends State<PostDetail>
                             Icon(
                               Icons.location_on,
                               size: 20,
-                              color: Colors.grey[700],
+                              color: Color(0xff41729f),
                             ),
                             SizedBox(width: 5),
                             Text(
                               widget.post.location,
                               style: TextStyle(
                                 fontSize: 16,
-                                color: Colors.grey[700],
+                                color: Color(0xff41729f),
                               ),
                             ),
                           ],
@@ -189,9 +175,8 @@ class _PostDetailState extends State<PostDetail>
                         SizedBox(height: 10),
                         Text(
                           widget.post.content,
-                          style: TextStyle(
-                            fontSize: 16
-                          ),
+                          textAlign: TextAlign.justify,
+                          style: TextStyle(fontSize: 16),
                         ),
                       ],
                     ),
@@ -201,12 +186,12 @@ class _PostDetailState extends State<PostDetail>
             ),
           ),
           Container(
-            color: Theme.of(context).cardColor,
+            color: Colors.white,
             padding: const EdgeInsets.only(
               left: 12.0,
               right: 12.0,
-              bottom: 16.0,
-              top: 8.0
+              bottom: 20.0,
+              top: 20.0,
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -214,10 +199,13 @@ class _PostDetailState extends State<PostDetail>
                 InkWell(
                   onTap: _handleLikeToggle,
                   borderRadius: BorderRadius.circular(8.0),
-                  child: Material( 
+                  child: Material(
                     color: Colors.transparent,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0,),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8.0,
+                        vertical: 4.0,
+                      ),
                       child: Row(
                         children: [
                           Icon(
@@ -253,8 +241,7 @@ class _PostDetailState extends State<PostDetail>
     );
   }
 
-  Widget buildDot(int index) 
-  {
+  Widget buildDot(int index) {
     bool isCurrent = index == _currentPage;
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 4.0),
@@ -262,7 +249,7 @@ class _PostDetailState extends State<PostDetail>
       width: isCurrent ? 6.0 : 5.0,
       decoration: BoxDecoration(
         color: isCurrent ? Colors.white : Colors.white.withOpacity(0.5),
-        shape: BoxShape.circle
+        shape: BoxShape.circle,
       ),
     );
   }
