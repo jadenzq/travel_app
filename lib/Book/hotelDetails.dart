@@ -55,11 +55,17 @@ class HotelDetails extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Image.asset(
-                    'assets/images/hotels/hotel1.jpg', // 请确保图片已添加到assets
-                    height: 120,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
+                  ClipRRect(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(16),
+                      topRight: Radius.circular(16),
+                    ),
+                    child: Image.asset(
+                      'assets/images/hotels/hotel1.jpg', // 请确保图片已添加到assets
+                      height: 120,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                   ListTile(
                     title: Text('Santorini Blue Hotel'),
@@ -89,11 +95,17 @@ class HotelDetails extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Image.asset(
-                    'assets/images/hotels/hotel2.jpg',
-                    height: 120,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
+                  ClipRRect(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(16),
+                      topRight: Radius.circular(16),
+                    ),
+                    child: Image.asset(
+                      'assets/images/hotels/hotel2.jpg',
+                      height: 120,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                   ListTile(
                     title: Text('Aegean Sea Resort'),
@@ -124,11 +136,17 @@ class HotelDetails extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Image.asset(
-                    'assets/images/hotels/hotel3.jpg',
-                    height: 120,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
+                  ClipRRect(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(16),
+                      topRight: Radius.circular(16),
+                    ),
+                    child: Image.asset(
+                      'assets/images/hotels/hotel3.jpg',
+                      height: 120,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                   ListTile(
                     title: Text('Ocean View Paradise'),
@@ -162,11 +180,17 @@ class HotelDetails extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Image.asset(
-                    'assets/images/hotels/hotel4.jpg',
-                    height: 120,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
+                  ClipRRect(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(16),
+                      topRight: Radius.circular(16),
+                    ),
+                    child: Image.asset(
+                      'assets/images/hotels/hotel4.jpg',
+                      height: 120,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                   ListTile(
                     title: Text('Luxury Beachfront Hotel'),
@@ -196,11 +220,17 @@ class HotelDetails extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Image.asset(
-                    'assets/images/hotels/hotel5.jpg',
-                    height: 120,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
+                  ClipRRect(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(16),
+                      topRight: Radius.circular(16),
+                    ),
+                    child: Image.asset(
+                      'assets/images/hotels/hotel5.jpg',
+                      height: 120,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                   ListTile(
                     title: Text('Island Breeze Hotel'),
@@ -230,11 +260,17 @@ class HotelDetails extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Image.asset(
-                    'assets/images/hotels/hotel6.jpg',
-                    height: 120,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
+                  ClipRRect(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(16),
+                      topRight: Radius.circular(16),
+                    ),
+                    child: Image.asset(
+                      'assets/images/hotels/hotel6.jpg',
+                      height: 120,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                   ListTile(
                     title: Text('Sunset Paradise Hotel'),

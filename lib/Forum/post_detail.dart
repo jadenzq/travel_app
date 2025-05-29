@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:travel_app/Models/post.dart';
 
 class PostDetail extends StatefulWidget {
@@ -49,7 +50,7 @@ class _PostDetailState extends State<PostDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 245, 245, 245),
+      backgroundColor: Color(0xfff5f5f5),
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
@@ -68,7 +69,11 @@ class _PostDetailState extends State<PostDetail> {
             SizedBox(width: 10),
             Text(
               widget.post.authorName,
-              style: TextStyle(color: Colors.black, fontSize: 18),
+              style: GoogleFonts.ubuntu(
+                color: Colors.white, 
+                fontSize: 18
+              ),
+
             ),
           ],
         ),
@@ -149,7 +154,7 @@ class _PostDetailState extends State<PostDetail> {
                       children: [
                         Text(
                           widget.post.title,
-                          style: TextStyle(
+                          style: GoogleFonts.ubuntu(
                             fontSize: 24,
                             fontWeight: FontWeight.w600,
                           ),
@@ -165,7 +170,7 @@ class _PostDetailState extends State<PostDetail> {
                             SizedBox(width: 5),
                             Text(
                               widget.post.location,
-                              style: TextStyle(
+                              style: GoogleFonts.ubuntu(
                                 fontSize: 16,
                                 color: Color(0xff41729f),
                               ),
@@ -176,7 +181,9 @@ class _PostDetailState extends State<PostDetail> {
                         Text(
                           widget.post.content,
                           textAlign: TextAlign.justify,
-                          style: TextStyle(fontSize: 16),
+                          style: GoogleFonts.ubuntu(
+                            fontSize: 16
+                          ),
                         ),
                       ],
                     ),
@@ -213,7 +220,10 @@ class _PostDetailState extends State<PostDetail> {
                             color: _isLiked ? Colors.red : Colors.grey,
                           ),
                           SizedBox(width: 5),
-                          Text('Like'),
+                          Text(
+                            'Like',
+                            style: GoogleFonts.ubuntu(),
+                          ),
                         ],
                       ),
                     ),
@@ -223,14 +233,20 @@ class _PostDetailState extends State<PostDetail> {
                   children: [
                     Icon(Icons.share, color: Colors.grey),
                     SizedBox(width: 5),
-                    Text('Share'),
+                    Text(
+                      'Share',
+                      style: GoogleFonts.ubuntu()
+                    ),
                   ],
                 ),
                 Row(
                   children: [
                     Icon(Icons.remove_red_eye_outlined, color: Colors.grey),
                     SizedBox(width: 5),
-                    Text(widget.post.views),
+                    Text(
+                      widget.post.views,
+                      style: GoogleFonts.ubuntu()
+                    ),
                   ],
                 ),
               ],

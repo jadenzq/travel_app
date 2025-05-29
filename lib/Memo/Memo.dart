@@ -11,13 +11,13 @@ class MemoItem {
   final String title;
   final String content;
   final DateTime date;
-  final String? imagePath;
+  final List<String> imagePaths;
 
   MemoItem({
     required this.title,
     required this.content,
     required this.date,
-    this.imagePath,
+    this.imagePaths = const [],
   });
 
   Map<String, dynamic> toJson() {
@@ -25,7 +25,7 @@ class MemoItem {
       'title': title,
       'content': content,
       'date': date.toIso8601String(),
-      'imagePath': imagePath,
+      'imagePaths': imagePaths,
     };
   }
 
@@ -34,7 +34,7 @@ class MemoItem {
       title: json['title'],
       content: json['content'],
       date: DateTime.parse(json['date']),
-      imagePath: json['imagePath'],
+      imagePaths: List<String>.from(json['imagePaths'] ?? []),
     );
   }
 
@@ -42,13 +42,13 @@ class MemoItem {
     String? title,
     String? content,
     DateTime? date,
-    String? imagePath,
+    List<String>? imagePaths,
   }) {
     return MemoItem(
       title: title ?? this.title,
       content: content ?? this.content,
       date: date ?? this.date,
-      imagePath: imagePath ?? this.imagePath,
+      imagePaths: imagePaths ?? this.imagePaths,
     );
   }
 }
@@ -156,11 +156,11 @@ class _MemoListPageState extends State<Memo> {
                   ),
                   child: Card(
                     child: ListTile(
-                      leading: memo.imagePath != null
+                      leading: (memo.imagePaths.isNotEmpty)
                           ? Image.file(
-                              File(memo.imagePath!),
-                              width: 60,
-                              height: 60,
+                              File(memo.imagePaths.first),
+                              width: 100,
+                              height: 100,
                               fit: BoxFit.cover,
                             )
                           : null,
@@ -211,27 +211,25 @@ class MemoEditPage extends StatefulWidget {
 class _MemoEditPageState extends State<MemoEditPage> {
   late TextEditingController _titleController;
   late TextEditingController _contentController;
-  String? _imagePath;
-
+  List<String> _imagePaths = [];
   final ImagePicker _picker = ImagePicker();
 
   @override
   void initState() {
     super.initState();
-    _titleController =
-        TextEditingController(text: widget.initialMemo?.title ?? '');
-    _contentController =
-        TextEditingController(text: widget.initialMemo?.content ?? '');
-    _imagePath = widget.initialMemo?.imagePath;
+    _titleController = TextEditingController(text: widget.initialMemo?.title ?? '');
+    _contentController = TextEditingController(text: widget.initialMemo?.content ?? '');
+    _imagePaths = List.from(widget.initialMemo?.imagePaths ?? []);
   }
 
-  Future<void> _pickImage() async {
-    final pickedFile =
-        await _picker.pickImage(source: ImageSource.gallery, imageQuality: 70);
-
-    if (pickedFile != null) {
+  Future<void> _pickImages() async {
+    final pickedFiles = await _picker.pickMultiImage(imageQuality: 70);
+    if (pickedFiles != null && pickedFiles.isNotEmpty) {
       setState(() {
-        _imagePath = pickedFile.path;
+        _imagePaths.addAll(pickedFiles.map((e) => e.path));
+        if (_imagePaths.length > 9) {
+          _imagePaths = _imagePaths.sublist(0, 9);
+        }
       });
     }
   }
@@ -245,7 +243,7 @@ class _MemoEditPageState extends State<MemoEditPage> {
         title: title,
         content: content,
         date: DateTime.now(),
-        imagePath: _imagePath,
+        imagePaths: _imagePaths,
       );
       Navigator.pop(context, newMemo);
     }
@@ -301,20 +299,64 @@ class _MemoEditPageState extends State<MemoEditPage> {
               ),
             ),
             SizedBox(height: 12),
-            if (_imagePath != null)
+            if (_imagePaths.isNotEmpty)
               Container(
-                height: 180,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
+                height: 200,
+                child: GridView.builder(
+                  shrinkWrap: true,
+                  itemCount: _imagePaths.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    crossAxisSpacing: 4,
+                    mainAxisSpacing: 4,
+                  ),
+                  itemBuilder: (context, index) {
+                    return Stack(
+                      children: [
+                        Positioned.fill(
+                          child: Image.file(
+                            File(_imagePaths[index]),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        Positioned(
+                          top: 2,
+                          right: 2,
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _imagePaths.removeAt(index);
+                              });
+                            },
+                            child: Container(
+                              padding: EdgeInsets.all(2),
+                              color: Colors.black54,
+                              child: Icon(Icons.close, color: Colors.white, size: 18),
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
                 ),
-                child: Image.file(File(_imagePath!), fit: BoxFit.cover),
               ),
-            TextButton.icon(
-              icon: Icon(Icons.image),
-              label: Text('Pick Image'),
-              onPressed: _pickImage,
-            ),
           ],
+        ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        shape: CircularNotchedRectangle(),
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              IconButton(icon: Icon(Icons.edit), onPressed: () {}),
+              IconButton(icon: Icon(Icons.check_circle_outline), onPressed: () {}),
+              IconButton(icon: Icon(Icons.format_align_left), onPressed: () {}),
+              IconButton(icon: Icon(Icons.image), onPressed: _pickImages),
+              IconButton(icon: Icon(Icons.attach_file), onPressed: () {}),
+            ],
+          ),
         ),
       ),
     );

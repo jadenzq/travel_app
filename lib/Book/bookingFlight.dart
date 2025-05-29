@@ -264,17 +264,24 @@ class _BookingFlightState extends State<BookingFlight> {
                   SizedBox(height: 32),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.pushNamed(
-                        context,
-                        '/flightDetails',
-                        arguments: {
-                          'from': departureController.text,
-                          'to': destinationController.text,
-                          'date': selectedDate != null
-                              ? selectedDate!.toLocal().toString().split(' ')[0]
-                              : '',
-                        },
-                      );
+                      bool isValid = departureController.text.isNotEmpty && destinationController.text.isNotEmpty && selectedDate != null && (tripType == 'One-way' || (tripType == 'Round trip' && returnDate != null));
+                      if (isValid) {
+                        Navigator.pushNamed(
+                          context,
+                          '/flightDetails',
+                          arguments: {
+                            'from': departureController.text,
+                            'to': destinationController.text,
+                            'date': selectedDate != null
+                                ? selectedDate!.toLocal().toString().split(' ')[0]
+                                : '',
+                          },
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Please fill all fields')),
+                        );
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blueAccent,
