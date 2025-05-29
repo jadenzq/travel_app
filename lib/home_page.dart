@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:travel_app/Book/bookingFlight.dart';
 import 'package:travel_app/Book/bookingHotel.dart';
 import 'package:travel_app/Forum/post_detail.dart';
@@ -105,7 +106,7 @@ class _HomePageState extends State<HomePage> {
       children: [
         Text(
           "Top Experiences",
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+          style: GoogleFonts.ubuntu(fontSize: 20, fontWeight: FontWeight.w600),
         ),
         SizedBox(height: 10),
         MasonryGridView.count(
@@ -131,7 +132,7 @@ class _HomePageState extends State<HomePage> {
               },
               child: Container(
                 decoration: BoxDecoration(
-                  color: Theme.of(context).cardColor,
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
@@ -185,7 +186,7 @@ class _HomePageState extends State<HomePage> {
                                   Flexible(
                                     child: Text(
                                       data.location,
-                                      style: TextStyle(
+                                      style: GoogleFonts.ubuntu(
                                         color: Colors.white,
                                         fontSize: 16,
                                         shadows: [
@@ -250,7 +251,7 @@ class _HomePageState extends State<HomePage> {
                                   const Spacer(),
                                   Text(
                                     data.views,
-                                    style: TextStyle(
+                                    style: GoogleFonts.ubuntu(
                                       color: Colors.white,
                                       fontSize: 16,
                                       shadows: [
@@ -300,7 +301,7 @@ class _HomePageState extends State<HomePage> {
                         padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 0.0),
                         child: Text(
                           data.title,
-                          style: const TextStyle(
+                          style: GoogleFonts.ubuntu(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                             color: Colors.black,
@@ -321,7 +322,7 @@ class _HomePageState extends State<HomePage> {
                             Flexible(
                               child: Text(
                                 data.authorName,
-                                style: TextStyle(
+                                style: GoogleFonts.ubuntu(
                                   fontSize: 14,
                                   color: Colors.grey[700],
                                 ),
@@ -349,7 +350,7 @@ class _HomePageState extends State<HomePage> {
       children: [
         Text(
           "Starts Here",
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+          style: GoogleFonts.ubuntu(fontSize: 20, fontWeight: FontWeight.w600),
         ),
         SizedBox(height: 10),
         GridView.count(
@@ -390,7 +391,10 @@ class _HomePageState extends State<HomePage> {
                     SizedBox(height: 5),
                     Text(
                       "Flight",
-                      style: TextStyle(fontSize: 16, color: Colors.black),
+                      style: GoogleFonts.ubuntu(
+                        fontSize: 16,
+                        color: Colors.black,
+                      ),
                     ),
                   ],
                 ),
@@ -427,7 +431,10 @@ class _HomePageState extends State<HomePage> {
                     SizedBox(height: 5),
                     Text(
                       "Hotel",
-                      style: TextStyle(fontSize: 16, color: Colors.black),
+                      style: GoogleFonts.ubuntu(
+                        fontSize: 16,
+                        color: Colors.black,
+                      ),
                     ),
                   ],
                 ),
@@ -474,7 +481,10 @@ class _HomePageState extends State<HomePage> {
         return List<ListTile>.generate(5, (int index) {
           final String item = 'item $index';
 
-          return ListTile(title: Text(item), onTap: () {});
+          return ListTile(
+            title: Text(item, style: GoogleFonts.ubuntu()),
+            onTap: () {},
+          );
         });
       },
       isFullScreen: false,
