@@ -143,7 +143,7 @@ class _MemoListPageState extends State<Memo> {
       appBar: AppBar(
         title: Text('Memo List',style: GoogleFonts.ubuntu(fontSize: 24)),
         centerTitle: true,
-        backgroundColor: Color(0xff41729f),
+        backgroundColor: Colors.white,
       ),
       backgroundColor: Color(0xFFF5F5F5),
       body: _memos.isEmpty
@@ -272,7 +272,7 @@ class _MemoEditPageState extends State<MemoEditPage> {
       appBar: AppBar(
         title: Text(isEditing ? 'Edit Memo' : 'New Memo',style: GoogleFonts.ubuntu(fontSize: 24)),
         centerTitle: true,
-        backgroundColor: Color(0xff41729f),
+        backgroundColor: Colors.white,
         actions: [
           IconButton(
             icon: Icon(Icons.check,color: Colors.black,),
