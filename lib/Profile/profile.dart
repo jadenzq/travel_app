@@ -10,14 +10,16 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  String userName = "Travel Explorer";
+  String userName = "Gloria";
   String email = "user@gmail.com";
   String phone = "+60 123 456 789";
   File? _selectedImage;
 
   //handle image selection from gallery
   Future<void> _pickImage() async {
-    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final pickedFile = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+    );
     if (pickedFile != null) {
       setState(() {
         _selectedImage = File(pickedFile.path);
@@ -29,24 +31,25 @@ class _ProfilePageState extends State<ProfilePage> {
   Future<void> _changeUsername() async {
     final newName = await showDialog<String>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Change Username'),
-        content: TextField(
-          autofocus: true,
-          decoration: const InputDecoration(hintText: 'Enter new username'),
-          onChanged: (value) => userName = value,
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+      builder:
+          (context) => AlertDialog(
+            title: const Text('Change Username'),
+            content: TextField(
+              autofocus: true,
+              decoration: const InputDecoration(hintText: 'Enter new username'),
+              onChanged: (value) => userName = value,
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(context, userName),
+                child: const Text('Save'),
+              ),
+            ],
           ),
-          TextButton(
-            onPressed: () => Navigator.pop(context, userName),
-            child: const Text('Save'),
-          ),
-        ],
-      ),
     );
 
     if (newName != null && newName.isNotEmpty) {
@@ -59,6 +62,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xfff5f5f5),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
@@ -73,25 +77,23 @@ class _ProfilePageState extends State<ProfilePage> {
                     height: 120,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      border: Border.all(
-                        color: Colors.blue.shade100,
-                        width: 3,
-                      ),
+                      border: Border.all(color: Colors.blue.shade100, width: 3),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.grey.withAlpha((0.3 * 255).toInt()),
                           blurRadius: 10,
                           offset: const Offset(0, 5),
-                          )
+                        ),
                       ],
                     ),
                     child: ClipOval(
-                      child: _selectedImage != null
-                          ? Image.file(_selectedImage!, fit: BoxFit.cover)
-                          : Image.asset(
-                              'assets/images/photo111.jpg',
-                              fit: BoxFit.cover,
-                            ),
+                      child:
+                          _selectedImage != null
+                              ? Image.file(_selectedImage!, fit: BoxFit.cover)
+                              : Image.asset(
+                                'assets/images/photo111.jpg',
+                                fit: BoxFit.cover,
+                              ),
                     ),
                   ),
                   GestureDetector(
@@ -101,10 +103,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       decoration: BoxDecoration(
                         color: Colors.blue,
                         shape: BoxShape.circle,
-                        border: Border.all(
-                          color: Colors.white,
-                          width: 2,
-                        ),
+                        border: Border.all(color: Colors.white, width: 2),
                       ),
                       child: const Icon(
                         Icons.edit,
@@ -131,11 +130,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   const SizedBox(width: 8),
                   GestureDetector(
                     onTap: _changeUsername,
-                    child: const Icon(
-                      Icons.edit,
-                      size: 20,
-                      color: Colors.blue,
-                    ),
+                    child: const Icon(Icons.edit, size: 20, color: Colors.blue),
                   ),
                 ],
               ),
@@ -169,7 +164,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   Expanded(
                     child: _buildActionButton(
                       icon: Icons.receipt,
-                      label: 'My Orders',
+                      label: 'History',
                       onTap: () {
                         // Navigate to orders page
                       },
@@ -177,14 +172,11 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   const SizedBox(width: 20),
 
-                  // Favorites Button
                   Expanded(
                     child: _buildActionButton(
                       icon: Icons.star,
-                      label: 'Favorites',
-                      onTap: () {
-                        // Navigate to favorites page
-                      },
+                      label: 'Bookings',
+                      onTap: () {},
                     ),
                   ),
                 ],
@@ -231,18 +223,12 @@ class _ProfilePageState extends State<ProfilePage> {
           children: [
             Text(
               label,
-              style: const TextStyle(
-                fontSize: 12,
-                color: Colors.grey,
-              ),
+              style: const TextStyle(fontSize: 12, color: Colors.grey),
             ),
             const SizedBox(height: 2),
             Text(
               value,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-              ),
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
             ),
           ],
         ),
@@ -278,10 +264,7 @@ class _ProfilePageState extends State<ProfilePage> {
             const SizedBox(height: 10),
             Text(
               label,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-              ),
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
             ),
           ],
         ),
