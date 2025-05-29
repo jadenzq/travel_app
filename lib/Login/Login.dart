@@ -37,23 +37,6 @@ class LoginPage extends StatelessWidget {
                   ],
                 ),
               ),
-
-              // 固定在底部的Welcome
-              Positioned(
-                bottom: 30,
-                left: 0,
-                right: 0,
-                child: Center(
-                  child: Text(
-                    'Welcome to myapp',
-                    style: TextStyle(
-                      fontSize: 32,
-                      color: const Color(0xFFA8F1FF),
-                      fontWeight: FontWeight.normal,
-                    ),
-                  ),
-                ),
-              ),
             ],
           ),
         ),
