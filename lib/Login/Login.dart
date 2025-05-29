@@ -171,7 +171,7 @@ class LoginPage extends StatelessWidget {
   Widget _buildInputField({
     required String label,
     required IconData icon,
-    bool isPassword = false,
+    bool isPassword = false,  
     TextInputType keyboardType = TextInputType.text,
   }) {
     return TextFormField(
@@ -182,12 +182,12 @@ class LoginPage extends StatelessWidget {
         prefixIcon: Icon(icon, color: Colors.grey[600]),
         // Square border with visible outline
         border: const OutlineInputBorder(
-          borderRadius: BorderRadius.zero, // Square corners
+          borderRadius: BorderRadius.all(Radius.circular(12)), // Square corners
           borderSide: BorderSide(color: Colors.grey), // Visible border
         ),
-        // Focused border (blue)
+        // Focused border (blue)a
         focusedBorder: const OutlineInputBorder(
-          borderRadius: BorderRadius.zero,
+          borderRadius: BorderRadius.all(Radius.circular(12)),
           borderSide: BorderSide(color: Colors.blue, width: 1.5),
         ),
         filled: true,
