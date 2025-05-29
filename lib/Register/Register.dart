@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class RegisterPage extends StatelessWidget {
   const RegisterPage({super.key});
@@ -44,10 +45,10 @@ class RegisterPage extends StatelessWidget {
 
   // Header Section
   Widget _buildHeader() {
-    return const Center(
+    return Center(
       child: Text(
         'Register',
-        style: TextStyle(
+        style: GoogleFonts.ubuntu(
           fontSize: 32,
           fontWeight: FontWeight.bold,
           color: Colors.blue,
@@ -102,10 +103,10 @@ class RegisterPage extends StatelessWidget {
               ),
             ],
           ),
-          child: const Center(
+          child: Center(
             child: Text(
               'Confirm',
-              style: TextStyle(
+              style: GoogleFonts.ubuntu(
                 fontSize: 18,
                 color: Colors.white,
                 fontWeight: FontWeight.w600,
@@ -129,7 +130,7 @@ class RegisterPage extends StatelessWidget {
             padding: const EdgeInsets.only(left: 8.0),
             child: Text(
               'Have an account?',
-              style: TextStyle(
+              style: GoogleFonts.ubuntu(
                 color: Colors.blue[700],
                 fontSize: 14,
                 decoration: TextDecoration.underline,
@@ -169,7 +170,7 @@ class RegisterPage extends StatelessWidget {
         ),
         floatingLabelBehavior: FloatingLabelBehavior.never,
       ),
-      style: const TextStyle(fontSize: 16),
+      style: GoogleFonts.ubuntu(fontSize: 16),
     );
   }
 }
