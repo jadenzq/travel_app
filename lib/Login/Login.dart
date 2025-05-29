@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:travel_app/Profile/profile.dart';
 import 'package:travel_app/Register/register.dart';
 
@@ -46,10 +47,10 @@ class LoginPage extends StatelessWidget {
 
   // Header Section
   Widget _buildHeader() {
-    return const Center(
+    return Center(
       child: Text(
         'Login',
-        style: TextStyle(
+        style: GoogleFonts.ubuntu(
           fontSize: 32,
           fontWeight: FontWeight.bold,
           color: Colors.blue,
@@ -87,7 +88,7 @@ class LoginPage extends StatelessWidget {
             padding: const EdgeInsets.only(left: 8.0),
             child: Text(
               'Do not have an account?',
-              style: TextStyle(
+              style: GoogleFonts.ubuntu(
                 color: Colors.blue[700],
                 fontSize: 14,
                 decoration: TextDecoration.underline,
@@ -101,7 +102,7 @@ class LoginPage extends StatelessWidget {
             padding: const EdgeInsets.only(right: 8.0),
             child: Text(
               'Forgot password?',
-              style: TextStyle(
+              style: GoogleFonts.ubuntu(
                 color: Colors.blue[700],
                 fontSize: 14,
                 decoration: TextDecoration.underline,
@@ -135,10 +136,10 @@ class LoginPage extends StatelessWidget {
               ),
             ],
           ),
-          child: const Center(
+          child: Center(
             child: Text(
               'Login',
-              style: TextStyle(
+              style: GoogleFonts.ubuntu(
                 fontSize: 18,
                 color: Colors.white,
                 fontWeight: FontWeight.w600,
@@ -181,7 +182,7 @@ class LoginPage extends StatelessWidget {
         ),
         floatingLabelBehavior: FloatingLabelBehavior.never,
       ),
-      style: const TextStyle(fontSize: 16),
+      style: GoogleFonts.ubuntu(fontSize: 16),
     );
   }
 }
