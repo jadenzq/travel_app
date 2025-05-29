@@ -69,11 +69,7 @@ class _PostDetailState extends State<PostDetail> {
             SizedBox(width: 10),
             Text(
               widget.post.authorName,
-              style: GoogleFonts.ubuntu(
-                color: Colors.white, 
-                fontSize: 18
-              ),
-
+              style: GoogleFonts.ubuntu(color: Colors.black, fontSize: 18),
             ),
           ],
         ),
@@ -181,9 +177,7 @@ class _PostDetailState extends State<PostDetail> {
                         Text(
                           widget.post.content,
                           textAlign: TextAlign.justify,
-                          style: GoogleFonts.ubuntu(
-                            fontSize: 16
-                          ),
+                          style: GoogleFonts.ubuntu(fontSize: 16),
                         ),
                       ],
                     ),
@@ -220,10 +214,7 @@ class _PostDetailState extends State<PostDetail> {
                             color: _isLiked ? Colors.red : Colors.grey,
                           ),
                           SizedBox(width: 5),
-                          Text(
-                            'Like',
-                            style: GoogleFonts.ubuntu(),
-                          ),
+                          Text('Like', style: GoogleFonts.ubuntu()),
                         ],
                       ),
                     ),
@@ -233,20 +224,14 @@ class _PostDetailState extends State<PostDetail> {
                   children: [
                     Icon(Icons.share, color: Colors.grey),
                     SizedBox(width: 5),
-                    Text(
-                      'Share',
-                      style: GoogleFonts.ubuntu()
-                    ),
+                    Text('Share', style: GoogleFonts.ubuntu()),
                   ],
                 ),
                 Row(
                   children: [
                     Icon(Icons.remove_red_eye_outlined, color: Colors.grey),
                     SizedBox(width: 5),
-                    Text(
-                      widget.post.views,
-                      style: GoogleFonts.ubuntu()
-                    ),
+                    Text(widget.post.views, style: GoogleFonts.ubuntu()),
                   ],
                 ),
               ],
