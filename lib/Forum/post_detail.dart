@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:travel_app/Models/post.dart';
 
 class PostDetail extends StatefulWidget 
@@ -60,6 +61,7 @@ class _PostDetailState extends State<PostDetail>
   Widget build(BuildContext context) 
   {
     return Scaffold(
+      backgroundColor: Color(0xfff5f5f5),
       appBar: AppBar(
         backgroundColor: Colors.blueAccent,
         elevation: 0,
@@ -81,7 +83,7 @@ class _PostDetailState extends State<PostDetail>
             SizedBox(width: 10),
             Text(
               widget.post.authorName,
-              style: TextStyle(
+              style: GoogleFonts.ubuntu(
                 color: Colors.white, 
                 fontSize: 18
               ),
@@ -163,7 +165,7 @@ class _PostDetailState extends State<PostDetail>
                       children: [
                         Text(
                           widget.post.title,
-                          style: TextStyle(
+                          style: GoogleFonts.ubuntu(
                             fontSize: 24,
                             fontWeight: FontWeight.w600,
                           ),
@@ -174,14 +176,14 @@ class _PostDetailState extends State<PostDetail>
                             Icon(
                               Icons.location_on,
                               size: 20,
-                              color: Colors.grey[700],
+                              color: Color(0xff41729f),
                             ),
                             SizedBox(width: 5),
                             Text(
                               widget.post.location,
-                              style: TextStyle(
+                              style: GoogleFonts.ubuntu(
                                 fontSize: 16,
-                                color: Colors.grey[700],
+                                color: Color(0xff41729f),
                               ),
                             ),
                           ],
@@ -189,7 +191,7 @@ class _PostDetailState extends State<PostDetail>
                         SizedBox(height: 10),
                         Text(
                           widget.post.content,
-                          style: TextStyle(
+                          style: GoogleFonts.ubuntu(
                             fontSize: 16
                           ),
                         ),
@@ -201,12 +203,12 @@ class _PostDetailState extends State<PostDetail>
             ),
           ),
           Container(
-            color: Theme.of(context).cardColor,
+            color: Color(0xfff5f5f5),
             padding: const EdgeInsets.only(
               left: 12.0,
               right: 12.0,
-              bottom: 16.0,
-              top: 8.0
+              bottom: 20.0,
+              top: 12.0
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -225,7 +227,10 @@ class _PostDetailState extends State<PostDetail>
                             color: _isLiked ? Colors.red : Colors.grey,
                           ),
                           SizedBox(width: 5),
-                          Text('Like'),
+                          Text(
+                            'Like',
+                            style: GoogleFonts.ubuntu(),
+                          ),
                         ],
                       ),
                     ),
@@ -235,14 +240,20 @@ class _PostDetailState extends State<PostDetail>
                   children: [
                     Icon(Icons.share, color: Colors.grey),
                     SizedBox(width: 5),
-                    Text('Share'),
+                    Text(
+                      'Share',
+                      style: GoogleFonts.ubuntu()
+                    ),
                   ],
                 ),
                 Row(
                   children: [
                     Icon(Icons.remove_red_eye_outlined, color: Colors.grey),
                     SizedBox(width: 5),
-                    Text(widget.post.views),
+                    Text(
+                      widget.post.views,
+                      style: GoogleFonts.ubuntu()
+                    ),
                   ],
                 ),
               ],

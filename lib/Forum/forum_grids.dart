@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:travel_app/Forum/post_detail.dart';
 import 'package:travel_app/Models/post.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -146,7 +147,7 @@ class _ExperienceGridsState extends State<ExperienceGrids>
                                   Flexible(
                                     child: Text(
                                       data.location,
-                                      style: TextStyle(
+                                      style: GoogleFonts.ubuntu(
                                         color: Colors.white,
                                         fontSize: 16,
                                         shadows: [
@@ -206,7 +207,7 @@ class _ExperienceGridsState extends State<ExperienceGrids>
                                   const Spacer(),
                                   Text(
                                     data.views,
-                                    style: TextStyle(
+                                    style: GoogleFonts.ubuntu(
                                       color: Colors.white,
                                       fontSize: 16,
                                       shadows: [
@@ -253,7 +254,7 @@ class _ExperienceGridsState extends State<ExperienceGrids>
                         padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 0.0),
                         child: Text(
                           data.title,
-                          style: const TextStyle(
+                          style: GoogleFonts.ubuntu(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                             color: Colors.black,
@@ -274,7 +275,7 @@ class _ExperienceGridsState extends State<ExperienceGrids>
                             Flexible(
                               child: Text(
                                 data.authorName,
-                                style: TextStyle(
+                                style: GoogleFonts.ubuntu(
                                   fontSize: 14,
                                   color: Colors.grey[700],
                                 ),
