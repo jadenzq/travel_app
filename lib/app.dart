@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:travel_app/Forum/forum.dart';
 import 'package:travel_app/Login/Login.dart';
 import 'package:travel_app/Memo/Memo.dart';
@@ -50,6 +51,11 @@ class _AppState extends State<App> {
             topRight: Radius.circular(15),
           ),
           child: NavigationBar(
+            labelTextStyle: WidgetStateProperty<TextStyle>.fromMap(
+              <WidgetStatesConstraint, TextStyle>{
+                WidgetState.any: GoogleFonts.ubuntu(),
+              },
+            ),
             onDestinationSelected:
                 (index) => setState(() {
                   currentPageIndex = index;

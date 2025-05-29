@@ -55,18 +55,38 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     posts = Post.getAllPosts();
 
-    return SafeArea(
-      child: ListView(
-        padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 15.0),
-        children: [
-          _carousel(),
-          SizedBox(height: 30),
-          _searchBar(),
-          SizedBox(height: 30),
-          _flightAndHotel(context),
-          SizedBox(height: 30),
-          _topExperiences(),
-        ],
+    return Scaffold(
+      backgroundColor: Color(0xFFF5F5F5),
+      body: NestedScrollView(
+        floatHeaderSlivers: true,
+        headerSliverBuilder:
+            (context, innerBoxIsScrolled) => [
+              SliverAppBar(
+                floating: true,
+                snap: true,
+                title: Text(
+                  "TripleFun",
+                  style: GoogleFonts.ubuntu(
+                    fontSize: 25,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                backgroundColor: Color(0xff41729f),
+              ),
+            ],
+        body: ListView(
+          padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 15.0),
+          children: [
+            _carousel(),
+            SizedBox(height: 30),
+            _searchBar(),
+            SizedBox(height: 30),
+            _flightAndHotel(context),
+            SizedBox(height: 30),
+            _topExperiences(),
+          ],
+        ),
       ),
     );
   }
@@ -103,6 +123,7 @@ class _HomePageState extends State<HomePage> {
   Column _topExperiences() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 0,
       children: [
         Text(
           "Top Experiences",
@@ -110,6 +131,7 @@ class _HomePageState extends State<HomePage> {
         ),
         SizedBox(height: 10),
         MasonryGridView.count(
+          padding: EdgeInsets.zero,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           crossAxisCount: 2,
@@ -354,6 +376,7 @@ class _HomePageState extends State<HomePage> {
         ),
         SizedBox(height: 10),
         GridView.count(
+          padding: EdgeInsets.zero,
           shrinkWrap: true, // To avoid the grid grows infinitely error
           crossAxisCount: 2,
           crossAxisSpacing: 15.0,
@@ -367,15 +390,8 @@ class _HomePageState extends State<HomePage> {
               borderRadius: BorderRadius.circular(12),
               child: Ink(
                 decoration: BoxDecoration(
+                  color: Color(0xffffffff),
                   borderRadius: BorderRadius.circular(12),
-                  gradient: LinearGradient(
-                    colors: [
-                      Color.fromARGB(255, 255, 255, 255),
-                      Color.fromARGB(255, 255, 255, 255),
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
                   boxShadow: [
                     BoxShadow(
                       color: const Color.fromARGB(54, 0, 0, 0),
@@ -387,13 +403,14 @@ class _HomePageState extends State<HomePage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.flight, size: 40, color: Colors.black),
+                    Icon(Icons.flight, size: 40, color: Color(0xff41729f)),
                     SizedBox(height: 5),
                     Text(
                       "Flight",
                       style: GoogleFonts.ubuntu(
                         fontSize: 16,
-                        color: Colors.black,
+                        color: Color(0xff41729f),
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ],
@@ -407,15 +424,8 @@ class _HomePageState extends State<HomePage> {
               borderRadius: BorderRadius.circular(12),
               child: Ink(
                 decoration: BoxDecoration(
+                  color: Color(0xffffffff),
                   borderRadius: BorderRadius.circular(12),
-                  gradient: LinearGradient(
-                    colors: [
-                      Color.fromARGB(255, 255, 255, 255),
-                      Color.fromARGB(255, 255, 255, 255),
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
                   boxShadow: [
                     BoxShadow(
                       color: const Color.fromARGB(54, 0, 0, 0),
@@ -427,13 +437,14 @@ class _HomePageState extends State<HomePage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.hotel, size: 40, color: Colors.black),
+                    Icon(Icons.hotel, size: 40, color: Color(0xff41729f)),
                     SizedBox(height: 5),
                     Text(
                       "Hotel",
                       style: GoogleFonts.ubuntu(
                         fontSize: 16,
-                        color: Colors.black,
+                        color: Color(0xff41729f),
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ],
