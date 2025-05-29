@@ -4,49 +4,44 @@ import 'package:travel_app/Forum/post_detail.dart';
 import 'package:travel_app/Models/post.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-class ExperienceGrids extends StatefulWidget
-{
+class ExperienceGrids extends StatefulWidget {
   const ExperienceGrids({super.key});
 
   @override
   State<ExperienceGrids> createState() => _ExperienceGridsState();
 }
 
-class _ExperienceGridsState extends State<ExperienceGrids>
-{
+class _ExperienceGridsState extends State<ExperienceGrids> {
   List<Post> posts = [];
 
   @override
-  void initState()
-  {
+  void initState() {
     super.initState();
     posts = Post.getAllPosts();
   }
 
-  void _toggleLike(int index)
-  {
+  void _toggleLike(int index) {
     setState(() {
       posts[index].isLike = !posts[index].isLike;
     });
   }
 
-  void getInPost(BuildContext context, int index)
-  {
+  void getInPost(BuildContext context, int index) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (ctx) => PostDetail(
-          post: posts[index],
-          onToggleLike: () {
-            _toggleLike(index);
-          },
-        ),
+        builder:
+            (ctx) => PostDetail(
+              post: posts[index],
+              onToggleLike: () {
+                _toggleLike(index);
+              },
+            ),
       ),
     );
   }
 
   @override
-  Widget build(BuildContext context)
-  {
+  Widget build(BuildContext context) {
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -63,24 +58,17 @@ class _ExperienceGridsState extends State<ExperienceGrids>
 
             String imageUrl = '';
 
-            if (data.images.isNotEmpty)
-            {
+            if (data.images.isNotEmpty) {
               imageUrl = data.images[0];
             }
 
             double aspectRatio = 1.0;
-            if (postId != null)
-            {
-              if (postId % 5 == 0)
-              {
+            if (postId != null) {
+              if (postId % 5 == 0) {
                 aspectRatio = 0.5;
-              }
-              else if (postId % 5 == 1 || postId % 5 == 3)
-              {
+              } else if (postId % 5 == 1 || postId % 5 == 3) {
                 aspectRatio = 0.8;
-              }
-              else
-              {
+              } else {
                 aspectRatio = 1.2;
               }
             }
@@ -91,8 +79,7 @@ class _ExperienceGridsState extends State<ExperienceGrids>
               },
               child: Container(
                 decoration: BoxDecoration(
-                  color:
-                      Theme.of(context).cardColor,
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
@@ -106,8 +93,7 @@ class _ExperienceGridsState extends State<ExperienceGrids>
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(12),
                   child: Column(
-                    crossAxisAlignment:
-                        CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       AspectRatio(
                         aspectRatio: aspectRatio,
@@ -192,13 +178,18 @@ class _ExperienceGridsState extends State<ExperienceGrids>
                                             child: Icon(
                                               Icons.favorite,
                                               size: 21,
-                                              color: Colors.black.withOpacity(0.6),   
+                                              color: Colors.black.withOpacity(
+                                                0.6,
+                                              ),
                                             ),
                                           ),
                                           Icon(
                                             Icons.favorite,
                                             size: 20, // Original size
-                                            color: data.isLike ? Colors.red : Colors.white,
+                                            color:
+                                                data.isLike
+                                                    ? Colors.red
+                                                    : Colors.white,
                                           ),
                                         ],
                                       ),
@@ -233,8 +224,11 @@ class _ExperienceGridsState extends State<ExperienceGrids>
                                         left: 1.0,
                                         child: Icon(
                                           Icons.remove_red_eye_outlined,
-                                          size: 21, // Slightly larger for shadow
-                                          color: Colors.black.withOpacity(0.6), // Shadow color
+                                          size:
+                                              21, // Slightly larger for shadow
+                                          color: Colors.black.withOpacity(
+                                            0.6,
+                                          ), // Shadow color
                                         ),
                                       ),
                                       const Icon(
