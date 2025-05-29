@@ -145,6 +145,7 @@ class _MemoListPageState extends State<Memo> {
         centerTitle: true,
         backgroundColor: Color(0xff41729f),
       ),
+      backgroundColor: Color(0xFFF5F5F5),
       body: _memos.isEmpty
           ? Center(child: Text('No memos yet',style: GoogleFonts.ubuntu()))
           : ListView.builder(
@@ -280,6 +281,7 @@ class _MemoEditPageState extends State<MemoEditPage> {
           ),
         ],
       ),
+      backgroundColor: Color(0xFFF5F5F5), 
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(
