@@ -4,8 +4,14 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-void main() => runApp(MaterialApp(home: Memo()));
+void main() => runApp(MaterialApp(
+  home: Memo(),
+  theme: ThemeData(
+    textTheme: GoogleFonts.ubuntuTextTheme(),
+  ),
+));
 
 class MemoItem {
   final String title;
@@ -135,12 +141,13 @@ class _MemoListPageState extends State<Memo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Memo List'),
+        title: Text('Memo List',style: GoogleFonts.ubuntu(fontSize: 24)),
         centerTitle: true,
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: Colors.white,
       ),
+      backgroundColor: Color(0xFFF5F5F5),
       body: _memos.isEmpty
-          ? Center(child: Text('No memos yet'))
+          ? Center(child: Text('No memos yet',style: GoogleFonts.ubuntu()))
           : ListView.builder(
               itemCount: _memos.length,
               itemBuilder: (context, index) {
@@ -164,12 +171,13 @@ class _MemoListPageState extends State<Memo> {
                               fit: BoxFit.cover,
                             )
                           : null,
-                      title: Text(memo.title),
+                      title: Text(memo.title,style: GoogleFonts.ubuntu(fontSize: 24)),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             memo.content,
+                            style: GoogleFonts.ubuntu(fontSize: 16),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -182,7 +190,7 @@ class _MemoListPageState extends State<Memo> {
                       ),
                       onTap: () => _navigateToEditMemo(index),
                       trailing: IconButton(
-                        icon: Icon(Icons.delete),
+                        icon: Icon(Icons.delete,color: Colors.red),
                         onPressed: () => _deleteMemo(index),
                       ),
                     ),
@@ -192,8 +200,8 @@ class _MemoListPageState extends State<Memo> {
             ),
       floatingActionButton: FloatingActionButton(
         onPressed: _navigateToAddMemo,
-        child: Icon(Icons.add),
-        backgroundColor: Colors.blueAccent,
+        child: Icon(Icons.add, color: Colors.white),
+        backgroundColor: Color(0xff41729f),
       ),
     );
   }
@@ -262,48 +270,28 @@ class _MemoEditPageState extends State<MemoEditPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(isEditing ? 'Edit Memo' : 'New Memo'),
+        title: Text(isEditing ? 'Edit Memo' : 'New Memo',style: GoogleFonts.ubuntu(fontSize: 24)),
         centerTitle: true,
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: Colors.white,
         actions: [
           IconButton(
-            icon: Icon(Icons.check),
+            icon: Icon(Icons.check,color: Colors.black,),
             onPressed: _saveMemo,
             tooltip: 'Save',
           ),
         ],
       ),
+      backgroundColor: Color(0xFFF5F5F5), 
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(
           children: [
-            TextField(
-              controller: _titleController,
-              decoration: InputDecoration(
-                labelText: 'Title',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            SizedBox(height: 12),
-            Expanded(
-              child: TextField(
-                controller: _contentController,
-                decoration: InputDecoration(
-                  labelText: 'Content',
-                  border: OutlineInputBorder(),
-                  alignLabelWithHint: true,
-                ),
-                keyboardType: TextInputType.multiline,
-                minLines: 10,
-                maxLines: null,
-              ),
-            ),
-            SizedBox(height: 12),
             if (_imagePaths.isNotEmpty)
               Container(
                 height: 200,
                 child: GridView.builder(
                   shrinkWrap: true,
+                  physics: AlwaysScrollableScrollPhysics(),
                   itemCount: _imagePaths.length,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
@@ -340,6 +328,32 @@ class _MemoEditPageState extends State<MemoEditPage> {
                   },
                 ),
               ),
+            SizedBox(height: 12),
+            TextField(
+              controller: _titleController,
+              style: GoogleFonts.ubuntu(fontSize: 28),
+              decoration: InputDecoration(
+                labelText: 'Title',
+                labelStyle: GoogleFonts.ubuntu(fontSize: 28),
+                border: OutlineInputBorder(),
+              ),
+            ),
+            SizedBox(height: 12),
+            Expanded(
+              child: TextField(
+                controller: _contentController,
+                style: GoogleFonts.ubuntu(fontSize: 16),
+                decoration: InputDecoration(
+                  labelText: 'Content',
+                  labelStyle: GoogleFonts.ubuntu(fontSize: 16),
+                  border: OutlineInputBorder(),
+                  alignLabelWithHint: true,
+                ),
+                keyboardType: TextInputType.multiline,
+                minLines: 10,
+                maxLines: null,
+              ),
+            ),
           ],
         ),
       ),

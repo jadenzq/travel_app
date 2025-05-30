@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:travel_app/Profile/profile.dart';
 import 'package:travel_app/Register/register.dart';
 
@@ -10,49 +11,35 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: SizedBox.expand(
-        child: Stack(
-          children: [
-            // 可滚动的主要内容区域
-            SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 12.0,
-                vertical: 15.0,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildHeader(),
-                  const SizedBox(height: 30),
-                  _buildAccountInput(),
-                  const SizedBox(height: 20),
-                  _buildPasswordInput(),
-                  const SizedBox(height: 10),
-                  _buildFooterLinks(context),
-                  const SizedBox(height: 40),
-                  _buildLoginButton(context),
-                  const SizedBox(height: 30),
-                ],
-              ),
-            ),
-
-            // 固定在底部的Welcome
-            Positioned(
-              bottom: 30,
-              left: 0,
-              right: 0,
-              child: Center(
-                child: Text(
-                  'Welcome to myapp',
-                  style: TextStyle(
-                    fontSize: 32,
-                    color: const Color(0xFFA8F1FF),
-                    fontWeight: FontWeight.normal,
-                  ),
+      child: Scaffold(
+        backgroundColor: const Color(0xFFF5F5F5),
+        body: SizedBox.expand(
+          child: Stack(
+            children: [
+              // 可滚动的主要内容区域
+              SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12.0,
+                  vertical: 15.0,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildHeader(),
+                    const SizedBox(height: 30),
+                    _buildAccountInput(),
+                    const SizedBox(height: 20),
+                    _buildPasswordInput(),
+                    const SizedBox(height: 10),
+                    _buildFooterLinks(context),
+                    const SizedBox(height: 40),
+                    _buildLoginButton(context),
+                    const SizedBox(height: 30),
+                  ],
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -60,10 +47,10 @@ class LoginPage extends StatelessWidget {
 
   // Header Section
   Widget _buildHeader() {
-    return const Center(
+    return Center(
       child: Text(
         'Login',
-        style: TextStyle(
+        style: GoogleFonts.ubuntu(
           fontSize: 32,
           fontWeight: FontWeight.bold,
           color: Colors.blue,
@@ -96,12 +83,12 @@ class LoginPage extends StatelessWidget {
             Navigator.of(context).push(
               MaterialPageRoute(builder: (context) => const RegisterPage()),
             );
-          }, // 点击事件暂留空
+          },
           child: Padding(
             padding: const EdgeInsets.only(left: 8.0),
             child: Text(
               'Do not have an account?',
-              style: TextStyle(
+              style: GoogleFonts.ubuntu(
                 color: Colors.blue[700],
                 fontSize: 14,
                 decoration: TextDecoration.underline,
@@ -110,12 +97,12 @@ class LoginPage extends StatelessWidget {
           ),
         ),
         InkWell(
-          onTap: () {}, // 保持原有点击事件
+          onTap: () {},
           child: Padding(
             padding: const EdgeInsets.only(right: 8.0),
             child: Text(
               'Forgot password?',
-              style: TextStyle(
+              style: GoogleFonts.ubuntu(
                 color: Colors.blue[700],
                 fontSize: 14,
                 decoration: TextDecoration.underline,
@@ -127,29 +114,20 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  // Login Button
+  // Login Button (unchanged)
   Widget _buildLoginButton(BuildContext context) {
     return SizedBox(
       width: double.infinity,
       height: 50,
       child: InkWell(
         onTap: () {
-          //跳转profile page
-          // Navigator.pushNamed(context, '/profilePage');
           onLogIn();
         },
         borderRadius: BorderRadius.circular(12),
         child: Ink(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
-            gradient: const LinearGradient(
-              colors: [
-                Color.fromARGB(255, 25, 118, 210),
-                Color.fromARGB(255, 13, 71, 161),
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
+            color: Colors.blue,
             boxShadow: const [
               BoxShadow(
                 color: Color.fromARGB(54, 0, 0, 0),
@@ -158,10 +136,10 @@ class LoginPage extends StatelessWidget {
               ),
             ],
           ),
-          child: const Center(
+          child: Center(
             child: Text(
               'Login',
-              style: TextStyle(
+              style: GoogleFonts.ubuntu(
                 fontSize: 18,
                 color: Colors.white,
                 fontWeight: FontWeight.w600,
@@ -173,11 +151,11 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  // 复用相同的输入框组件
+  // 输入框组件 with square borders and no shadow
   Widget _buildInputField({
     required String label,
     required IconData icon,
-    bool isPassword = false,
+    bool isPassword = false,  
     TextInputType keyboardType = TextInputType.text,
   }) {
     return TextFormField(
@@ -186,9 +164,15 @@ class LoginPage extends StatelessWidget {
       decoration: InputDecoration(
         labelText: label,
         prefixIcon: Icon(icon, color: Colors.grey[600]),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide.none,
+        // Square border with visible outline
+        border: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(12)), // Square corners
+          borderSide: BorderSide(color: Colors.grey), // Visible border
+        ),
+        // Focused border (blue)a
+        focusedBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(12)),
+          borderSide: BorderSide(color: Colors.blue, width: 1.5),
         ),
         filled: true,
         fillColor: Colors.grey[100],
@@ -198,7 +182,7 @@ class LoginPage extends StatelessWidget {
         ),
         floatingLabelBehavior: FloatingLabelBehavior.never,
       ),
-      style: const TextStyle(fontSize: 16),
+      style: GoogleFonts.ubuntu(fontSize: 16),
     );
   }
 }
