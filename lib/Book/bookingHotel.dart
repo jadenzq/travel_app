@@ -20,41 +20,42 @@ class _BookingHotelState extends State<BookingHotel> {
       appBar: AppBar(
         title: Text(
           'Booking Hotel',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.black),
         ),
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: Colors.white,
         centerTitle: true,
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          // 顶部图片（无Padding，紧贴边缘）
-          ClipRRect(
-            borderRadius: BorderRadius.zero,
-            child: Image.asset(
-              'assets/images/Hotel.png',
-              height: 200,
-              width: double.infinity,
-              fit: BoxFit.cover,
+      backgroundColor: Color(0xFFF5F5F5), // bakcground color light grey
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            //  photo at the top, no padding
+            ClipRRect(
+              borderRadius: BorderRadius.zero,
+              child: Image.asset(
+                'assets/images/Hotel.png',
+                height: 200,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          // 其余内容加Padding
-          Expanded(
-            child: Padding(
+            // main content with padding
+            Padding(
               padding: const EdgeInsets.all(24.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   SizedBox(height: 10),
 
-                  // 标题
+                  // content title
                   Text(
                     'Find the Most Comfortable Hotel for Your Trip!',
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 16),
 
-                  // 输入框
+                  // Location input
                   TextField(
                     controller: locationController,
                     decoration: InputDecoration(
@@ -168,8 +169,8 @@ class _BookingHotelState extends State<BookingHotel> {
                 ],
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

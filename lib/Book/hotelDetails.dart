@@ -23,17 +23,17 @@ class HotelDetails extends StatelessWidget {
           children: [
             Text(
               location,
-              style: TextStyle(color: Colors.white, fontSize: 18),
+              style: TextStyle(color: Colors.black, fontSize: 18),
               textAlign: TextAlign.center,
             ),
             Text(
               '$checkIn ~ $checkOut',
-              style: TextStyle(color: Colors.white70, fontSize: 14),
+              style: TextStyle(color: Colors.black45, fontSize: 14),
               textAlign: TextAlign.center,
             ),
           ],
         ),
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: Colors.white,
         centerTitle: true,
       ),      
       

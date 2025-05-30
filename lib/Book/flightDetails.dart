@@ -19,16 +19,16 @@ class Flightdetails extends StatelessWidget {
           children: [
         Text(
           '$from → $to',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.black),
         ),
         if (date.isNotEmpty)
           Text(
             'Departure $date',
-            style: TextStyle(color: Colors.white70, fontSize: 14,),
+            style: TextStyle(color: Colors.black45, fontSize: 14,),
           ),
           ],
         ),
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: Colors.white,
         centerTitle: true,
       ),
       body: ListView(
@@ -49,7 +49,7 @@ class Flightdetails extends StatelessWidget {
   mainAxisSize: MainAxisSize.min,
   children: [
     Text(
-      '\$320', // 每个航班可自定义价格
+      '\$320', // Price of each flight can be customized
       style: TextStyle(
         color: Colors.blueAccent,
         fontWeight: FontWeight.bold,

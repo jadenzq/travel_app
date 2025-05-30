@@ -12,8 +12,8 @@ class _BookingFlightState extends State<BookingFlight> {
   final TextEditingController destinationController = TextEditingController();
   DateTime? selectedDate;
   DateTime? returnDate;
-  String tripType = 'One-way'; // 新增变量
-  String seatClass = 'Economy'; // 新增变量
+  String tripType = 'One-way'; 
+  String seatClass = 'Economy'; 
 
   @override
   Widget build(BuildContext context) {
@@ -26,15 +26,17 @@ class _BookingFlightState extends State<BookingFlight> {
         backgroundColor: Colors.blueAccent,
         centerTitle: true,
       ),
+
+      backgroundColor: Color(0xfff5f5f5), // light grey background
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // 顶部图片
+            // photo at the top (no Padding, flush with edges)
             ClipRRect(
               borderRadius: BorderRadius.zero,
               child: Image.asset(
-                'assets/images/santorini-church.jpg', // 确保将图片放在此路径下
+                'assets/images/santorini-church.jpg',
                 height: 200,
                 width: double.infinity,
                 fit: BoxFit.cover,
@@ -45,7 +47,7 @@ class _BookingFlightState extends State<BookingFlight> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  // 标题
+                  // title
                   Text(
                     'Book Flight For Your Next Trip!',
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
@@ -53,7 +55,7 @@ class _BookingFlightState extends State<BookingFlight> {
 
 
 
-                  // 下拉框
+                  // dropdown for trip type
                   DropdownButton<String>(
                     value: tripType,
                     items: [
@@ -72,7 +74,7 @@ class _BookingFlightState extends State<BookingFlight> {
                   SizedBox(height: 16),
                   Row(
                     children: [
-                      // Departure 普通输入框
+                      // Departure 
                       Expanded(
                         child: TextField(
                           controller: departureController,
@@ -83,7 +85,7 @@ class _BookingFlightState extends State<BookingFlight> {
                         ),
                       ),
                       SizedBox(width: 8),
-                      // 交换按钮
+                      // swap button
                       DecoratedBox(
                         decoration: BoxDecoration(
                           color: Colors.blue,
@@ -94,7 +96,7 @@ class _BookingFlightState extends State<BookingFlight> {
                             Icons.autorenew,
                             color: Colors.white,
                           ),
-                          tooltip: '交换出发地和目的地',
+                          tooltip: 'swap',
                           onPressed: () {
                             String temp = departureController.text;
                             departureController.text = destinationController.text;
@@ -104,7 +106,7 @@ class _BookingFlightState extends State<BookingFlight> {
                         ),
                       ),
                       SizedBox(width: 8),
-                      // Destination 普通输入框
+                      // Destination 
                       Expanded(
                         child: TextField(
                           controller: destinationController,
@@ -116,9 +118,9 @@ class _BookingFlightState extends State<BookingFlight> {
                       ),
                     ],
                   ),
-                  Divider(color: Colors.grey[300]), // 分界线
+                  Divider(color: Colors.grey[300]),  // divider line
                   SizedBox(height: 16),
-                  // 出发日期
+                  // departure date
                   Row(
                     children: [
                       Expanded(
@@ -147,7 +149,7 @@ class _BookingFlightState extends State<BookingFlight> {
                     ],
                   ),
                   if (tripType == 'Round trip') ...[
-                    Divider(color: Colors.grey[300]), // 分界线
+                    Divider(color: Colors.grey[300]), 
                     SizedBox(height: 16),
                     Row(
                       children: [
@@ -177,10 +179,10 @@ class _BookingFlightState extends State<BookingFlight> {
                       ],
                     ),
                   ],
-                  Divider(color: Colors.grey[300]), // 分界线
+                  Divider(color: Colors.grey[300]), 
                   SizedBox(height: 16),
 
-                  // 舱位选择按钮
+                  // toggle buttons for seat class
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Container(
