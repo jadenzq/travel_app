@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 
 class HotelDetails extends StatelessWidget {
   const HotelDetails({super.key});
@@ -23,12 +25,12 @@ class HotelDetails extends StatelessWidget {
           children: [
             Text(
               location,
-              style: TextStyle(color: Colors.white, fontSize: 18),
+              style: GoogleFonts.ubuntu(color: Colors.white, fontSize: 18),
               textAlign: TextAlign.center,
             ),
             Text(
               '$checkIn ~ $checkOut',
-              style: TextStyle(color: Colors.white70, fontSize: 14),
+              style: GoogleFonts.ubuntu(color: Colors.white70, fontSize: 14),
               textAlign: TextAlign.center,
             ),
           ],
@@ -45,7 +47,7 @@ class HotelDetails extends StatelessWidget {
             SizedBox(height: 24),
             Text(
               'Recommended Hotels',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: GoogleFonts.ubuntu(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 12),
         
@@ -82,7 +84,7 @@ class HotelDetails extends StatelessWidget {
                     ),
                     trailing: Text(
                       '\$220',
-                      style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blueAccent, fontSize: 20),
+                      style: GoogleFonts.ubuntu(fontWeight: FontWeight.bold, color: Colors.blueAccent, fontSize: 20),
                     ),
                   ),
                 ],
@@ -123,7 +125,7 @@ class HotelDetails extends StatelessWidget {
 
                     trailing: Text(
                       '\$350',
-                      style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blueAccent, fontSize: 20),
+                      style: GoogleFonts.ubuntu(fontWeight: FontWeight.bold, color: Colors.blueAccent, fontSize: 20),
                     ),
                   ),
                 ],
@@ -164,7 +166,7 @@ class HotelDetails extends StatelessWidget {
                     ),
                     trailing: Text(
                       '\$180',
-                      style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blueAccent, fontSize: 20),
+                      style: GoogleFonts.ubuntu(fontWeight: FontWeight.bold, color: Colors.blueAccent, fontSize: 20),
                     ),
                   ),
                   
@@ -207,7 +209,7 @@ class HotelDetails extends StatelessWidget {
                     ),
                     trailing: Text(
                       '\$300',
-                      style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blueAccent, fontSize: 20),
+                      style: GoogleFonts.ubuntu(fontWeight: FontWeight.bold, color: Colors.blueAccent, fontSize: 20),
                     ),
                   ),
                 ],
@@ -247,7 +249,7 @@ class HotelDetails extends StatelessWidget {
                     ),
                     trailing: Text(
                       '\$200',
-                      style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blueAccent, fontSize: 20),
+                      style: GoogleFonts.ubuntu(fontWeight: FontWeight.bold, color: Colors.blueAccent, fontSize: 20),
                     ),
                   ),
                 ],
@@ -287,7 +289,7 @@ class HotelDetails extends StatelessWidget {
                     ),
                     trailing: Text(
                       '\$250',
-                      style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blueAccent, fontSize: 20),
+                      style: GoogleFonts.ubuntu(fontWeight: FontWeight.bold, color: Colors.blueAccent, fontSize: 20),
                     ),
                   ),
                 ],
