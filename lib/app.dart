@@ -24,6 +24,7 @@ class _AppState extends State<App> {
   void handleLogIn() {
     setState(() {
       isLoggedIn = true;
+      currentPageIndex = 0;
     });
   }
 
