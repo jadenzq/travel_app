@@ -158,8 +158,8 @@ class _HomePageState extends State<HomePage> {
 
             String imageUrl = '';
 
-            if (data.images.isNotEmpty) {
-              imageUrl = data.images[0];
+            if (data.media.isNotEmpty) {
+              imageUrl = data.media[0];
             }
 
             return GestureDetector(
@@ -229,16 +229,7 @@ class _HomePageState extends State<HomePage> {
                                           Shadow(
                                             offset: const Offset(1.0, 1.0),
                                             blurRadius: 3.0,
-                                            color: Colors.black.withOpacity(
-                                              0.6,
-                                            ),
-                                          ),
-                                          Shadow(
-                                            offset: const Offset(-1.0, -1.0),
-                                            blurRadius: 3.0,
-                                            color: Colors.black.withOpacity(
-                                              0.6,
-                                            ),
+                                            color: Colors.black,
                                           ),
                                         ],
                                       ),
@@ -267,9 +258,7 @@ class _HomePageState extends State<HomePage> {
                                             child: Icon(
                                               Icons.favorite,
                                               size: 21,
-                                              color: Colors.black.withOpacity(
-                                                0.6,
-                                              ),
+                                              color: Colors.black,
                                             ),
                                           ),
                                           Icon(
@@ -293,11 +282,6 @@ class _HomePageState extends State<HomePage> {
                                       shadows: [
                                         Shadow(
                                           offset: const Offset(1.0, 1.0),
-                                          blurRadius: 3.0,
-                                          color: Colors.black.withOpacity(0.6),
-                                        ),
-                                        Shadow(
-                                          offset: const Offset(-1.0, -1.0),
                                           blurRadius: 3.0,
                                           color: Colors.black.withOpacity(0.6),
                                         ),
