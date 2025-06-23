@@ -71,6 +71,7 @@ flutter:
     - assets/images/hotels/
     - assets/images/post-image/
     - assets/images/user/
+    - assets/icons/
     - assets/images/video-thumbnail/
     - assets/videos/post-video/
 
