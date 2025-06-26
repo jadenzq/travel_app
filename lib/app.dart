@@ -37,55 +37,46 @@ class _AppState extends State<App> {
       isLoggedIn ? ProfilePage() : LoginPage(onLogIn: handleLogIn),
     ];
 
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      routes: {
-        '/flightDetails': (context) => const Flightdetails(), // 注册路由
-        '/hotelDetails': (context) => const HotelDetails(), // 假设你有一个酒店详情页
-      },
-      home: Scaffold(
-        backgroundColor: const Color.fromARGB(255, 245, 245, 245),
-        body: pages[currentPageIndex],
-        bottomNavigationBar: ClipRRect(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(15),
-            topRight: Radius.circular(15),
+    return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 245, 245, 245),
+      body: pages[currentPageIndex],
+      bottomNavigationBar: ClipRRect(
+       borderRadius: BorderRadius.only(
+         topLeft: Radius.circular(15),
+         topRight: Radius.circular(15),
+       ),
+        child: NavigationBar(
+          labelTextStyle: WidgetStateProperty<TextStyle>.fromMap(
+           <WidgetStatesConstraint, TextStyle>{
+              WidgetState.any: GoogleFonts.ubuntu(),
+            },
           ),
-          child: NavigationBar(
-            labelTextStyle: WidgetStateProperty<TextStyle>.fromMap(
-              <WidgetStatesConstraint, TextStyle>{
-                WidgetState.any: GoogleFonts.ubuntu(),
-              },
+         onDestinationSelected: (index) => setState(() {
+           currentPageIndex = index;
+          }),
+          selectedIndex: currentPageIndex,
+          indicatorColor: Color(0xFFA8F1FF),
+          backgroundColor: Colors.white,
+          destinations: <Widget>[
+            const NavigationDestination(
+             icon: Icon(Icons.home_outlined),
+             label: "Home",
             ),
-            onDestinationSelected:
-                (index) => setState(() {
-                  currentPageIndex = index;
-                }),
-            selectedIndex: currentPageIndex,
-            indicatorColor: Color(0xFFA8F1FF),
-            backgroundColor: Colors.white,
-            destinations: <Widget>[
-              const NavigationDestination(
-                icon: Icon(Icons.home_outlined),
-                label: "Home",
-              ),
-              const NavigationDestination(
-                icon: Icon(Icons.chat_bubble_outline),
-                label: "Experiences",
-              ),
-              const NavigationDestination(
-                icon: Icon(Icons.post_add_outlined),
-                label: "Memo",
-              ),
-              NavigationDestination(
-                icon:
-                    isLoggedIn
-                        ? const Icon(Icons.account_circle_outlined)
-                        : const Icon(Icons.login_outlined),
-                label: isLoggedIn ? "Profile" : "LogIn",
-              ),
-            ],
-          ),
+            const NavigationDestination(
+              icon: Icon(Icons.chat_bubble_outline),
+              label: "Experiences",
+            ),
+            const NavigationDestination(
+              icon: Icon(Icons.post_add_outlined),
+              label: "Memo",
+            ),
+           NavigationDestination(
+             icon: isLoggedIn
+                 ? const Icon(Icons.account_circle_outlined)
+                  : const Icon(Icons.login_outlined),
+              label: isLoggedIn ? "Profile" : "LogIn",
+            ),
+         ],
         ),
       ),
     );
