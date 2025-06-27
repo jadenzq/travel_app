@@ -56,37 +56,56 @@ class _HomePageState extends State<HomePage> {
     posts = Post.getAllPosts();
 
     return Scaffold(
-      backgroundColor: Color(0xFFF5F5F5),
-      body: NestedScrollView(
-        floatHeaderSlivers: true,
-        headerSliverBuilder:
-            (context, innerBoxIsScrolled) => [
-              SliverAppBar(
-                floating: true,
-                snap: true,
-                title: Text(
-                  "TripleFun",
-                  style: GoogleFonts.ubuntu(
-                    fontSize: 25,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
+      backgroundColor: Colors.white,
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            elevation: 0,
+            pinned: false,
+            centerTitle: false,
+            expandedHeight: 140.0,
+            flexibleSpace: Stack(
+              children: [
+                Positioned(
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  child: _carousel(),
+                ),
+                Positioned(
+                  bottom: -1,
+                  left: 0,
+                  right: 0,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(20),
+                      ),
+                      color: Colors.white,
+                    ),
+                    height: 20,
                   ),
                 ),
-                backgroundColor: Color(0xff41729f),
-              ),
-            ],
-        body: ListView(
-          padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 15.0),
-          children: [
-            _carousel(),
-            SizedBox(height: 30),
-            _searchBar(),
-            SizedBox(height: 30),
-            _flightAndHotel(context),
-            SizedBox(height: 30),
-            _topExperiences(),
-          ],
-        ),
+              ],
+            ),
+          ),
+          SliverPadding(
+            padding: EdgeInsetsGeometry.symmetric(
+              horizontal: 12.0,
+              vertical: 10.0,
+            ),
+            sliver: SliverList(
+              delegate: SliverChildListDelegate([
+                _searchBar(),
+                SizedBox(height: 30),
+                _flightAndHotel(context),
+                SizedBox(height: 30),
+                _topExperiences(),
+              ]),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -104,13 +123,8 @@ class _HomePageState extends State<HomePage> {
               builder: (BuildContext context) {
                 return Container(
                   width: MediaQuery.of(context).size.width,
-                  margin: EdgeInsets.symmetric(horizontal: 5.0),
-                  decoration: BoxDecoration(
-                    color: Colors.amber,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
+                  decoration: BoxDecoration(),
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
                     child: Image.asset("assets/images/$i", fit: BoxFit.cover),
                   ),
                 );
@@ -144,8 +158,8 @@ class _HomePageState extends State<HomePage> {
 
             String imageUrl = '';
 
-            if (data.images.isNotEmpty) {
-              imageUrl = data.images[0];
+            if (data.media.isNotEmpty) {
+              imageUrl = data.media[0];
             }
 
             return GestureDetector(
@@ -215,16 +229,7 @@ class _HomePageState extends State<HomePage> {
                                           Shadow(
                                             offset: const Offset(1.0, 1.0),
                                             blurRadius: 3.0,
-                                            color: Colors.black.withOpacity(
-                                              0.6,
-                                            ),
-                                          ),
-                                          Shadow(
-                                            offset: const Offset(-1.0, -1.0),
-                                            blurRadius: 3.0,
-                                            color: Colors.black.withOpacity(
-                                              0.6,
-                                            ),
+                                            color: Colors.black,
                                           ),
                                         ],
                                       ),
@@ -253,9 +258,7 @@ class _HomePageState extends State<HomePage> {
                                             child: Icon(
                                               Icons.favorite,
                                               size: 21,
-                                              color: Colors.black.withOpacity(
-                                                0.6,
-                                              ),
+                                              color: Colors.black,
                                             ),
                                           ),
                                           Icon(
@@ -279,11 +282,6 @@ class _HomePageState extends State<HomePage> {
                                       shadows: [
                                         Shadow(
                                           offset: const Offset(1.0, 1.0),
-                                          blurRadius: 3.0,
-                                          color: Colors.black.withOpacity(0.6),
-                                        ),
-                                        Shadow(
-                                          offset: const Offset(-1.0, -1.0),
                                           blurRadius: 3.0,
                                           color: Colors.black.withOpacity(0.6),
                                         ),
@@ -371,7 +369,7 @@ class _HomePageState extends State<HomePage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Starts Here",
+          "Starts Booking Here",
           style: GoogleFonts.ubuntu(fontSize: 20, fontWeight: FontWeight.w600),
         ),
         SizedBox(height: 10),
@@ -403,7 +401,11 @@ class _HomePageState extends State<HomePage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.flight, size: 40, color: Color(0xff41729f)),
+                    Image.asset(
+                      "assets/icons/airplane_icon.png",
+                      height: 50,
+                      width: 50,
+                    ),
                     SizedBox(height: 5),
                     Text(
                       "Flight",
@@ -437,7 +439,11 @@ class _HomePageState extends State<HomePage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.hotel, size: 40, color: Color(0xff41729f)),
+                    Image.asset(
+                      "assets/icons/hotel_icon.png",
+                      height: 50,
+                      width: 50,
+                    ),
                     SizedBox(height: 5),
                     Text(
                       "Hotel",

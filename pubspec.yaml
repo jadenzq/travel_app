@@ -40,6 +40,12 @@ dependencies:
   carousel_slider: ^5.0.0
   google_fonts: ^6.2.1
   flutter_native_splash: ^2.4.6
+  video_player: ^2.10.0
+  chewie: ^1.11.3
+  flutter_quill:
+    git:
+      url: https://github.com/singerdmx/flutter-quill.git
+      ref: v11.4.1
 
 dev_dependencies:
   flutter_test:
@@ -69,6 +75,9 @@ flutter:
     - assets/images/hotels/
     - assets/images/post-image/
     - assets/images/user/
+    - assets/icons/
+    - assets/images/video-thumbnail/
+    - assets/videos/post-video/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

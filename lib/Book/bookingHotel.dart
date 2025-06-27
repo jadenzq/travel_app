@@ -1,5 +1,6 @@
 // For testing purpose only
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class BookingHotel extends StatefulWidget {
   const BookingHotel({super.key});
@@ -18,8 +19,8 @@ class _BookingHotelState extends State<BookingHotel> {
   Widget build(context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Booking Hotel', style: TextStyle(color: Colors.white)),
-        backgroundColor: Colors.blueAccent,
+        title: Text('Booking Hotel', style: GoogleFonts.ubuntu(color: Colors.black)),
+        backgroundColor: Colors.white,
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -48,7 +49,7 @@ class _BookingHotelState extends State<BookingHotel> {
                   // 标题
                   Text(
                     'Find the Most Comfortable Hotel for Your Trip!',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    style: GoogleFonts.ubuntu(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 16),
 
@@ -126,13 +127,13 @@ class _BookingHotelState extends State<BookingHotel> {
                   // Guests
                   Row(
                     children: [
-                      Text('Guests:', style: TextStyle(fontSize: 16)),
+                      Text('Guests:', style: GoogleFonts.ubuntu(fontSize: 16)),
                       IconButton(
                         icon: Icon(Icons.remove),
                         onPressed:
                             guests > 1 ? () => setState(() => guests--) : null,
                       ),
-                      Text('$guests', style: TextStyle(fontSize: 16)),
+                      Text('$guests', style: GoogleFonts.ubuntu(fontSize: 16)),
                       IconButton(
                         icon: Icon(Icons.add),
                         onPressed: () => setState(() => guests++),
@@ -162,7 +163,7 @@ class _BookingHotelState extends State<BookingHotel> {
                     },
                     child: Text(
                       'Search',
-                      style: TextStyle(fontSize: 18, color: Colors.white),
+                      style: GoogleFonts.ubuntu(fontSize: 18, color: Colors.white),
                     ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blueAccent,

@@ -58,8 +58,8 @@ class _ExperienceGridsState extends State<ExperienceGrids> {
 
             String imageUrl = '';
 
-            if (data.images.isNotEmpty) {
-              imageUrl = data.images[0];
+            if (data.media.isNotEmpty) {
+              imageUrl = data.media[0];
             }
 
             double aspectRatio = 1.0;
@@ -105,6 +105,7 @@ class _ExperienceGridsState extends State<ExperienceGrids> {
                               width: double.infinity,
                               height: double.infinity,
                             ),
+                            
                             Positioned(
                               top: 8,
                               left: 8,
@@ -140,16 +141,7 @@ class _ExperienceGridsState extends State<ExperienceGrids> {
                                           Shadow(
                                             offset: const Offset(1.0, 1.0),
                                             blurRadius: 3.0,
-                                            color: Colors.black.withOpacity(
-                                              0.6,
-                                            ),
-                                          ),
-                                          Shadow(
-                                            offset: const Offset(-1.0, -1.0),
-                                            blurRadius: 3.0,
-                                            color: Colors.black.withOpacity(
-                                              0.6,
-                                            ),
+                                            color: Colors.black
                                           ),
                                         ],
                                       ),
@@ -205,18 +197,12 @@ class _ExperienceGridsState extends State<ExperienceGrids> {
                                         Shadow(
                                           offset: const Offset(1.0, 1.0),
                                           blurRadius: 3.0,
-                                          color: Colors.black.withOpacity(0.6),
-                                        ),
-                                        Shadow(
-                                          offset: const Offset(-1.0, -1.0),
-                                          blurRadius: 3.0,
-                                          color: Colors.black.withOpacity(0.6),
+                                          color: Colors.black,
                                         ),
                                       ],
                                     ),
                                   ),
                                   const SizedBox(width: 5.0),
-                                  // --- Shadow effect for Views Icon ---
                                   Stack(
                                     children: [
                                       Positioned(
@@ -225,15 +211,15 @@ class _ExperienceGridsState extends State<ExperienceGrids> {
                                         child: Icon(
                                           Icons.remove_red_eye_outlined,
                                           size:
-                                              21, // Slightly larger for shadow
+                                              21,
                                           color: Colors.black.withOpacity(
                                             0.6,
-                                          ), // Shadow color
+                                          ),
                                         ),
                                       ),
                                       const Icon(
                                         Icons.remove_red_eye_outlined,
-                                        size: 20, // Original size
+                                        size: 20,
                                         color: Colors.white,
                                       ),
                                     ],
