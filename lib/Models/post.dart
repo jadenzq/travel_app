@@ -68,8 +68,8 @@ class Post {
             "Stepping into Kyoto felt like traveling back in time. The ancient temples, serene gardens, and traditional wooden houses create an atmosphere of unparalleled peace. Witnessing the cherry blossoms in full bloom at Arashiyama Bamboo Grove was an unforgettable experience.",
         views: "80k",
         media: [
-          "assets/images/post-image/Kyoto-Temple.jpg",
           "assets/images/post-image/Kyoto-Cherry-Blossom.jpg",
+          "assets/images/post-image/Kyoto-Temple.jpg",
           "assets/images/post-image/Kyoto-Street.jpg"
         ],
         authorName: "Kenji",
