@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_quill/flutter_quill.dart';
 
 void main() => runApp(MaterialApp(
   home: Memo(),
@@ -218,16 +219,28 @@ class MemoEditPage extends StatefulWidget {
 
 class _MemoEditPageState extends State<MemoEditPage> {
   late TextEditingController _titleController;
-  late TextEditingController _contentController;
-  List<String> _imagePaths = [];
+  late QuillController _quillController;
+  final FocusNode _editorFocusNode = FocusNode();
   final ImagePicker _picker = ImagePicker();
+  List<String> _imagePaths = [];
+  bool _showToolbar = false;
 
   @override
   void initState() {
     super.initState();
-    _titleController = TextEditingController(text: widget.initialMemo?.title ?? '');
-    _contentController = TextEditingController(text: widget.initialMemo?.content ?? '');
+
+    _titleController =
+        TextEditingController(text: widget.initialMemo?.title ?? '');
     _imagePaths = List.from(widget.initialMemo?.imagePaths ?? []);
+
+    final Document doc = widget.initialMemo != null
+        ? Document.fromJson(jsonDecode(widget.initialMemo!.content))
+        : Document();
+
+    _quillController = QuillController(
+      document: doc,
+      selection: const TextSelection.collapsed(offset: 0),
+    );
   }
 
   Future<void> _pickImages() async {
@@ -244,12 +257,14 @@ class _MemoEditPageState extends State<MemoEditPage> {
 
   void _saveMemo() {
     final title = _titleController.text.trim();
-    final content = _contentController.text.trim();
+    final contentJson =
+        jsonEncode(_quillController.document.toDelta().toJson());
 
-    if (title.isNotEmpty || content.isNotEmpty) {
+    if (title.isNotEmpty ||
+        _quillController.document.toPlainText().trim().isNotEmpty) {
       final newMemo = MemoItem(
         title: title,
-        content: content,
+        content: contentJson,
         date: DateTime.now(),
         imagePaths: _imagePaths,
       );
@@ -260,7 +275,7 @@ class _MemoEditPageState extends State<MemoEditPage> {
   @override
   void dispose() {
     _titleController.dispose();
-    _contentController.dispose();
+    _quillController.dispose();
     super.dispose();
   }
 
@@ -270,20 +285,21 @@ class _MemoEditPageState extends State<MemoEditPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(isEditing ? 'Edit Memo' : 'New Memo',style: GoogleFonts.ubuntu(fontSize: 24)),
+        title: Text(isEditing ? 'Edit Memo' : 'New Memo',
+            style: GoogleFonts.ubuntu(fontSize: 24)),
         centerTitle: true,
         backgroundColor: Colors.white,
         actions: [
           IconButton(
-            icon: Icon(Icons.check,color: Colors.black,),
+            icon: Icon(Icons.check, color: Colors.black),
             onPressed: _saveMemo,
             tooltip: 'Save',
           ),
         ],
       ),
-      backgroundColor: Color(0xFFF5F5F5), 
+      backgroundColor: const Color(0xFFF5F5F5),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             if (_imagePaths.isNotEmpty)
@@ -291,9 +307,9 @@ class _MemoEditPageState extends State<MemoEditPage> {
                 height: 200,
                 child: GridView.builder(
                   shrinkWrap: true,
-                  physics: AlwaysScrollableScrollPhysics(),
+                  physics: const AlwaysScrollableScrollPhysics(),
                   itemCount: _imagePaths.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
                     crossAxisSpacing: 4,
                     mainAxisSpacing: 4,
@@ -302,9 +318,28 @@ class _MemoEditPageState extends State<MemoEditPage> {
                     return Stack(
                       children: [
                         Positioned.fill(
-                          child: Image.file(
-                            File(_imagePaths[index]),
-                            fit: BoxFit.cover,
+                          child: GestureDetector(
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (_) => Dialog(
+                                  backgroundColor: Colors.black,
+                                  child: GestureDetector(
+                                    onTap: () => Navigator.pop(context),
+                                     child: InteractiveViewer(
+                                      child: Image.file(
+                                        File(_imagePaths[index]),
+                                        fit: BoxFit.contain,
+                                      ),
+                                    ),
+                                   ),
+                                 ),
+                               );
+                            },
+                            child: Image.file(
+                               File(_imagePaths[index]),
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                         Positioned(
@@ -317,9 +352,10 @@ class _MemoEditPageState extends State<MemoEditPage> {
                               });
                             },
                             child: Container(
-                              padding: EdgeInsets.all(2),
+                              padding: const EdgeInsets.all(2),
                               color: Colors.black54,
-                              child: Icon(Icons.close, color: Colors.white, size: 18),
+                              child: const Icon(Icons.close,
+                                  color: Colors.white, size: 18),
                             ),
                           ),
                         ),
@@ -328,47 +364,70 @@ class _MemoEditPageState extends State<MemoEditPage> {
                   },
                 ),
               ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
             TextField(
               controller: _titleController,
               style: GoogleFonts.ubuntu(fontSize: 28),
               decoration: InputDecoration(
                 labelText: 'Title',
                 labelStyle: GoogleFonts.ubuntu(fontSize: 28),
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
               ),
             ),
-            SizedBox(height: 12),
-            Expanded(
-              child: TextField(
-                controller: _contentController,
-                style: GoogleFonts.ubuntu(fontSize: 16),
-                decoration: InputDecoration(
-                  labelText: 'Content',
-                  labelStyle: GoogleFonts.ubuntu(fontSize: 16),
-                  border: OutlineInputBorder(),
-                  alignLabelWithHint: true,
+            const SizedBox(height: 12),
+            if (_showToolbar)
+              QuillSimpleToolbar(
+                controller: _quillController,
+                config: const QuillSimpleToolbarConfig(
+                  showFontSize: true,
+                  showColorButton: true,
+                  showAlignmentButtons: true,
                 ),
-                keyboardType: TextInputType.multiline,
-                minLines: 10,
-                maxLines: null,
+              ),
+            Expanded(
+              child: Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: QuillEditor.basic(
+                  controller: _quillController,
+                  focusNode: _editorFocusNode,
+                  scrollController: ScrollController(),
+                  config: const QuillEditorConfig(
+                    // readOnly: false,
+                    autoFocus: false,
+                    placeholder: 'Write your content here...',
+                    expands: true,
+                    padding: EdgeInsets.all(8),
+                    scrollable: true,
+  ),
+),
               ),
             ),
           ],
         ),
       ),
       bottomNavigationBar: BottomAppBar(
-        shape: CircularNotchedRectangle(),
+        shape: const CircularNotchedRectangle(),
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              IconButton(icon: Icon(Icons.edit), onPressed: () {}),
-              IconButton(icon: Icon(Icons.check_circle_outline), onPressed: () {}),
-              IconButton(icon: Icon(Icons.format_align_left), onPressed: () {}),
-              IconButton(icon: Icon(Icons.image), onPressed: _pickImages),
-              IconButton(icon: Icon(Icons.attach_file), onPressed: () {}),
+              IconButton(icon: const Icon(Icons.edit), onPressed: () {}),
+              IconButton(icon: const Icon(Icons.location_on), onPressed: () {}),
+              IconButton(
+                icon: const Icon(Icons.text_fields),
+                onPressed: () {
+                  setState(() {
+                    _showToolbar = !_showToolbar;
+                  });
+                },
+              ),
+              IconButton(icon: const Icon(Icons.image), onPressed: _pickImages),
+              IconButton(icon: const Icon(Icons.attach_file), onPressed: () {}),
             ],
           ),
         ),
