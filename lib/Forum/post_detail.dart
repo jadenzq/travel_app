@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:chewie/chewie.dart';
@@ -9,8 +10,14 @@ import 'package:video_player/video_player.dart';
 class PostDetail extends StatefulWidget {
   final Post post;
   final VoidCallback onToggleLike;
+  final String currentUserName;
 
-  const PostDetail({super.key, required this.post, required this.onToggleLike});
+  const PostDetail({
+    super.key, 
+    required this.post, 
+    required this.onToggleLike,
+    required this.currentUserName,
+  });
 
   @override
   State<PostDetail> createState() => _PostDetailState();
@@ -50,11 +57,23 @@ class _PostDetailState extends State<PostDetail> {
     
     else
     {
-      _videoPlayerController = VideoPlayerController.asset(widget.post.media[1])
-        ..initialize().then((_) {
+      String videoPath = widget.post.media[1];
+
+      if (videoPath.startsWith('assets/')) 
+      {
+        _videoPlayerController = VideoPlayerController.asset(videoPath);
+      } 
+      else if (videoPath.startsWith('/data/user/') || videoPath.startsWith('/storage/')) 
+      {
+        _videoPlayerController = VideoPlayerController.file(File(videoPath));
+      }
+
+
+      _videoPlayerController.initialize().then((_) {
         setState(() {
           _isVideoInitialized = true;
           _videoDuration = _videoPlayerController.value.duration;
+          // _videoPlayerController.setVolume(1.0);
         });
 
         _videoPlayerController.addListener(_updateVideoProgress);
@@ -75,6 +94,19 @@ class _PostDetailState extends State<PostDetail> {
             );
           },
         );
+      }).catchError((error) {
+        setState(() {
+          _isVideoInitialized = false;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Error loading video: $error',
+              style: GoogleFonts.ubuntu(color: Colors.white),
+            ),
+            backgroundColor: Colors.red,
+          ),
+        );
       });
     }
   }
@@ -90,10 +122,13 @@ class _PostDetailState extends State<PostDetail> {
   }
 
   void _togglePlayPause() {
-    if (_videoPlayerController.value.isPlaying) {
+    if (_videoPlayerController.value.isPlaying) 
+    {
       _videoPlayerController.pause();
     } 
-    else {
+
+    else 
+    {
       _videoPlayerController.play();
     }
 
@@ -124,21 +159,56 @@ class _PostDetailState extends State<PostDetail> {
     });
   }
 
+  void _confirmDelete() {
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          title: Text('Delete Post?'),
+          content: Text('Are you sure you want to delete this post? This action cannot be undo.'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(dialogContext).pop();
+              },
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(dialogContext).pop();
+                
+                if (widget.post.isVideo && _isVideoInitialized)
+                {
+                  _videoPlayerController.dispose();
+                  _chewieController.dispose();
+                }
+                Navigator.of(context).pop(true);
+              },
+              child: Text('Delete', style: TextStyle(color: Colors.red)),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) 
   {
-    return widget.post.isVideo ? videoPostView() : imagePostView();  
+    return widget.post.isVideo ? videoPostView() : imagePostView();
   }
 
   Widget imagePostView()
   {
+    final bool isMyPost = widget.post.authorName == widget.currentUserName;
+
     return Scaffold(
-      backgroundColor: Color(0xfff5f5f5),
+      backgroundColor: const Color(0xfff5f5f5),
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
             Navigator.of(context).pop();
           },
@@ -149,13 +219,20 @@ class _PostDetailState extends State<PostDetail> {
               backgroundImage: AssetImage(widget.post.authorImage),
               radius: 20,
             ),
-            SizedBox(width: 10),
+            const SizedBox(width: 10),
             Text(
               widget.post.authorName,
               style: GoogleFonts.ubuntu(color: Colors.black, fontSize: 18),
             ),
           ],
         ),
+        actions: [
+          if (isMyPost)
+            IconButton(
+              icon: const Icon(Icons.delete, color: Colors.red),
+              onPressed: _confirmDelete,
+            ),
+        ],
       ),
       body: Column(
         children: [
@@ -167,16 +244,16 @@ class _PostDetailState extends State<PostDetail> {
                   Stack(
                     children: [
                       // Blur background image
-                      Container(
+                      SizedBox(
                         height: 300,
                         child: ClipRect(
                           child: Stack(
                             children: [
-                              Image.asset(
+                              _buildMediaWidget(
                                 widget.post.media[_currentPage],
-                                fit: BoxFit.cover,
-                                width: double.infinity,
-                                height: double.infinity,
+                                BoxFit.cover,
+                                double.infinity,
+                                double.infinity,
                               ),
                               BackdropFilter(
                                 filter: ImageFilter.blur(
@@ -191,16 +268,18 @@ class _PostDetailState extends State<PostDetail> {
                           ),
                         ),
                       ),
-                      Container(
+                      SizedBox(
                         height: 300,
                         child: PageView.builder(
                           controller: _imagePageController,
                           itemCount: widget.post.media.length,
                           itemBuilder: (context, index) {
                             return Center(
-                              child: Image.asset(
+                              child: _buildMediaWidget(
                                 widget.post.media[index],
-                                fit: BoxFit.contain,
+                                BoxFit.contain,
+                                double.infinity,
+                                double.infinity
                               ),
                             );
                           },
@@ -232,25 +311,25 @@ class _PostDetailState extends State<PostDetail> {
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         Row(
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.location_on,
                               size: 20,
                               color: Color(0xff41729f),
                             ),
-                            SizedBox(width: 5),
+                            const SizedBox(width: 5),
                             Text(
                               widget.post.location,
                               style: GoogleFonts.ubuntu(
                                 fontSize: 16,
-                                color: Color(0xff41729f),
+                                color: const Color(0xff41729f),
                               ),
                             ),
                           ],
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         Text(
                           widget.post.content,
                           textAlign: TextAlign.justify,
@@ -290,7 +369,7 @@ class _PostDetailState extends State<PostDetail> {
                             Icons.favorite,
                             color: _isLiked ? Colors.red : Colors.grey,
                           ),
-                          SizedBox(width: 5),
+                          const SizedBox(width: 5),
                           Text('Like', style: GoogleFonts.ubuntu()),
                         ],
                       ),
@@ -299,15 +378,15 @@ class _PostDetailState extends State<PostDetail> {
                 ),
                 Row(
                   children: [
-                    Icon(Icons.share, color: Colors.grey),
-                    SizedBox(width: 5),
+                    const Icon(Icons.share, color: Colors.grey),
+                    const SizedBox(width: 5),
                     Text('Share', style: GoogleFonts.ubuntu()),
                   ],
                 ),
                 Row(
                   children: [
-                    Icon(Icons.remove_red_eye_outlined, color: Colors.grey),
-                    SizedBox(width: 5),
+                    const Icon(Icons.remove_red_eye_outlined, color: Colors.grey),
+                    const SizedBox(width: 5),
                     Text(widget.post.views, style: GoogleFonts.ubuntu()),
                   ],
                 ),
@@ -341,6 +420,8 @@ class _PostDetailState extends State<PostDetail> {
     final double usernameBottom = 20 + currentContentHeight + 8.0;
     final double locationBottom = usernameBottom + 18.0 + 8.0;
 
+    final bool isMyPost = widget.post.authorName == widget.currentUserName;
+
     return Scaffold(
       backgroundColor: const Color(0xfff5f5f5),
       body: Column(
@@ -353,7 +434,6 @@ class _PostDetailState extends State<PostDetail> {
                   Positioned.fill(
                     child: GestureDetector(
                       onTap: _togglePlayPause,
-                      // onDoubleTap: _handleLikeToggle,
                       child: _isVideoInitialized
                                 ? AspectRatio(
                                     aspectRatio:
@@ -361,20 +441,23 @@ class _PostDetailState extends State<PostDetail> {
                                     child: Chewie(controller: _chewieController),
                                   )
                                 : Center(
-                                  child: CircularProgressIndicator(
-                                    valueColor: AlwaysStoppedAnimation<Color>(
-                                      const Color(0xff41729f),
+                                    child: CircularProgressIndicator(
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                        const Color(0xff41729f),
+                                      ),
                                     ),
                                   ),
-                                ),
                     ),
                   ),
 
                   Positioned(
-                    top: 24.0,
-                    left: 8.0,
+                    top: MediaQuery.of(context).padding.top + 5.0,
+                    left: MediaQuery.of(context).padding.left + 4.0,
                     child: IconButton(
-                      icon: const Icon(Icons.arrow_back, color: Colors.white),
+                      icon: const Icon(
+                        Icons.arrow_back, 
+                        color: Colors.white
+                      ),
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
@@ -383,8 +466,8 @@ class _PostDetailState extends State<PostDetail> {
 
                   if (_isVideoInitialized)
                     Positioned(
-                      top: 24.0,
-                      right: 16.0,
+                      top: MediaQuery.of(context).padding.top + 5.0,
+                      right: MediaQuery.of(context).padding.right + 4.0,
                       child: IconButton(
                         icon: Icon(
                           _videoPlayerController.value.isPlaying ? Icons.pause : Icons.play_arrow,
@@ -394,10 +477,24 @@ class _PostDetailState extends State<PostDetail> {
                         onPressed: _togglePlayPause,
                       ),
                     ),
+                  
+                  if (isMyPost && _isVideoInitialized)
+                    Positioned(
+                      top: MediaQuery.of(context).padding.top + 5.0,
+                      right: MediaQuery.of(context).padding.right + 50.0,
+                      child: IconButton(
+                        icon: const Icon(
+                          Icons.delete, 
+                          color: Colors.red,
+                          size: 36.0,
+                        ),
+                        onPressed: _confirmDelete,
+                      ),
+                    ),
 
                   Positioned(
-                    bottom: 30.0,
-                    right: 8.0,
+                    bottom: MediaQuery.of(context).padding.bottom + 15.0,
+                    right: MediaQuery.of(context).padding.right + 4.0,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -504,7 +601,7 @@ class _PostDetailState extends State<PostDetail> {
                           Text(
                             widget.post.location,
                             style: GoogleFonts.ubuntu(
-                              color: Color(0xff41729f),
+                              color: const Color(0xff41729f),
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
                             ),
@@ -551,18 +648,35 @@ class _PostDetailState extends State<PostDetail> {
                           child: Container(
                             padding: _isContentExpanded ? const EdgeInsets.all(8.0) : EdgeInsets.zero,
                             decoration: _isContentExpanded
-                                          ? BoxDecoration(
-                                              color: Colors.black.withOpacity(0.4),
-                                              borderRadius: BorderRadius.circular(4.0),
-                                            )
-                                          : null,
+                                        ? BoxDecoration(
+                                            color: Colors.black.withOpacity(0.4),
+                                            borderRadius: BorderRadius.circular(4.0),
+                                          )
+                                        : null,
                             child: _isContentExpanded
-                                    ? SizedBox(
-                                        height: expandedBoxHeight,
-                                        width: double.infinity,
-                                        child: SingleChildScrollView(
-                                          primary: false,
-                                          child: Text(
+                                        ? SizedBox(
+                                            height: expandedBoxHeight,
+                                            width: double.infinity,
+                                            child: SingleChildScrollView(
+                                              primary: false,
+                                              child: Text(
+                                                widget.post.content,
+                                                style: GoogleFonts.ubuntu(
+                                                  color: Colors.white.withOpacity(0.9),
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w400,
+                                                  shadows: const [
+                                                    Shadow(
+                                                      offset: Offset(1.0, 1.0),
+                                                      blurRadius: 3.0,
+                                                      color: Colors.black,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        : Text(
                                             widget.post.content,
                                             style: GoogleFonts.ubuntu(
                                               color: Colors.white.withOpacity(0.9),
@@ -576,26 +690,9 @@ class _PostDetailState extends State<PostDetail> {
                                                 ),
                                               ],
                                             ),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
                                           ),
-                                        ),
-                                      )
-                                    : Text(
-                                        widget.post.content,
-                                        style: GoogleFonts.ubuntu(
-                                          color: Colors.white.withOpacity(0.9),
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w400,
-                                          shadows: const [
-                                            Shadow(
-                                              offset: Offset(1.0, 1.0),
-                                              blurRadius: 3.0,
-                                              color: Colors.black,
-                                            ),
-                                          ],
-                                        ),
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
                           ),
                         ),
 
@@ -638,7 +735,7 @@ class _PostDetailState extends State<PostDetail> {
                         value: _videoDuration.inMilliseconds > 0 ? _currentVideoPosition.inMilliseconds / _videoDuration.inMilliseconds : 0,
                         backgroundColor: Colors.white.withOpacity(0.3),
                         valueColor: const AlwaysStoppedAnimation<Color>(
-                          Color.fromARGB(255, 114, 183, 247),
+                          Colors.white,
                         ),
                         minHeight: 3.0,
                       ),
@@ -650,5 +747,35 @@ class _PostDetailState extends State<PostDetail> {
         ],
       ),
     );
+  }
+
+  Widget _buildMediaWidget(String mediaPath, BoxFit fit, double width, double? height) {
+    if (mediaPath.startsWith('assets/')) 
+    {
+      return Image.asset(
+        mediaPath,
+        fit: fit,
+        width: width,
+        height: height,
+      );
+    } 
+    
+    else if (mediaPath.startsWith('/data/user/') || mediaPath.startsWith('/storage/')) 
+    {
+      return Image.file(
+        File(mediaPath),
+        fit: fit,
+        width: width,
+        height: height,
+      );
+    } 
+    
+    else 
+    {
+      return Container(
+        color: Colors.grey[200],
+        child: const Icon(Icons.broken_image, size: 50, color: Colors.grey),
+      );
+    }
   }
 }

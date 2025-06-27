@@ -1,47 +1,50 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:travel_app/Forum/post_detail.dart';
 import 'package:travel_app/Models/post.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-class ExperienceGrids extends StatefulWidget {
-  const ExperienceGrids({super.key});
+class ExperienceGrids extends StatefulWidget 
+{
+  final List<Post> posts;
+  final String currentUserName;
+  final void Function(BuildContext context, int index) getInPost;
+
+  const ExperienceGrids({
+    super.key, 
+    required this.posts, 
+    required this.currentUserName, 
+    required this.getInPost
+  });
 
   @override
   State<ExperienceGrids> createState() => _ExperienceGridsState();
 }
 
-class _ExperienceGridsState extends State<ExperienceGrids> {
-  List<Post> posts = [];
-
+class _ExperienceGridsState extends State<ExperienceGrids> 
+{
   @override
-  void initState() {
+  void initState() 
+  {
     super.initState();
-    posts = Post.getAllPosts();
   }
 
-  void _toggleLike(int index) {
+  void _toggleLike(int index) 
+  {
     setState(() {
-      posts[index].isLike = !posts[index].isLike;
+      widget.posts[index].isLike = !widget.posts[index].isLike;
     });
   }
 
-  void getInPost(BuildContext context, int index) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder:
-            (ctx) => PostDetail(
-              post: posts[index],
-              onToggleLike: () {
-                _toggleLike(index);
-              },
-            ),
-      ),
-    );
+  void handleTapOnPost(BuildContext context, int index) 
+  {
+    widget.getInPost(context, index);
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) 
+  {
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -51,31 +54,20 @@ class _ExperienceGridsState extends State<ExperienceGrids> {
           crossAxisCount: 2,
           mainAxisSpacing: 10.0,
           crossAxisSpacing: 10.0,
-          itemCount: posts.length,
+          itemCount: widget.posts.length,
           itemBuilder: (BuildContext context, int index) {
-            final Post data = posts[index];
-            final int? postId = data.id;
+            final Post data = widget.posts[index];
 
             String imageUrl = '';
 
-            if (data.media.isNotEmpty) {
+            if (data.media.isNotEmpty) 
+            {
               imageUrl = data.media[0];
             }
-
-            double aspectRatio = 1.0;
-            if (postId != null) {
-              if (postId % 5 == 0) {
-                aspectRatio = 0.5;
-              } else if (postId % 5 == 1 || postId % 5 == 3) {
-                aspectRatio = 0.8;
-              } else {
-                aspectRatio = 1.2;
-              }
-            }
-
+            
             return GestureDetector(
               onTap: () {
-                getInPost(context, index);
+                handleTapOnPost(context, index);
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -95,140 +87,152 @@ class _ExperienceGridsState extends State<ExperienceGrids> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      AspectRatio(
-                        aspectRatio: aspectRatio,
-                        child: Stack(
-                          children: [
-                            Image.asset(
-                              imageUrl,
-                              fit: BoxFit.cover,
-                              width: double.infinity,
-                              height: double.infinity,
-                            ),
+                      Stack(
+                        children: [
+                          _buildMediaWidget(
+                            imageUrl,
+                            BoxFit.cover,
+                            double.infinity, 
+                            null
+                          ),
                             
+                          if (data.isVideo)
                             Positioned(
                               top: 8,
-                              left: 8,
                               right: 8,
-                              child: Row(
-                                children: [
-                                  Stack(
-                                    children: [
-                                      Positioned(
-                                        top: 1.0,
-                                        left: 1.0,
-                                        child: Icon(
-                                          Icons.location_pin,
-                                          size: 21,
-                                          color: Colors.black.withOpacity(0.6),
-                                        ),
-                                      ),
-                                      const Icon(
-                                        Icons.location_pin,
-                                        size: 20,
-                                        color: Colors.white,
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(width: 5),
-                                  Flexible(
-                                    child: Text(
-                                      data.location,
-                                      style: GoogleFonts.ubuntu(
-                                        color: Colors.white,
-                                        fontSize: 16,
-                                        shadows: [
-                                          Shadow(
-                                            offset: const Offset(1.0, 1.0),
-                                            blurRadius: 3.0,
-                                            color: Colors.black
-                                          ),
-                                        ],
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                ],
+                              child: Container(
+                                padding: const EdgeInsets.all(4),
+                                decoration: BoxDecoration(
+                                  color: Colors.black.withOpacity(0.3),
+                                  borderRadius: BorderRadius.circular(32),
+                                ),
+                                child: const Icon(
+                                  Icons.play_arrow,
+                                  color: Colors.white,
+                                  size: 20,
+                                ),
                               ),
                             ),
-                            Positioned(
-                              bottom: 10,
-                              left: 10,
-                              right: 10,
-                              child: Row(
-                                children: [
-                                  InkWell(
-                                    onTap: () => _toggleLike(index),
-                                    borderRadius: BorderRadius.circular(20),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(4.0),
-                                      child: Stack(
-                                        children: [
-                                          Positioned(
-                                            top: 0.0,
-                                            left: 0.0,
-                                            child: Icon(
-                                              Icons.favorite,
-                                              size: 21,
-                                              color: Colors.black.withOpacity(
-                                                0.6,
-                                              ),
-                                            ),
-                                          ),
-                                          Icon(
-                                            Icons.favorite,
-                                            size: 20, // Original size
-                                            color:
-                                                data.isLike
-                                                    ? Colors.red
-                                                    : Colors.white,
-                                          ),
-                                        ],
+
+                          Positioned(
+                            top: 8,
+                            left: 8,
+                            right: 40,
+                            child: Row(
+                              children: [
+                                Stack(
+                                  children: [
+                                    Positioned(
+                                      top: 1.0,
+                                      left: 1.0,
+                                      child: Icon(
+                                        Icons.location_pin,
+                                        size: 21,
+                                        color: Colors.black.withOpacity(0.6),
                                       ),
                                     ),
-                                  ),
-                                  const Spacer(),
-                                  Text(
-                                    data.views,
+                                    const Icon(
+                                      Icons.location_pin,
+                                      size: 20,
+                                      color: Colors.white,
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(width: 5),
+                                Flexible(
+                                  child: Text(
+                                    data.location,
                                     style: GoogleFonts.ubuntu(
                                       color: Colors.white,
                                       fontSize: 16,
-                                      shadows: [
+                                      shadows: const [
                                         Shadow(
-                                          offset: const Offset(1.0, 1.0),
+                                          offset: Offset(1.0, 1.0),
                                           blurRadius: 3.0,
-                                          color: Colors.black,
+                                          color: Colors.black
+                                        ),
+                                      ],
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          Positioned(
+                            bottom: 10,
+                            left: 10,
+                            right: 10,
+                            child: Row(
+                              children: [
+                                InkWell(
+                                  onTap: () => _toggleLike(index),
+                                  borderRadius: BorderRadius.circular(20),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: Stack(
+                                      children: [
+                                        Positioned(
+                                          top: 0.0,
+                                          left: 0.0,
+                                          child: Icon(
+                                            Icons.favorite,
+                                            size: 21,
+                                            color: Colors.black.withOpacity(
+                                              0.6,
+                                            ),
+                                          ),
+                                        ),
+                                        Icon(
+                                          Icons.favorite,
+                                          size: 20, 
+                                          color: data.isLike
+                                              ? Colors.red
+                                              : Colors.white,
                                         ),
                                       ],
                                     ),
                                   ),
-                                  const SizedBox(width: 5.0),
-                                  Stack(
-                                    children: [
-                                      Positioned(
-                                        top: 1.0,
-                                        left: 1.0,
-                                        child: Icon(
-                                          Icons.remove_red_eye_outlined,
-                                          size:
-                                              21,
-                                          color: Colors.black.withOpacity(
-                                            0.6,
-                                          ),
-                                        ),
-                                      ),
-                                      const Icon(
-                                        Icons.remove_red_eye_outlined,
-                                        size: 20,
-                                        color: Colors.white,
+                                ),
+                                const Spacer(), 
+                                Text(
+                                  data.views,
+                                  style: GoogleFonts.ubuntu(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    shadows: const [
+                                      Shadow(
+                                        offset: Offset(1.0, 1.0),
+                                        blurRadius: 3.0,
+                                        color: Colors.black,
                                       ),
                                     ],
                                   ),
-                                ],
-                              ),
+                                ),
+                                const SizedBox(width: 5.0),
+                                Stack(
+                                  children: [
+                                    Positioned(
+                                      top: 1.0,
+                                      left: 1.0,
+                                      child: Icon(
+                                        Icons.remove_red_eye_outlined,
+                                        size: 21,
+                                        color: Colors.black.withOpacity(0.6),
+                                      ),
+                                    ),
+                                    const Icon(
+                                      Icons.remove_red_eye_outlined,
+                                      size: 20,
+                                      color: Colors.white,
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 0.0),
@@ -275,5 +279,36 @@ class _ExperienceGridsState extends State<ExperienceGrids> {
         ),
       ),
     );
+  }
+
+  Widget _buildMediaWidget(String mediaPath, BoxFit fit, double width, double? height) 
+  {
+    if (mediaPath.startsWith('assets/')) 
+    {
+      return Image.asset(
+        mediaPath,
+        fit: fit,
+        width: width,
+        height: height,
+      );
+    } 
+    
+    else if (mediaPath.startsWith('/data/user/') || mediaPath.startsWith('/storage/')) 
+    {
+      return Image.file(
+        File(mediaPath),
+        fit: fit,
+        width: width,
+        height: height,
+      );
+    } 
+    
+    else 
+    {
+      return Container(
+        color: Colors.grey[200],
+        child: const Icon(Icons.broken_image, size: 50, color: Colors.grey),
+      );
+    }
   }
 }
