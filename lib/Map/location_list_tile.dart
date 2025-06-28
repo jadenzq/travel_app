@@ -30,7 +30,7 @@ class LocationListTile extends StatelessWidget {
           isSaved == true
               ? IconButton(
                 onPressed: press,
-                icon: Icon(Icons.delete_forever_rounded, color: Colors.red),
+                icon: Icon(Icons.delete, color: Colors.red),
               )
               : null,
     );

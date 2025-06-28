@@ -30,7 +30,6 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     List<Widget> pages = [
-      LocationSearchPage(),
       HomePage(),
       Forum(),
       Memo(),

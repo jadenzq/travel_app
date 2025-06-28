@@ -71,7 +71,12 @@ class _MapPageState extends State<MapPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Saved Locations"), centerTitle: true),
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: Text("Saved Locations"),
+        centerTitle: true,
+        backgroundColor: Colors.white,
+      ),
       body:
           _placeDetails == null
               ? Center(child: Text("No Saved Locations Found."))
