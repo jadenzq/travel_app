@@ -37,9 +37,7 @@ class _HomePageState extends State<HomePage> {
     ).push(MaterialPageRoute(builder: (ctx) => BookingHotel()));
   }
 
-  void _navigateToPostDetail(BuildContext context, int index) async {
-    final postBeingViewed = widget.posts[index];
-
+  void _navigateToPostDetail(BuildContext context, Post postBeingViewed) async {
     final result = await Navigator.of(context).push(
       MaterialPageRoute(
         builder:
@@ -48,7 +46,7 @@ class _HomePageState extends State<HomePage> {
               currentUserName: widget.currentUserName,
               onToggleLike: () {
                 setState(() {
-                  _toggleLike(index);
+                  _toggleLike(postBeingViewed);
                 });
               },
             ),
@@ -60,9 +58,9 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  void _toggleLike(int index) {
+  void _toggleLike(Post post) {
     setState(() {
-      widget.posts[index].isLike = !widget.posts[index].isLike;
+      post.isLike = !post.isLike;
     });
   }
 
@@ -162,8 +160,13 @@ class _HomePageState extends State<HomePage> {
 
   Column _topExperiences() {
     final List<Post> topPosts = widget.posts.where((post) {
-      return _parseViewsToNumber(post.views) >= 20000;
+      return _parseViewsToNumber(post.views) >= 10000;
     }).toList();
+
+    topPosts.sort((a, b) {
+      return _parseViewsToNumber(b.views).compareTo(_parseViewsToNumber(a.views));
+    });
+
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -193,7 +196,7 @@ class _HomePageState extends State<HomePage> {
 
             return GestureDetector(
               onTap: () {
-                _navigateToPostDetail(context, index);
+                _navigateToPostDetail(context, data);
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -294,7 +297,7 @@ class _HomePageState extends State<HomePage> {
                               child: Row(
                                 children: [
                                   InkWell(
-                                    onTap: () => _toggleLike(index),
+                                    onTap: () => _toggleLike(data),
                                     borderRadius: BorderRadius.circular(20),
                                     child: Padding(
                                       padding: const EdgeInsets.all(4.0),

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
 
@@ -37,6 +38,10 @@ class _PostDetailState extends State<PostDetail> {
 
   bool _isContentExpanded = false;
 
+  double _notificationOpacity = 0.0;
+  String _notificationMessage = '';
+  Timer? _notificationTimer;
+
   @override
   void initState() {
     super.initState();
@@ -68,12 +73,10 @@ class _PostDetailState extends State<PostDetail> {
         _videoPlayerController = VideoPlayerController.file(File(videoPath));
       }
 
-
       _videoPlayerController.initialize().then((_) {
         setState(() {
           _isVideoInitialized = true;
           _videoDuration = _videoPlayerController.value.duration;
-          // _videoPlayerController.setVolume(1.0);
         });
 
         _videoPlayerController.addListener(_updateVideoProgress);
@@ -98,17 +101,25 @@ class _PostDetailState extends State<PostDetail> {
         setState(() {
           _isVideoInitialized = false;
         });
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              'Error loading video: $error',
-              style: GoogleFonts.ubuntu(color: Colors.white),
-            ),
-            backgroundColor: Colors.red,
-          ),
-        );
+        _showCustomNotification('Error loading video: $error');
       });
     }
+  }
+
+  void _showCustomNotification(String message) {
+    setState(() {
+      _notificationMessage = message;
+      _notificationOpacity = 1.0;
+    });
+
+    _notificationTimer?.cancel();
+    _notificationTimer = Timer(const Duration(seconds: 2), () {
+      if (mounted) {
+        setState(() {
+          _notificationOpacity = 0.0;
+        });
+      }
+    });
   }
 
   void _updateVideoProgress() 
@@ -148,6 +159,7 @@ class _PostDetailState extends State<PostDetail> {
       _videoPlayerController.dispose();
       _chewieController.dispose();
     }
+    _notificationTimer?.cancel();
 
     super.dispose();
   }
@@ -234,166 +246,172 @@ class _PostDetailState extends State<PostDetail> {
             ),
         ],
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Stack(
-                    children: [
-                      // Blur background image
-                      SizedBox(
-                        height: 300,
-                        child: ClipRect(
-                          child: Stack(
-                            children: [
-                              _buildMediaWidget(
-                                widget.post.media[_currentPage],
-                                BoxFit.cover,
-                                double.infinity,
-                                double.infinity,
-                              ),
-                              BackdropFilter(
-                                filter: ImageFilter.blur(
-                                  sigmaX: 15.0,
-                                  sigmaY: 15.0,
-                                ),
-                                child: Container(
-                                  color: Colors.black.withOpacity(0.3),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 300,
-                        child: PageView.builder(
-                          controller: _imagePageController,
-                          itemCount: widget.post.media.length,
-                          itemBuilder: (context, index) {
-                            return Center(
-                              child: _buildMediaWidget(
-                                widget.post.media[index],
-                                BoxFit.contain,
-                                double.infinity,
-                                double.infinity
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                      Positioned(
-                        bottom: 10,
-                        left: 0,
-                        right: 0,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: List.generate(
-                            widget.post.media.length,
-                            (idx) => buildDot(idx),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
+      body: SizedBox.expand(
+        child: Stack(
+          children: [
+            Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          widget.post.title,
-                          style: GoogleFonts.ubuntu(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        Row(
+                        Stack(
                           children: [
-                            const Icon(
-                              Icons.location_on,
-                              size: 20,
-                              color: Color(0xff41729f),
+                            // Blur background image
+                            SizedBox(
+                              height: 300,
+                              child: ClipRect(
+                                child: Stack(
+                                  children: [
+                                    _buildMediaWidget(
+                                      widget.post.media[_currentPage],
+                                      BoxFit.cover,
+                                      double.infinity,
+                                      double.infinity,
+                                    ),
+                                    BackdropFilter(
+                                      filter: ImageFilter.blur(
+                                        sigmaX: 15.0,
+                                        sigmaY: 15.0,
+                                      ),
+                                      child: Container(
+                                        color: Colors.black.withOpacity(0.3),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
-                            const SizedBox(width: 5),
-                            Text(
-                              widget.post.location,
-                              style: GoogleFonts.ubuntu(
-                                fontSize: 16,
-                                color: const Color(0xff41729f),
+                            SizedBox(
+                              height: 300,
+                              child: PageView.builder(
+                                controller: _imagePageController,
+                                itemCount: widget.post.media.length,
+                                itemBuilder: (context, index) {
+                                  return Center(
+                                    child: _buildMediaWidget(
+                                      widget.post.media[index],
+                                      BoxFit.contain,
+                                      double.infinity,
+                                      double.infinity
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                            Positioned(
+                              bottom: 10,
+                              left: 0,
+                              right: 0,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: List.generate(
+                                  widget.post.media.length,
+                                  (idx) => buildDot(idx),
+                                ),
                               ),
                             ),
                           ],
                         ),
-                        const SizedBox(height: 10),
-                        Text(
-                          widget.post.content,
-                          textAlign: TextAlign.justify,
-                          style: GoogleFonts.ubuntu(fontSize: 16),
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                widget.post.title,
+                                style: GoogleFonts.ubuntu(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              Row(
+                                children: [
+                                  const Icon(
+                                    Icons.location_on,
+                                    size: 20,
+                                    color: Color(0xff41729f),
+                                  ),
+                                  const SizedBox(width: 5),
+                                  Text(
+                                    widget.post.location,
+                                    style: GoogleFonts.ubuntu(
+                                      fontSize: 16,
+                                      color: const Color(0xff41729f),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 10),
+                              Text(
+                                widget.post.content,
+                                textAlign: TextAlign.justify,
+                                style: GoogleFonts.ubuntu(fontSize: 16),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
                   ),
-                ],
-              ),
-            ),
-          ),
-          Container(
-            color: Colors.white,
-            padding: const EdgeInsets.only(
-              left: 12.0,
-              right: 12.0,
-              bottom: 20.0,
-              top: 20.0,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                InkWell(
-                  onTap: _handleLikeToggle,
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: Material(
-                    color: Colors.transparent,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8.0,
-                        vertical: 4.0,
-                      ),
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.favorite,
-                            color: _isLiked ? Colors.red : Colors.grey,
+                ),
+                Container(
+                  color: Colors.white,
+                  padding: const EdgeInsets.only(
+                    left: 12.0,
+                    right: 12.0,
+                    bottom: 20.0,
+                    top: 20.0,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      InkWell(
+                        onTap: _handleLikeToggle,
+                        borderRadius: BorderRadius.circular(8.0),
+                        child: Material(
+                          color: Colors.transparent,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8.0,
+                              vertical: 4.0,
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.favorite,
+                                  color: _isLiked ? Colors.red : Colors.grey,
+                                ),
+                                const SizedBox(width: 5),
+                                Text('Like', style: GoogleFonts.ubuntu()),
+                              ],
+                            ),
                           ),
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          const Icon(Icons.share, color: Colors.grey),
                           const SizedBox(width: 5),
-                          Text('Like', style: GoogleFonts.ubuntu()),
+                          Text('Share', style: GoogleFonts.ubuntu()),
                         ],
                       ),
-                    ),
+                      Row(
+                        children: [
+                          const Icon(Icons.remove_red_eye_outlined, color: Colors.grey),
+                          const SizedBox(width: 5),
+                          Text(widget.post.views, style: GoogleFonts.ubuntu()),
+                        ],
+                      ),
+                    ],
                   ),
-                ),
-                Row(
-                  children: [
-                    const Icon(Icons.share, color: Colors.grey),
-                    const SizedBox(width: 5),
-                    Text('Share', style: GoogleFonts.ubuntu()),
-                  ],
-                ),
-                Row(
-                  children: [
-                    const Icon(Icons.remove_red_eye_outlined, color: Colors.grey),
-                    const SizedBox(width: 5),
-                    Text(widget.post.views, style: GoogleFonts.ubuntu()),
-                  ],
                 ),
               ],
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -740,6 +758,48 @@ class _PostDetailState extends State<PostDetail> {
                         minHeight: 3.0,
                       ),
                     ),
+                  
+                  AnimatedPositioned(
+                    duration: const Duration(milliseconds: 400),
+                    curve: Curves.easeInOut,
+                    bottom: _notificationOpacity > 0 ? 20 : -100,
+                    left: 20,
+                    right: 20,
+                    child: AnimatedOpacity(
+                      opacity: _notificationOpacity,
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeInOut,
+                      child: Material(
+                        color: Colors.transparent,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                          decoration: BoxDecoration(
+                            color: Colors.black87,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.3),
+                                spreadRadius: 2,
+                                blurRadius: 5,
+                                offset: const Offset(0, 3),
+                              ),
+                            ],
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Text(
+                              _notificationMessage,
+                              style: GoogleFonts.ubuntu(
+                                color: Colors.white,
+                                fontSize: 16,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),

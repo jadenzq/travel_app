@@ -9,7 +9,7 @@ class ExperienceGrids extends StatefulWidget
 {
   final List<Post> posts;
   final String currentUserName;
-  final void Function(BuildContext context, int index) getInPost;
+  final void Function(BuildContext context, Post post) getInPost;
 
   const ExperienceGrids({
     super.key, 
@@ -30,16 +30,16 @@ class _ExperienceGridsState extends State<ExperienceGrids>
     super.initState();
   }
 
-  void _toggleLike(int index) 
+  void _toggleLike(Post post) 
   {
     setState(() {
-      widget.posts[index].isLike = !widget.posts[index].isLike;
+      post.isLike = !post.isLike;
     });
   }
 
-  void handleTapOnPost(BuildContext context, int index) 
+  void handleTapOnPost(BuildContext context, Post post) 
   {
-    widget.getInPost(context, index);
+    widget.getInPost(context, post);
   }
 
   @override
@@ -67,7 +67,7 @@ class _ExperienceGridsState extends State<ExperienceGrids>
             
             return GestureDetector(
               onTap: () {
-                handleTapOnPost(context, index);
+                handleTapOnPost(context, data);
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -167,7 +167,7 @@ class _ExperienceGridsState extends State<ExperienceGrids>
                             child: Row(
                               children: [
                                 InkWell(
-                                  onTap: () => _toggleLike(index),
+                                  onTap: () => _toggleLike(data),
                                   borderRadius: BorderRadius.circular(20),
                                   child: Padding(
                                     padding: const EdgeInsets.all(4.0),

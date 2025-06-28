@@ -41,7 +41,7 @@ class _AppState extends State<App> {
   
   void _addPost(Post newPost) {
     setState(() {
-      newPost.id = _allPosts.length + 1;
+      newPost.id = _allPosts.length;
       _allPosts.insert(0, newPost);
     });
   }
