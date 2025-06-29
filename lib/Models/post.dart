@@ -68,8 +68,8 @@ class Post {
             "Stepping into Kyoto felt like traveling back in time. The ancient temples, serene gardens, and traditional wooden houses create an atmosphere of unparalleled peace. Witnessing the cherry blossoms in full bloom at Arashiyama Bamboo Grove was an unforgettable experience.",
         views: "80k",
         media: [
-          "assets/images/post-image/Kyoto-Temple.jpg",
           "assets/images/post-image/Kyoto-Cherry-Blossom.jpg",
+          "assets/images/post-image/Kyoto-Temple.jpg",
           "assets/images/post-image/Kyoto-Street.jpg"
         ],
         authorName: "Kenji",
@@ -77,6 +77,25 @@ class Post {
         location: "Kyoto, Japan",
       ),
     );
+
+    posts.add(
+      Post(
+        title: "Majestic Niagara Falls: A Natural Wonder",
+        content:
+            "Experiencing the sheer power and beauty of Niagara Falls was absolutely awe-inspiring. The roar of the water, the mist on my face, and the vibrant rainbows created an unforgettable spectacle. Definitely a must-visit natural wonder!",
+        views: "5.1M",
+        media: [
+          "assets/images/video-thumbnail/Canada-NiagaraFalls.jpg",
+          "assets/videos/post-video/Canada_NiagaraFalls.mp4"
+        ],
+        authorName: "Oman",
+        authorImage: "assets/images/user/Oman.jpg",
+        location: "Niagara Falls, Canada",
+        isVideo: true,
+
+      ),
+    );
+
 
     posts.add(
       Post(
@@ -120,7 +139,7 @@ class Post {
         content: "Barcelona's La Boqueria market is a feast for the senses! From vibrant fruits to fresh seafood, every stall is bursting with color and flavor. I spent hours sampling tapas and soaking in the lively atmosphere. A must-visit for any foodie!",
         views: "500k",
         media: [
-          "assets/images/video-thumbnail/Barcelona-La-boqueria.jpg",
+          "assets/images/video-thumbnail/Barcelona-La-boqueria-2.jpg",
           "assets/videos/post-video/Barcelona_La_boqueria.mp4"
         ],
         authorName: "Olivia",

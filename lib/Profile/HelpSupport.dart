@@ -9,7 +9,7 @@ class HelpSupportPage extends StatelessWidget {
   void _launchEmail() async {
     final Uri emailUri = Uri(
       scheme: 'mailto',
-      path: 'support@travelapp.com',
+      path: 'support@triplefun.com',
       query: 'subject=App Support&body=Please describe your issue here...',
     );
     if (await canLaunchUrl(emailUri)) {
@@ -18,7 +18,7 @@ class HelpSupportPage extends StatelessWidget {
   }
 
   void _launchPhone() async {
-    final Uri phoneUri = Uri(scheme: 'tel', path: '+1234567890');
+    final Uri phoneUri = Uri(scheme: 'tel', path: '+6012 345 6789');
     if (await canLaunchUrl(phoneUri)) {
       await launchUrl(phoneUri);
     }
@@ -34,11 +34,12 @@ class HelpSupportPage extends StatelessWidget {
         centerTitle: true,
         elevation: 1,
       ),
+      backgroundColor: const Color(0xfff5f5f5),
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
           Text(
-            'Welcome to Travel App Support!',
+            'Welcome to TripleFun Support!',
             style: GoogleFonts.ubuntu(fontSize: 22, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 12),
@@ -77,13 +78,13 @@ class HelpSupportPage extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.email, color: Colors.blue),
             title: Text('Email Us', style: GoogleFonts.ubuntu(fontSize: 16)),
-            subtitle: Text('support@travelapp.com', style: GoogleFonts.ubuntu(fontSize: 14)),
+            subtitle: Text('support@triplefun.com', style: GoogleFonts.ubuntu(fontSize: 14)),
             onTap: _launchEmail,
           ),
           ListTile(
             leading: const Icon(Icons.phone, color: Colors.green),
             title: Text('Call Us', style: GoogleFonts.ubuntu(fontSize: 16)),
-            subtitle: Text('+1 234 567 890', style: GoogleFonts.ubuntu(fontSize: 14)),
+            subtitle: Text('+6012 345 6789', style: GoogleFonts.ubuntu(fontSize: 14)),
             onTap: _launchPhone,
           ),
         ],

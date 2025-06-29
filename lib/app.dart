@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:travel_app/Forum/forum.dart';
+import 'package:travel_app/Forum/Forum.dart';
 import 'package:travel_app/Login/Login.dart';
 import 'package:travel_app/Map/location_search_page.dart';
 import 'package:travel_app/Memo/Memo.dart';
+import 'package:travel_app/Models/post.dart';
 import 'package:travel_app/Profile/profile.dart';
 import 'package:travel_app/home_page.dart';
 
@@ -20,18 +21,51 @@ class _AppState extends State<App> {
   int currentPageIndex = 0;
   bool isLoggedIn = false;
 
+  List<Post> _allPosts = [];
+  String _loggedInUserName = "Gloria";
+  String _loggedInUserProfileImage = "assets/images/photo111.jpg";
+
+  @override
+  void initState() {
+    super.initState();
+    _allPosts = Post.getAllPosts();
+  }
+
   void handleLogIn() {
     setState(() {
       isLoggedIn = true;
       currentPageIndex = 0;
     });
   }
+  
+  void _addPost(Post newPost) {
+    setState(() {
+      newPost.id = _allPosts.length;
+      _allPosts.insert(0, newPost);
+    });
+  }
+
+  void _deletePost(Post postToDelete) {
+    setState(() {
+      _allPosts.removeWhere((post) => post.id == postToDelete.id);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     List<Widget> pages = [
-      HomePage(),
-      Forum(),
+      HomePage(
+        posts: _allPosts,
+        currentUserName: _loggedInUserName,
+        onDeletePost: _deletePost,
+      ),
+      Forum(
+        posts: _allPosts,
+        addPostCallback: _addPost,
+        currentUserName: _loggedInUserName,
+        currentUserProfileImagePath: _loggedInUserProfileImage,
+        onDeletePost: _deletePost,
+      ),
       Memo(),
       isLoggedIn ? ProfilePage() : LoginPage(onLogIn: handleLogIn),
     ];
