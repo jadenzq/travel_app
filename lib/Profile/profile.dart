@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
+import 'package:travel_app/Profile/HelpSupport.dart';
+import 'package:travel_app/Profile/Setting.dart';
+
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
@@ -182,48 +185,36 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   const SizedBox(height: 30),
 
-// Feedback / Help Icon
-GestureDetector(
-  onTap: () {
-    // 这里可以跳转页面或弹出反馈表单
-    showDialog(
-  context: context,
-  builder: (BuildContext dialogContext) {
-    return AlertDialog(
-      title: const Text('Feedback & Help'),
-      content: const Text('You can send us your questions or feedback.'),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(dialogContext),
-          child: const Text('Close'),
-        ),
-      ],
-    );
-  },
-);
-
-  },
-  child: Container(
-    padding: const EdgeInsets.all(10),
-    decoration: BoxDecoration(
-      color: Colors.white,
-      shape: BoxShape.circle,
-      boxShadow: [
-        BoxShadow(
-          color: Colors.grey.withAlpha(77),
-          blurRadius: 10,
-          offset: const Offset(0, 5),
-        ),
-      ],
-    ),
-    child: const Icon(
-      Icons.help_outline,
-      size: 28,
-      color: Colors.blue,
-    ),
-  ),
-),
-const SizedBox(height: 20),
+                  // Feedback / Help Icon
+                  GestureDetector(
+                    onTap: () {
+                      // 这里可以跳转页面或弹出反馈表单
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (ctx) => HelpSupportPage()
+                        )
+                      );
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withAlpha(77),
+                            blurRadius: 10,
+                            offset: const Offset(0, 5),
+                          ),
+                        ],
+                      ),
+                      child: const Icon(
+                        Icons.help_outline,
+                        size: 28,
+                        color: Colors.blue,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),
@@ -234,7 +225,10 @@ const SizedBox(height: 20),
               right: 20,
               child: GestureDetector(
                 onTap: () {
-                  // Open settings
+                  Navigator.of(context).push(
+                        MaterialPageRoute(builder: (ctx) => SettingsScreen()
+                        )
+                      );
                 },
                 child: Container(
                   padding: const EdgeInsets.all(10),
