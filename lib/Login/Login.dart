@@ -1,51 +1,102 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:travel_app/Profile/profile.dart';
-import 'package:travel_app/Register/register.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+  final VoidCallback onLogIn;
+
   const LoginPage({super.key, required this.onLogIn});
 
-  final VoidCallback onLogIn;
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+
+  bool _loading = false;
+  String? _emailError;
+  String? _passwordError;
+  String? _generalError;
+
+  Future<void> _login() async {
+    setState(() {
+      _emailError = null;
+      _passwordError = null;
+      _generalError = null;
+    });
+
+    if (!_formKey.currentState!.validate()) return;
+
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
+
+    try {
+      setState(() => _loading = true);
+
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      if (!mounted) return;
+      widget.onLogIn(); // Trigger refresh from RootPage
+
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        if (e.code == 'user-not-found') {
+          _emailError = 'Email not found.';
+        } else if (e.code == 'wrong-password') {
+          _passwordError = 'Incorrect password.';
+        } else {
+          _generalError = 'Login failed. Please try again.';
+        }
+      });
+    } catch (_) {
+      setState(() {
+        _generalError = 'An unexpected error occurred.';
+      });
+    } finally {
+      setState(() => _loading = false);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: const Color(0xFFF5F5F5),
-        body: SizedBox.expand(
-          child: Stack(
-            children: [
-              // 可滚动的主要内容区域
-              SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12.0,
-                  vertical: 15.0,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildHeader(),
-                    const SizedBox(height: 30),
-                    _buildAccountInput(),
-                    const SizedBox(height: 20),
-                    _buildPasswordInput(),
-                    const SizedBox(height: 10),
-                    _buildFooterLinks(context),
-                    const SizedBox(height: 40),
-                    _buildLoginButton(context),
-                    const SizedBox(height: 30),
-                  ],
-                ),
-              ),
-            ],
+    return Scaffold(
+      backgroundColor: const Color(0xfff5f5f5),
+      body: SafeArea(
+        child: Form(
+          key: _formKey,
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 15.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildHeader(),
+                const SizedBox(height: 30),
+                _buildEmailInput(),
+                const SizedBox(height: 20),
+                _buildPasswordInput(),
+                if (_generalError != null) ...[
+                  const SizedBox(height: 10),
+                  Text(
+                    _generalError!,
+                    style: const TextStyle(color: Colors.red),
+                  ),
+                ],
+                const SizedBox(height: 40),
+                _buildConfirmButton(),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  // Header Section
   Widget _buildHeader() {
     return Center(
       child: Text(
@@ -59,75 +110,68 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  // Account Input Field
-  Widget _buildAccountInput() {
-    return _buildInputField(label: 'Username', icon: Icons.person_outline);
+  InputDecoration _inputDecoration(String label, IconData icon) {
+    return InputDecoration(
+      labelText: label,
+      prefixIcon: Icon(icon),
+      border: const OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(12)),
+      ),
+      focusedBorder: const OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(12)),
+        borderSide: BorderSide(color: Colors.blue, width: 1.5),
+      ),
+      filled: true,
+      fillColor: Colors.grey[100],
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+      floatingLabelBehavior: FloatingLabelBehavior.never,
+    );
   }
 
-  // Password Input Field
+  Widget _buildEmailInput() {
+    return TextFormField(
+      controller: _emailController,
+      keyboardType: TextInputType.emailAddress,
+      decoration: _inputDecoration('Email', Icons.email_outlined)
+          .copyWith(errorText: _emailError),
+      validator: (value) {
+        if (value == null || value.trim().isEmpty) {
+          return 'Email is required.';
+        }
+        if (!RegExp(r'^[\w\.-]+@[\w\.-]+\.\w{2,4}$').hasMatch(value)) {
+          return 'Enter a valid email address.';
+        }
+        return null;
+      },
+    );
+  }
+
   Widget _buildPasswordInput() {
-    return _buildInputField(
-      label: 'Password',
-      icon: Icons.lock_outline,
-      isPassword: true,
+    return TextFormField(
+      controller: _passwordController,
+      obscureText: true,
+      decoration: _inputDecoration('Password', Icons.lock)
+          .copyWith(errorText: _passwordError),
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Password is required.';
+        }
+        return null;
+      },
     );
   }
 
-  // Forgot Password Link
-  Widget _buildFooterLinks(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        InkWell(
-          onTap: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => const RegisterPage()),
-            );
-          },
-          child: Padding(
-            padding: const EdgeInsets.only(left: 8.0),
-            child: Text(
-              'Do not have an account?',
-              style: GoogleFonts.ubuntu(
-                color: Colors.blue[700],
-                fontSize: 14,
-                decoration: TextDecoration.underline,
-              ),
-            ),
-          ),
-        ),
-        InkWell(
-          onTap: () {},
-          child: Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: Text(
-              'Forgot password?',
-              style: GoogleFonts.ubuntu(
-                color: Colors.blue[700],
-                fontSize: 14,
-                decoration: TextDecoration.underline,
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  // Login Button (unchanged)
-  Widget _buildLoginButton(BuildContext context) {
+  Widget _buildConfirmButton() {
     return SizedBox(
       width: double.infinity,
       height: 50,
       child: InkWell(
-        onTap: () {
-          onLogIn();
-        },
+        onTap: _loading ? null : _login,
         borderRadius: BorderRadius.circular(12),
         child: Ink(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
-            color: Colors.blue,
+            color: _loading ? Colors.grey : Colors.blue,
             boxShadow: const [
               BoxShadow(
                 color: Color.fromARGB(54, 0, 0, 0),
@@ -137,52 +181,26 @@ class LoginPage extends StatelessWidget {
             ],
           ),
           child: Center(
-            child: Text(
-              'Login',
-              style: GoogleFonts.ubuntu(
-                fontSize: 18,
-                color: Colors.white,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
+            child: _loading
+                ? const CircularProgressIndicator(color: Colors.white)
+                : Text(
+                    'Login',
+                    style: GoogleFonts.ubuntu(
+                      fontSize: 18,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
           ),
         ),
       ),
     );
   }
 
-  // 输入框组件 with square borders and no shadow
-  Widget _buildInputField({
-    required String label,
-    required IconData icon,
-    bool isPassword = false,  
-    TextInputType keyboardType = TextInputType.text,
-  }) {
-    return TextFormField(
-      obscureText: isPassword,
-      keyboardType: keyboardType,
-      decoration: InputDecoration(
-        labelText: label,
-        prefixIcon: Icon(icon, color: Colors.grey[600]),
-        // Square border with visible outline
-        border: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(12)), // Square corners
-          borderSide: BorderSide(color: Colors.grey), // Visible border
-        ),
-        // Focused border (blue)a
-        focusedBorder: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(12)),
-          borderSide: BorderSide(color: Colors.blue, width: 1.5),
-        ),
-        filled: true,
-        fillColor: Colors.grey[100],
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 18,
-        ),
-        floatingLabelBehavior: FloatingLabelBehavior.never,
-      ),
-      style: GoogleFonts.ubuntu(fontSize: 16),
-    );
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 }
