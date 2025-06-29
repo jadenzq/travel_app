@@ -103,7 +103,7 @@ class _ExperienceGridsState extends State<ExperienceGrids>
                               child: Container(
                                 padding: const EdgeInsets.all(4),
                                 decoration: BoxDecoration(
-                                  color: Colors.black.withOpacity(0.3),
+                                  color: Colors.black.withOpacity(0.6),
                                   borderRadius: BorderRadius.circular(32),
                                 ),
                                 child: const Icon(
@@ -117,7 +117,7 @@ class _ExperienceGridsState extends State<ExperienceGrids>
                           Positioned(
                             top: 8,
                             left: 8,
-                            right: 40,
+                            right: data.isVideo ? 40 : 8,
                             child: Row(
                               children: [
                                 Stack(
