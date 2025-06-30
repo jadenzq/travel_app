@@ -18,6 +18,10 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  void initState() {
+    FirebaseAuth.instance.signOut();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -30,34 +34,7 @@ class MyApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
         FlutterQuillLocalizations.delegate,
       ],
-      home: const RootPage(),
-    );
-  }
-}
-
-class RootPage extends StatefulWidget {
-  const RootPage({super.key});
-
-  @override
-  State<RootPage> createState() => _RootPageState();
-}
-
-class _RootPageState extends State<RootPage> {
-  @override
-  Widget build(BuildContext context) {
-    final user = FirebaseAuth.instance.currentUser;
-
-    // 用户已登录，进入 Profile 页面
-    if (user != null) {
-      return const ProfilePage();
-    }
-
-    // 用户未登录，进入 Login 页面
-    return LoginPage(
-      onLogIn: () {
-        if (!mounted) return;
-        setState(() {});
-      },
+      home: const App(),
     );
   }
 }
