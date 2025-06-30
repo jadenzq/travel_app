@@ -6,7 +6,7 @@ import 'package:travel_app/Models/post.dart';
 class HomePage extends StatelessWidget {
   HomePage({super.key});
 
-  List<Post> posts = [];
+  final List<Post> posts = Post.getAllPosts();
 
   void selectFlight(context) {
     Navigator.of(
@@ -20,10 +20,12 @@ class HomePage extends StatelessWidget {
     ).push(MaterialPageRoute(builder: (ctx) => BookingHotel()));
   }
 
+  void selectBookingHistory(context) {
+    Navigator.of(context).pushNamed('/bookingHistory');
+  }
+
   @override
   Widget build(BuildContext context) {
-    posts = Post.getAllPosts();
-
     return SafeArea(
       child: ListView(
         padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 15.0),
@@ -156,88 +158,138 @@ class HomePage extends StatelessWidget {
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
         ),
         SizedBox(height: 10),
-        GridView.count(
-          shrinkWrap: true, // To avoid the grid grows infinitely error
-          crossAxisCount: 2,
-          crossAxisSpacing: 15.0,
-          mainAxisSpacing: 15.0,
-          childAspectRatio: 1 / 0.5,
-          children: <Widget>[
-            InkWell(
-              onTap: () {
-                selectFlight(context);
-              },
-              borderRadius: BorderRadius.circular(12),
-              child: Ink(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  gradient: LinearGradient(
-                    colors: [
-                      Color.fromARGB(255, 255, 255, 255),
-                      Color.fromARGB(255, 255, 255, 255),
+        
+        // 第一行：Flight 和 Hotel
+        Row(
+          children: [
+            Expanded(
+              child: InkWell(
+                onTap: () {
+                  selectFlight(context);
+                },
+                borderRadius: BorderRadius.circular(12),
+                child: Container(
+                  height: 120,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    gradient: LinearGradient(
+                      colors: [
+                        Color.fromARGB(255, 255, 255, 255),
+                        Color.fromARGB(255, 255, 255, 255),
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: const Color.fromARGB(54, 0, 0, 0),
+                        blurRadius: 10,
+                        offset: Offset(0, 6),
+                      ),
                     ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
                   ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: const Color.fromARGB(54, 0, 0, 0),
-                      blurRadius: 10,
-                      offset: Offset(0, 6),
-                    ),
-                  ],
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.flight, size: 40, color: Colors.black),
-                    SizedBox(height: 5),
-                    Text(
-                      "Flight",
-                      style: TextStyle(fontSize: 16, color: Colors.black),
-                    ),
-                  ],
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.flight, size: 40, color: Colors.black),
+                      SizedBox(height: 5),
+                      Text(
+                        "Flight",
+                        style: TextStyle(fontSize: 16, color: Colors.black),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-            InkWell(
-              onTap: () {
-                selectHotel(context);
-              },
-              borderRadius: BorderRadius.circular(12),
-              child: Ink(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  gradient: LinearGradient(
-                    colors: [
-                      Color.fromARGB(255, 255, 255, 255),
-                      Color.fromARGB(255, 255, 255, 255),
+            SizedBox(width: 15),
+            Expanded(
+              child: InkWell(
+                onTap: () {
+                  selectHotel(context);
+                },
+                borderRadius: BorderRadius.circular(12),
+                child: Container(
+                  height: 120,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    gradient: LinearGradient(
+                      colors: [
+                        Color.fromARGB(255, 255, 255, 255),
+                        Color.fromARGB(255, 255, 255, 255),
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: const Color.fromARGB(54, 0, 0, 0),
+                        blurRadius: 10,
+                        offset: Offset(0, 6),
+                      ),
                     ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
                   ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: const Color.fromARGB(54, 0, 0, 0),
-                      blurRadius: 10,
-                      offset: Offset(0, 6),
-                    ),
-                  ],
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.hotel, size: 40, color: Colors.black),
-                    SizedBox(height: 5),
-                    Text(
-                      "Hotel",
-                      style: TextStyle(fontSize: 16, color: Colors.black),
-                    ),
-                  ],
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.hotel, size: 40, color: Colors.black),
+                      SizedBox(height: 5),
+                      Text(
+                        "Hotel",
+                        style: TextStyle(fontSize: 16, color: Colors.black),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
           ],
+        ),
+        
+        SizedBox(height: 15),
+        
+        // 第二行：My Bookings
+        InkWell(
+          onTap: () {
+            selectBookingHistory(context);
+          },
+          borderRadius: BorderRadius.circular(12),
+          child: Container(
+            height: 80,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              gradient: LinearGradient(
+                colors: [
+                  Color.fromARGB(255, 230, 245, 255),
+                  Color.fromARGB(255, 200, 230, 255),
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: const Color.fromARGB(54, 0, 0, 0),
+                  blurRadius: 10,
+                  offset: Offset(0, 6),
+                ),
+              ],
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.bookmark, size: 35, color: Colors.blueAccent),
+                SizedBox(width: 12),
+                Text(
+                  "My Bookings",
+                  style: TextStyle(
+                    fontSize: 18, 
+                    color: Colors.blueAccent,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ],
     );

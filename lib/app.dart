@@ -5,6 +5,10 @@ import 'package:travel_app/Memo/Memo.dart';
 import 'package:travel_app/home_page.dart';
 import 'package:travel_app/Book/flightDetails.dart'; // 导入你的详情页
 import 'package:travel_app/Book/hotelDetails.dart';
+import 'package:travel_app/Book/hotelInfo.dart'; // 导入酒店信息页
+import 'package:travel_app/Book/flightDetailInfo.dart'; // 导入航班详细信息页
+import 'package:travel_app/Book/paymentPage.dart'; // 导入支付页面
+import 'package:travel_app/Book/booking_history_page.dart'; // 导入预订历史页面
 
 class App extends StatefulWidget {
   const App({super.key});
@@ -25,8 +29,12 @@ class _AppState extends State<App> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       routes: {
-        '/flightDetails': (context) => const Flightdetails(), // 注册路由
-        '/hotelDetails': (context) => const HotelDetails(), // 假设你有一个酒店详情页
+        '/flightDetails': (context) => const Flightdetails(), // Flight details route
+        '/hotelDetails': (context) => const HotelDetails(), // Hotel details page
+        '/hotelInfo': (context) => const HotelInfo(), // Hotel info page route
+        '/flightDetailInfo': (context) => const FlightDetailInfo(), // Flight detail info route
+        '/payment': (context) => const PaymentPage(), // Payment page route
+        '/bookingHistory': (context) => const BookingHistoryPage(), // Booking history page route
       },
       home: Scaffold(
         backgroundColor: const Color.fromARGB(255, 245, 245, 245),
