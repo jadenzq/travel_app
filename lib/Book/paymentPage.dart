@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'dart:async';
 import '../Models/booking_service.dart';
 
@@ -26,6 +27,10 @@ class _PaymentPageState extends State<PaymentPage> {
   // 电子钱包选择
   String _selectedEWallet = 'tng';
 
+  double _notificationOpacity = 0.0;
+  String _notificationMessage = '';
+  Timer? _notificationTimer;
+
   @override
   void initState() {
     super.initState();
@@ -39,6 +44,7 @@ class _PaymentPageState extends State<PaymentPage> {
     _expiryDateController.dispose();
     _cvcController.dispose();
     _cardHolderController.dispose();
+    _notificationTimer?.cancel();
     super.dispose();
   }
 
@@ -96,9 +102,7 @@ class _PaymentPageState extends State<PaymentPage> {
           _expiryDateController.text.isEmpty ||
           _cvcController.text.isEmpty ||
           _cardHolderController.text.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Please fill all card details')),
-        );
+        _showCustomNotification('Please fill all card details');
         return;
       }
     }
@@ -177,6 +181,23 @@ class _PaymentPageState extends State<PaymentPage> {
     );
   }
 
+  void _showCustomNotification(String message) {
+    setState(() {
+      _notificationMessage = message;
+      _notificationOpacity = 1.0;
+    });
+
+
+    _notificationTimer?.cancel();
+    _notificationTimer = Timer(const Duration(seconds: 2), () {
+      if (mounted) {
+        setState(() {
+          _notificationOpacity = 0.0;
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
@@ -200,462 +221,509 @@ class _PaymentPageState extends State<PaymentPage> {
       appBar: AppBar(
         title: Text(
           'Payment',
-          style: TextStyle(color: Colors.white),
+          style: GoogleFonts.ubuntu(color: Colors.white),
         ),
         backgroundColor: Colors.blueAccent,
         centerTitle: true,
       ),
       backgroundColor: Colors.grey[50],
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+      body: SizedBox.expand(
+        child: Stack(
           children: [
-            // 倒计时卡片
-            Card(
-              elevation: 4,
-              color: _remainingSeconds <= 60 ? Colors.red[50] : Colors.orange[50],
-              child: Padding(
-                padding: EdgeInsets.all(16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.timer,
-                      color: _remainingSeconds <= 60 ? Colors.red : Colors.orange,
-                      size: 24,
-                    ),
-                    SizedBox(width: 8),
-                    Text(
-                      'Payment expires in: ${_formatTime(_remainingSeconds)}',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: _remainingSeconds <= 60 ? Colors.red : Colors.orange,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
-            SizedBox(height: 16),
-
-            // 订单信息
-            Card(
-              elevation: 4,
-              child: Padding(
-                padding: EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Order Summary',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Divider(),
-                    
-                    // 根据订单类型显示不同内容
-                    if (orderType == 'flight') ...[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            SingleChildScrollView(
+              padding: EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // 倒计时卡片
+                  Card(
+                    elevation: 4,
+                    color: _remainingSeconds <= 60 ? Colors.red[50] : Colors.orange[50],
+                    child: Padding(
+                      padding: EdgeInsets.all(16),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text('Flight: $flightNumber'),
-                          Text(airline),
-                        ],
-                      ),
-                      SizedBox(height: 8),
-                    ] else if (orderType == 'hotel') ...[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Hotel:'),
-                          Flexible(
-                            child: Text(
-                              hotelName,
-                              textAlign: TextAlign.right,
-                              style: TextStyle(fontWeight: FontWeight.w500),
+                          Icon(
+                            Icons.timer,
+                            color: _remainingSeconds <= 60 ? Colors.red : Colors.orange,
+                            size: 24,
+                          ),
+                          SizedBox(width: 8),
+                          Text(
+                            'Payment expires in: ${_formatTime(_remainingSeconds)}',
+                            style: GoogleFonts.ubuntu(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: _remainingSeconds <= 60 ? Colors.red : Colors.orange,
                             ),
                           ),
                         ],
                       ),
-                      SizedBox(height: 8),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Check-in Date:'),
-                          Text(
-                            checkInDate,
-                            style: TextStyle(fontWeight: FontWeight.w500),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 8),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Check-out Date:'),
-                          Text(
-                            checkOutDate,
-                            style: TextStyle(fontWeight: FontWeight.w500),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 8),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Stay Duration:'),
-                          Text(
-                            '$stayDuration night${stayDuration > 1 ? 's' : ''}',
-                            style: TextStyle(fontWeight: FontWeight.w500),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 8),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Price per Night:'),
-                          Text(
-                            pricePerNight,
-                            style: TextStyle(color: Colors.grey[600]),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 8),
-                    ],
-                    
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Total Amount:',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          price,
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.green,
-                          ),
-                        ),
-                      ],
                     ),
-                  ],
-                ),
-              ),
-            ),
-
-            SizedBox(height: 16),
-
-            // 支付方式选择
-            Card(
-              elevation: 4,
-              child: Padding(
-                padding: EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Payment Method',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 16),
-                    
-                    // 银行卡选项
-                    RadioListTile<String>(
-                      title: Row(
-                        children: [
-                          Icon(Icons.credit_card, color: Colors.blueAccent),
-                          SizedBox(width: 8),
-                          Text('Bank Card'),
-                        ],
-                      ),
-                      value: 'card',
-                      groupValue: _selectedPaymentMethod,
-                      onChanged: (value) {
-                        setState(() {
-                          _selectedPaymentMethod = value!;
-                        });
-                      },
-                    ),
-                    
-                    // 电子钱包选项
-                    RadioListTile<String>(
-                      title: Row(
-                        children: [
-                          Icon(Icons.account_balance_wallet, color: Colors.green),
-                          SizedBox(width: 8),
-                          Text('E-Wallet'),
-                        ],
-                      ),
-                      value: 'ewallet',
-                      groupValue: _selectedPaymentMethod,
-                      onChanged: (value) {
-                        setState(() {
-                          _selectedPaymentMethod = value!;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
-            SizedBox(height: 16),
-
-            // 支付详情
-            if (_selectedPaymentMethod == 'card') ...[
-              Card(
-                elevation: 4,
-                child: Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // 标题和卡组织图片并列
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                  ),
+            
+                  SizedBox(height: 16),
+            
+                  // 订单信息
+                  Card(
+                    elevation: 4,
+                    child: Padding(
+                      padding: EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Card Information',
-                            style: TextStyle(
+                            'Order Summary',
+                            style: GoogleFonts.ubuntu(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          // 卡组织图片
-                          Container(
-                            height: 50,
-                            width: 80,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.3),
-                                  spreadRadius: 1,
-                                  blurRadius: 3,
-                                  offset: Offset(0, 2),
+                          Divider(),
+                          
+                          // 根据订单类型显示不同内容
+                          if (orderType == 'flight') ...[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Flight: $flightNumber'),
+                                Text(airline),
+                              ],
+                            ),
+                            SizedBox(height: 8),
+                          ] else if (orderType == 'hotel') ...[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Hotel:'),
+                                Flexible(
+                                  child: Text(
+                                    hotelName,
+                                    textAlign: TextAlign.right,
+                                    style: GoogleFonts.ubuntu(fontWeight: FontWeight.w500),
+                                  ),
                                 ),
                               ],
                             ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: Image.asset(
-                                'assets/images/Card.jpg',
-                                fit: BoxFit.cover,
-                              ),
+                            SizedBox(height: 8),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Check-in Date:'),
+                                Text(
+                                  checkInDate,
+                                  style: GoogleFonts.ubuntu(fontWeight: FontWeight.w500),
+                                ),
+                              ],
                             ),
+                            SizedBox(height: 8),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Check-out Date:'),
+                                Text(
+                                  checkOutDate,
+                                  style: GoogleFonts.ubuntu(fontWeight: FontWeight.w500),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 8),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Stay Duration:'),
+                                Text(
+                                  '$stayDuration night${stayDuration > 1 ? 's' : ''}',
+                                  style: GoogleFonts.ubuntu(fontWeight: FontWeight.w500),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 8),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Price per Night:'),
+                                Text(
+                                  pricePerNight,
+                                  style: GoogleFonts.ubuntu(color: Colors.grey[600]),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 8),
+                          ],
+                          
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Total Amount:',
+                                style: GoogleFonts.ubuntu(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                price,
+                                style: GoogleFonts.ubuntu(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.green,
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                      SizedBox(height: 20),
-                      
-                      // 卡号
-                      TextField(
-                        controller: _cardNumberController,
-                        decoration: InputDecoration(
-                          labelText: 'Card Number',
-                          hintText: '1234 5678 9012 3456',
-                          border: OutlineInputBorder(),
-                          prefixIcon: Icon(Icons.credit_card),
-                        ),
-                        keyboardType: TextInputType.number,
-                      ),
-                      SizedBox(height: 16),
-                      
-                      // 持卡人姓名
-                      TextField(
-                        controller: _cardHolderController,
-                        decoration: InputDecoration(
-                          labelText: 'Cardholder Name',
-                          hintText: 'John Doe',
-                          border: OutlineInputBorder(),
-                          prefixIcon: Icon(Icons.person),
-                        ),
-                      ),
-                      SizedBox(height: 16),
-                      
-                      Row(
+                    ),
+                  ),
+            
+                  SizedBox(height: 16),
+            
+                  // 支付方式选择
+                  Card(
+                    elevation: 4,
+                    child: Padding(
+                      padding: EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // 过期日期
-                          Expanded(
-                            child: TextField(
-                              controller: _expiryDateController,
-                              decoration: InputDecoration(
-                                labelText: 'Expiry Date',
-                                hintText: 'MM/YY',
-                                border: OutlineInputBorder(),
-                                prefixIcon: Icon(Icons.calendar_today),
-                              ),
+                          Text(
+                            'Payment Method',
+                            style: GoogleFonts.ubuntu(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                          SizedBox(width: 16),
-                          // CVC
-                          Expanded(
-                            child: TextField(
-                              controller: _cvcController,
+                          SizedBox(height: 16),
+                          
+                          // 银行卡选项
+                          RadioListTile<String>(
+                            title: Row(
+                              children: [
+                                Icon(Icons.credit_card, color: Colors.blueAccent),
+                                SizedBox(width: 8),
+                                Text('Bank Card'),
+                              ],
+                            ),
+                            value: 'card',
+                            groupValue: _selectedPaymentMethod,
+                            onChanged: (value) {
+                              setState(() {
+                                _selectedPaymentMethod = value!;
+                              });
+                            },
+                          ),
+                          
+                          // 电子钱包选项
+                          RadioListTile<String>(
+                            title: Row(
+                              children: [
+                                Icon(Icons.account_balance_wallet, color: Colors.green),
+                                SizedBox(width: 8),
+                                Text('E-Wallet'),
+                              ],
+                            ),
+                            value: 'ewallet',
+                            groupValue: _selectedPaymentMethod,
+                            onChanged: (value) {
+                              setState(() {
+                                _selectedPaymentMethod = value!;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+            
+                  SizedBox(height: 16),
+            
+                  // 支付详情
+                  if (_selectedPaymentMethod == 'card') ...[
+                    Card(
+                      elevation: 4,
+                      child: Padding(
+                        padding: EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // 标题和卡组织图片并列
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Card Information',
+                                  style: GoogleFonts.ubuntu(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                // 卡组织图片
+                                Container(
+                                  height: 50,
+                                  width: 80,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.3),
+                                        spreadRadius: 1,
+                                        blurRadius: 3,
+                                        offset: Offset(0, 2),
+                                      ),
+                                    ],
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(8),
+                                    child: Image.asset(
+                                      'assets/images/Card.jpg',
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 20),
+                            
+                            // 卡号
+                            TextField(
+                              controller: _cardNumberController,
                               decoration: InputDecoration(
-                                labelText: 'CVC',
-                                hintText: '123',
+                                labelText: 'Card Number',
+                                hintText: '1234 5678 9012 3456',
                                 border: OutlineInputBorder(),
-                                prefixIcon: Icon(Icons.lock),
+                                prefixIcon: Icon(Icons.credit_card),
                               ),
                               keyboardType: TextInputType.number,
-                              obscureText: true,
                             ),
-                          ),
-                        ],
+                            SizedBox(height: 16),
+                            
+                            // 持卡人姓名
+                            TextField(
+                              controller: _cardHolderController,
+                              decoration: InputDecoration(
+                                labelText: 'Cardholder Name',
+                                hintText: 'John Doe',
+                                border: OutlineInputBorder(),
+                                prefixIcon: Icon(Icons.person),
+                              ),
+                            ),
+                            SizedBox(height: 16),
+                            
+                            Row(
+                              children: [
+                                // 过期日期
+                                Expanded(
+                                  child: TextField(
+                                    controller: _expiryDateController,
+                                    decoration: InputDecoration(
+                                      labelText: 'Expiry Date',
+                                      hintText: 'MM/YY',
+                                      border: OutlineInputBorder(),
+                                      prefixIcon: Icon(Icons.calendar_today),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(width: 16),
+                                // CVC
+                                Expanded(
+                                  child: TextField(
+                                    controller: _cvcController,
+                                    decoration: InputDecoration(
+                                      labelText: 'CVC',
+                                      hintText: '123',
+                                      border: OutlineInputBorder(),
+                                      prefixIcon: Icon(Icons.lock),
+                                    ),
+                                    keyboardType: TextInputType.number,
+                                    obscureText: true,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                    ],
-                  ),
-                ),
-              ),
-            ] else ...[
-              Card(
-                elevation: 4,
-                child: Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Select E-Wallet',
-                        style: TextStyle(
-                          fontSize: 20,
+                    ),
+                  ] else ...[
+                    Card(
+                      elevation: 4,
+                      child: Padding(
+                        padding: EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Select E-Wallet',
+                              style: GoogleFonts.ubuntu(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(height: 16),
+                            
+                            // Touch n Go
+                            RadioListTile<String>(
+                              title: Row(
+                                children: [
+                                  Container(
+                                    width: 40,
+                                    height: 30,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                    child: Image.asset(
+                                      'assets/images/TNG.png',
+                                      fit: BoxFit.contain,
+                                    ),
+                                  ),
+                                  SizedBox(width: 8),
+                                  Text('Touch n Go'),
+                                ],
+                              ),
+                              value: 'tng',
+                              groupValue: _selectedEWallet,
+                              onChanged: (value) {
+                                setState(() {
+                                  _selectedEWallet = value!;
+                                });
+                              },
+                            ),
+                            
+                            // 支付宝
+                            RadioListTile<String>(
+                              title: Row(
+                                children: [
+                                  Container(
+                                    width: 40,
+                                    height: 30,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                    child: Image.asset(
+                                      'assets/images/Alipay.png',
+                                      fit: BoxFit.contain,
+                                    ),
+                                  ),
+                                  SizedBox(width: 8),
+                                  Text('Alipay'),
+                                ],
+                              ),
+                              value: 'alipay',
+                              groupValue: _selectedEWallet,
+                              onChanged: (value) {
+                                setState(() {
+                                  _selectedEWallet = value!;
+                                });
+                              },
+                            ),
+                            
+                            // PayPal
+                            RadioListTile<String>(
+                              title: Row(
+                                children: [
+                                  Container(
+                                    width: 40,
+                                    height: 30,
+                                    decoration: BoxDecoration(
+                                      color: Colors.blue[800],
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        'P',
+                                        style: GoogleFonts.ubuntu(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(width: 8),
+                                  Text('PayPal'),
+                                ],
+                              ),
+                              value: 'paypal',
+                              groupValue: _selectedEWallet,
+                              onChanged: (value) {
+                                setState(() {
+                                  _selectedEWallet = value!;
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+            
+                  SizedBox(height: 24),
+            
+                  // 支付按钮
+                  SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: ElevatedButton(
+                      onPressed: _remainingSeconds > 0 ? _processPayment : null,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: _remainingSeconds > 0 ? Colors.blueAccent : Colors.grey,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      child: Text(
+                        _remainingSeconds > 0 ? 'Pay Now $price' : 'Payment Expired',
+                        style: GoogleFonts.ubuntu(
+                          fontSize: 18,
+                          color: Colors.white,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(height: 16),
-                      
-                      // Touch n Go
-                      RadioListTile<String>(
-                        title: Row(
-                          children: [
-                            Container(
-                              width: 40,
-                              height: 30,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                              child: Image.asset(
-                                'assets/images/TNG.png',
-                                fit: BoxFit.contain,
-                              ),
-                            ),
-                            SizedBox(width: 8),
-                            Text('Touch n Go'),
-                          ],
-                        ),
-                        value: 'tng',
-                        groupValue: _selectedEWallet,
-                        onChanged: (value) {
-                          setState(() {
-                            _selectedEWallet = value!;
-                          });
-                        },
-                      ),
-                      
-                      // 支付宝
-                      RadioListTile<String>(
-                        title: Row(
-                          children: [
-                            Container(
-                              width: 40,
-                              height: 30,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                              child: Image.asset(
-                                'assets/images/Alipay.png',
-                                fit: BoxFit.contain,
-                              ),
-                            ),
-                            SizedBox(width: 8),
-                            Text('Alipay'),
-                          ],
-                        ),
-                        value: 'alipay',
-                        groupValue: _selectedEWallet,
-                        onChanged: (value) {
-                          setState(() {
-                            _selectedEWallet = value!;
-                          });
-                        },
-                      ),
-                      
-                      // PayPal
-                      RadioListTile<String>(
-                        title: Row(
-                          children: [
-                            Container(
-                              width: 40,
-                              height: 30,
-                              decoration: BoxDecoration(
-                                color: Colors.blue[800],
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  'P',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(width: 8),
-                            Text('PayPal'),
-                          ],
-                        ),
-                        value: 'paypal',
-                        groupValue: _selectedEWallet,
-                        onChanged: (value) {
-                          setState(() {
-                            _selectedEWallet = value!;
-                          });
-                        },
-                      ),
-                    ],
+                    ),
                   ),
-                ),
+                ],
               ),
-            ],
-
-            SizedBox(height: 24),
-
-            // 支付按钮
-            SizedBox(
-              width: double.infinity,
-              height: 50,
-              child: ElevatedButton(
-                onPressed: _remainingSeconds > 0 ? _processPayment : null,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: _remainingSeconds > 0 ? Colors.blueAccent : Colors.grey,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-                child: Text(
-                  _remainingSeconds > 0 ? 'Pay Now $price' : 'Payment Expired',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
+            ),
+            AnimatedPositioned(
+              duration: const Duration(milliseconds: 400),
+              curve: Curves.easeInOut,
+              bottom: _notificationOpacity > 0 ? 20 : -100,
+              left: 20,
+              right: 20,
+              child: AnimatedOpacity(
+                opacity: _notificationOpacity,
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeInOut,
+                child: Material(
+                  color: Colors.transparent,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                    decoration: BoxDecoration(
+                      color: Colors.black87,
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.3),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: const Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Text(
+                        _notificationMessage,
+                        style: GoogleFonts.ubuntu(
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
                   ),
                 ),
               ),

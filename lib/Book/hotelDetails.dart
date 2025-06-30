@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
 class HotelDetails extends StatelessWidget {
   const HotelDetails({super.key});
 
@@ -21,6 +20,7 @@ class HotelDetails extends StatelessWidget {
             : 'N/A';
 
     return Scaffold(
+      backgroundColor: const Color(0xfff5f5f5),
       appBar: AppBar(
         title: Column(
           mainAxisSize: MainAxisSize.min,
@@ -28,12 +28,12 @@ class HotelDetails extends StatelessWidget {
           children: [
             Text(
               location,
-              style: TextStyle(color: Colors.black, fontSize: 18),
+              style: GoogleFonts.ubuntu(color: Colors.black, fontSize: 18),
               textAlign: TextAlign.center,
             ),
             Text(
               '$checkIn ~ $checkOut',
-              style: TextStyle(color: Colors.black45, fontSize: 14),
+              style: GoogleFonts.ubuntu(color: Colors.black45, fontSize: 14),
               textAlign: TextAlign.center,
             ),
           ],
@@ -48,7 +48,7 @@ class HotelDetails extends StatelessWidget {
           SizedBox(height: 24),
           Text(
             'Recommended Hotels',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            style: GoogleFonts.ubuntu(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           SizedBox(height: 12),
 
@@ -101,7 +101,7 @@ class HotelDetails extends StatelessWidget {
                     ),
                     trailing: Text(
                       '\$220',
-                      style: TextStyle(
+                      style: GoogleFonts.ubuntu(
                         fontWeight: FontWeight.bold,
                         color: Colors.blueAccent,
                         fontSize: 20,
@@ -112,6 +112,8 @@ class HotelDetails extends StatelessWidget {
               ),
             ),
           ),
+
+          SizedBox(height: 12),
 
           // 酒店2
           GestureDetector(
@@ -162,7 +164,7 @@ class HotelDetails extends StatelessWidget {
 
                     trailing: Text(
                       '\$350',
-                      style: TextStyle(
+                      style: GoogleFonts.ubuntu(
                         fontWeight: FontWeight.bold,
                         color: Colors.blueAccent,
                         fontSize: 20,
@@ -173,6 +175,8 @@ class HotelDetails extends StatelessWidget {
               ),
             ),
           ),
+
+          SizedBox(height: 12),
 
           // 酒店3
           GestureDetector(
@@ -222,7 +226,7 @@ class HotelDetails extends StatelessWidget {
                     ),
                     trailing: Text(
                       '\$180',
-                      style: TextStyle(
+                      style: GoogleFonts.ubuntu(
                         fontWeight: FontWeight.bold,
                         color: Colors.blueAccent,
                         fontSize: 20,
@@ -233,6 +237,8 @@ class HotelDetails extends StatelessWidget {
               ),
             ),
           ),
+
+          SizedBox(height: 12),
 
           // 酒店4
           GestureDetector(
@@ -282,7 +288,7 @@ class HotelDetails extends StatelessWidget {
                     ),
                     trailing: Text(
                       '\$300',
-                      style: TextStyle(
+                      style: GoogleFonts.ubuntu(
                         fontWeight: FontWeight.bold,
                         color: Colors.blueAccent,
                         fontSize: 20,
@@ -293,6 +299,8 @@ class HotelDetails extends StatelessWidget {
               ),
             ),
           ),
+
+          SizedBox(height: 12),
 
           // 酒店5
           GestureDetector(
@@ -342,7 +350,7 @@ class HotelDetails extends StatelessWidget {
                     ),
                     trailing: Text(
                       '\$200',
-                      style: TextStyle(
+                      style: GoogleFonts.ubuntu(
                         fontWeight: FontWeight.bold,
                         color: Colors.blueAccent,
                         fontSize: 20,
@@ -353,6 +361,8 @@ class HotelDetails extends StatelessWidget {
               ),
             ),
           ),
+
+          SizedBox(height: 12),
 
           // 酒店6
           GestureDetector(
@@ -402,7 +412,7 @@ class HotelDetails extends StatelessWidget {
                     ),
                     trailing: Text(
                       '\$250',
-                      style: TextStyle(
+                      style: GoogleFonts.ubuntu(
                         fontWeight: FontWeight.bold,
                         color: Colors.blueAccent,
                         fontSize: 20,

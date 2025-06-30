@@ -34,7 +34,8 @@ class _UploadPostState extends State<UploadPost> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _contentController = TextEditingController();
 
-  final TextEditingController _countrySearchController = TextEditingController();
+  final TextEditingController _countrySearchController =
+      TextEditingController();
   final FocusNode _countryFocusNode = FocusNode();
   OverlayEntry? _countryOverlayEntry;
 
@@ -85,7 +86,8 @@ class _UploadPostState extends State<UploadPost> {
         Future.delayed(const Duration(milliseconds: 200), () {
           if (!_countryFocusNode.hasFocus) {
             _removeCountryOverlay();
-            if (_selectedCountryObject == null && _countrySearchController.text.isNotEmpty) {
+            if (_selectedCountryObject == null &&
+                _countrySearchController.text.isNotEmpty) {
               _countrySearchController.clear();
             }
           }
@@ -103,7 +105,8 @@ class _UploadPostState extends State<UploadPost> {
         Future.delayed(const Duration(milliseconds: 200), () {
           if (!_stateFocusNode.hasFocus) {
             _removeStateOverlay();
-            if (_selectedState == null && _stateSearchController.text.isNotEmpty) {
+            if (_selectedState == null &&
+                _stateSearchController.text.isNotEmpty) {
               _stateSearchController.clear();
             }
           }
@@ -114,10 +117,15 @@ class _UploadPostState extends State<UploadPost> {
 
   Future<void> _loadCountriesData() async {
     try {
-      final String response = await rootBundle.loadString('assets/countries+states.json');
+      final String response = await rootBundle.loadString(
+        'assets/countries+states.json',
+      );
       final List<dynamic> data = json.decode(response);
       setState(() {
-        _allCountries = data.map((e) => Country.fromJson(e as Map<String, dynamic>)).toList();
+        _allCountries =
+            data
+                .map((e) => Country.fromJson(e as Map<String, dynamic>))
+                .toList();
         _filteredCountries = List.from(_allCountries);
       });
     } catch (e) {
@@ -132,12 +140,14 @@ class _UploadPostState extends State<UploadPost> {
       if (query.isEmpty) {
         _filteredCountries = List.from(_allCountries);
       } else {
-        _filteredCountries = _allCountries
-            .where((country) => country.name.toLowerCase().contains(query))
-            .toList();
+        _filteredCountries =
+            _allCountries
+                .where((country) => country.name.toLowerCase().contains(query))
+                .toList();
       }
 
-      if (_selectedCountryObject != null && !(_selectedCountryObject!.name.toLowerCase().contains(query))) {
+      if (_selectedCountryObject != null &&
+          !(_selectedCountryObject!.name.toLowerCase().contains(query))) {
         _selectedCountryObject = null;
         _countrySearchController.text = '';
         _clearStates();
@@ -152,12 +162,14 @@ class _UploadPostState extends State<UploadPost> {
       if (query.isEmpty) {
         _filteredStates = List.from(_allStatesForSelectedCountry);
       } else {
-        _filteredStates = _allStatesForSelectedCountry
-            .where((state) => state.toLowerCase().contains(query))
-            .toList();
+        _filteredStates =
+            _allStatesForSelectedCountry
+                .where((state) => state.toLowerCase().contains(query))
+                .toList();
       }
 
-      if (_selectedState != null && !(_selectedState!.toLowerCase().contains(query))) {
+      if (_selectedState != null &&
+          !(_selectedState!.toLowerCase().contains(query))) {
         _selectedState = null;
         _stateSearchController.text = '';
       }
@@ -199,58 +211,68 @@ class _UploadPostState extends State<UploadPost> {
     if (_countryOverlayEntry != null) return;
 
     // Find the render box of the country text field to get its position and size
-    final RenderBox countryTextFieldRenderBox = _countryFocusNode.context!.findRenderObject() as RenderBox;
-    final Rect countryTextFieldRect = countryTextFieldRenderBox.localToGlobal(Offset.zero) & countryTextFieldRenderBox.size;
+    final RenderBox countryTextFieldRenderBox =
+        _countryFocusNode.context!.findRenderObject() as RenderBox;
+    final Rect countryTextFieldRect =
+        countryTextFieldRenderBox.localToGlobal(Offset.zero) &
+        countryTextFieldRenderBox.size;
 
     _countryOverlayEntry = OverlayEntry(
-      builder: (context) => Stack(
-        children: [
-          // Transparent GestureDetector to capture taps outside the dropdown
-          Positioned.fill(
-            child: GestureDetector(
-              onTap: _dismissOverlays,
-              behavior: HitTestBehavior.translucent, // Ensures it captures taps
-            ),
-          ),
-          Positioned(
-            top: countryTextFieldRect.bottom + 8, // Position below the text field
-            left: countryTextFieldRect.left,
-            width: countryTextFieldRect.width,
-            child: Material(
-              color: Colors.transparent,
-              child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 16), // Match padding of the text field
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.3),
-                      blurRadius: 4,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
-                ),
-                constraints: BoxConstraints(
-                  maxHeight: 6 * 48.0,
-                ),
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  padding: EdgeInsets.zero,
-                  itemCount: _filteredCountries.length,
-                  itemBuilder: (context, index) {
-                    final country = _filteredCountries[index];
-                    return ListTile(
-                      title: Text(country.name, style: GoogleFonts.ubuntu()),
-                      onTap: () => _selectCountry(country),
-                    );
-                  },
+      builder:
+          (context) => Stack(
+            children: [
+              // Transparent GestureDetector to capture taps outside the dropdown
+              Positioned.fill(
+                child: GestureDetector(
+                  onTap: _dismissOverlays,
+                  behavior:
+                      HitTestBehavior.translucent, // Ensures it captures taps
                 ),
               ),
-            ),
+              Positioned(
+                top:
+                    countryTextFieldRect.bottom +
+                    8, // Position below the text field
+                left: countryTextFieldRect.left,
+                width: countryTextFieldRect.width,
+                child: Material(
+                  color: Colors.transparent,
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                    ), // Match padding of the text field
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.3),
+                          blurRadius: 4,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    constraints: BoxConstraints(maxHeight: 6 * 48.0),
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      padding: EdgeInsets.zero,
+                      itemCount: _filteredCountries.length,
+                      itemBuilder: (context, index) {
+                        final country = _filteredCountries[index];
+                        return ListTile(
+                          title: Text(
+                            country.name,
+                            style: GoogleFonts.ubuntu(),
+                          ),
+                          onTap: () => _selectCountry(country),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
     );
     Overlay.of(context).insert(_countryOverlayEntry!);
   }
@@ -264,58 +286,65 @@ class _UploadPostState extends State<UploadPost> {
     if (_stateOverlayEntry != null) return;
 
     // Find the render box of the state text field to get its position and size
-    final RenderBox stateTextFieldRenderBox = _stateFocusNode.context!.findRenderObject() as RenderBox;
-    final Rect stateTextFieldRect = stateTextFieldRenderBox.localToGlobal(Offset.zero) & stateTextFieldRenderBox.size;
+    final RenderBox stateTextFieldRenderBox =
+        _stateFocusNode.context!.findRenderObject() as RenderBox;
+    final Rect stateTextFieldRect =
+        stateTextFieldRenderBox.localToGlobal(Offset.zero) &
+        stateTextFieldRenderBox.size;
 
     _stateOverlayEntry = OverlayEntry(
-      builder: (context) => Stack(
-        children: [
-          // Transparent GestureDetector to capture taps outside the dropdown
-          Positioned.fill(
-            child: GestureDetector(
-              onTap: _dismissOverlays,
-              behavior: HitTestBehavior.translucent, // Ensures it captures taps
-            ),
-          ),
-          Positioned(
-            top: stateTextFieldRect.bottom + 8, // Position below the text field
-            left: stateTextFieldRect.left,
-            width: stateTextFieldRect.width,
-            child: Material(
-              color: Colors.transparent,
-              child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 16), // Match padding of the text field
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.3),
-                      blurRadius: 4,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
-                ),
-                constraints: BoxConstraints(
-                  maxHeight: 6 * 48.0,
-                ),
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  padding: EdgeInsets.zero,
-                  itemCount: _filteredStates.length,
-                  itemBuilder: (context, index) {
-                    final state = _filteredStates[index];
-                    return ListTile(
-                      title: Text(state, style: GoogleFonts.ubuntu()),
-                      onTap: () => _selectState(state),
-                    );
-                  },
+      builder:
+          (context) => Stack(
+            children: [
+              // Transparent GestureDetector to capture taps outside the dropdown
+              Positioned.fill(
+                child: GestureDetector(
+                  onTap: _dismissOverlays,
+                  behavior:
+                      HitTestBehavior.translucent, // Ensures it captures taps
                 ),
               ),
-            ),
+              Positioned(
+                top:
+                    stateTextFieldRect.bottom +
+                    8, // Position below the text field
+                left: stateTextFieldRect.left,
+                width: stateTextFieldRect.width,
+                child: Material(
+                  color: Colors.transparent,
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                    ), // Match padding of the text field
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.3),
+                          blurRadius: 4,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    constraints: BoxConstraints(maxHeight: 6 * 48.0),
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      padding: EdgeInsets.zero,
+                      itemCount: _filteredStates.length,
+                      itemBuilder: (context, index) {
+                        final state = _filteredStates[index];
+                        return ListTile(
+                          title: Text(state, style: GoogleFonts.ubuntu()),
+                          onTap: () => _selectState(state),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
     );
     Overlay.of(context).insert(_stateOverlayEntry!);
   }
@@ -403,7 +432,9 @@ class _UploadPostState extends State<UploadPost> {
   Future<void> _pickVideo() async {
     _dismissOverlays();
     try {
-      final XFile? video = await ImagePicker().pickVideo(source: ImageSource.gallery);
+      final XFile? video = await ImagePicker().pickVideo(
+        source: ImageSource.gallery,
+      );
       if (video != null) {
         setState(() {
           _selectedVideo = video;
@@ -426,7 +457,9 @@ class _UploadPostState extends State<UploadPost> {
   Future<void> _pickVideoThumbnail() async {
     _dismissOverlays();
     try {
-      final XFile? thumbnail = await ImagePicker().pickImage(source: ImageSource.gallery);
+      final XFile? thumbnail = await ImagePicker().pickImage(
+        source: ImageSource.gallery,
+      );
       if (thumbnail != null) {
         setState(() {
           _selectedVideoThumbnail = thumbnail;
@@ -466,7 +499,8 @@ class _UploadPostState extends State<UploadPost> {
   void _uploadPost() {
     _dismissOverlays();
     if (_formKey.currentState!.validate()) {
-      if (_isImagePost && (_selectedImages == null || _selectedImages!.isEmpty)) {
+      if (_isImagePost &&
+          (_selectedImages == null || _selectedImages!.isEmpty)) {
         _showCustomNotification('Please select at least one image.');
         return;
       } else if (!_isImagePost) {
@@ -475,8 +509,11 @@ class _UploadPostState extends State<UploadPost> {
           return;
         }
 
-        if (_selectedVideoThumbnail == null && _generatedVideoThumbnailBytes == null) {
-          _showCustomNotification('Video thumbnail is still generating. Please wait or select a custom thumbnail.');
+        if (_selectedVideoThumbnail == null &&
+            _generatedVideoThumbnailBytes == null) {
+          _showCustomNotification(
+            'Video thumbnail is still generating. Please wait or select a custom thumbnail.',
+          );
           return;
         }
       }
@@ -506,8 +543,12 @@ class _UploadPostState extends State<UploadPost> {
             thumbnailPathToUse = _selectedVideoThumbnail!.path;
           } else if (_generatedVideoThumbnailBytes != null) {
             final tempDir = await getTemporaryDirectory();
-            final tempThumbnailFile = File('${tempDir.path}/generated_thumbnail_${DateTime.now().millisecondsSinceEpoch}.jpg');
-            await tempThumbnailFile.writeAsBytes(_generatedVideoThumbnailBytes!);
+            final tempThumbnailFile = File(
+              '${tempDir.path}/generated_thumbnail_${DateTime.now().millisecondsSinceEpoch}.jpg',
+            );
+            await tempThumbnailFile.writeAsBytes(
+              _generatedVideoThumbnailBytes!,
+            );
             thumbnailPathToUse = tempThumbnailFile.path;
           } else {
             thumbnailPathToUse = '';
@@ -567,7 +608,7 @@ class _UploadPostState extends State<UploadPost> {
           },
         ),
       ),
-      body: SizedBox.expand( // Removed the GestureDetector here
+      body: SizedBox.expand(
         child: Stack(
           children: [
             SingleChildScrollView(
@@ -606,19 +647,27 @@ class _UploadPostState extends State<UploadPost> {
                           },
                           borderRadius: BorderRadius.circular(12),
                           selectedColor: Colors.white,
-                          fillColor: const Color(0xff41729f),
+                          fillColor: Colors.blue,
                           color: Colors.black,
-                          constraints: BoxConstraints.expand(width: (MediaQuery.of(context).size.width - 32) / 2 - 4),
+                          constraints: BoxConstraints.expand(
+                            width:
+                                (MediaQuery.of(context).size.width - 32) / 2 -
+                                4,
+                          ),
                           children: <Widget>[
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                              ),
                               child: Text(
                                 'Image Post',
                                 style: GoogleFonts.ubuntu(fontSize: 16),
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                              ),
                               child: Text(
                                 'Video Post',
                                 style: GoogleFonts.ubuntu(fontSize: 16),
@@ -636,7 +685,9 @@ class _UploadPostState extends State<UploadPost> {
                       decoration: InputDecoration(
                         labelText: 'Title',
                         hintText: 'Enter post title',
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                         filled: true,
                         fillColor: Colors.white,
                       ),
@@ -657,7 +708,9 @@ class _UploadPostState extends State<UploadPost> {
                         labelText: 'Content',
                         hintText: 'Share your experience here...',
                         alignLabelWithHint: true,
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                         filled: true,
                         fillColor: Colors.white,
                       ),
@@ -685,24 +738,32 @@ class _UploadPostState extends State<UploadPost> {
                       },
                       decoration: InputDecoration(
                         labelText: 'Country',
-                        hintText: _allCountries.isEmpty ? 'Loading countries...' : 'Search or select country',
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                        hintText:
+                            _allCountries.isEmpty
+                                ? 'Loading countries...'
+                                : 'Search or select country',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                         filled: true,
                         fillColor: Colors.white,
-                        suffixIcon: _selectedCountryObject != null
-                            ? IconButton(
-                                icon: const Icon(Icons.clear),
-                                onPressed: () {
-                                  setState(() {
-                                    _selectedCountryObject = null;
-                                    _countrySearchController.clear();
-                                    _filteredCountries = List.from(_allCountries);
-                                    _clearStates();
-                                  });
-                                  _removeCountryOverlay();
-                                },
-                              )
-                            : null,
+                        suffixIcon:
+                            _selectedCountryObject != null
+                                ? IconButton(
+                                  icon: const Icon(Icons.clear),
+                                  onPressed: () {
+                                    setState(() {
+                                      _selectedCountryObject = null;
+                                      _countrySearchController.clear();
+                                      _filteredCountries = List.from(
+                                        _allCountries,
+                                      );
+                                      _clearStates();
+                                    });
+                                    _removeCountryOverlay();
+                                  },
+                                )
+                                : null,
                       ),
                       validator: (value) {
                         if (_selectedCountryObject == null) {
@@ -714,7 +775,8 @@ class _UploadPostState extends State<UploadPost> {
 
                     const SizedBox(height: 15),
 
-                    if (_selectedCountryObject != null && _allStatesForSelectedCountry.isNotEmpty)
+                    if (_selectedCountryObject != null &&
+                        _allStatesForSelectedCountry.isNotEmpty)
                       TextFormField(
                         controller: _stateSearchController,
                         focusNode: _stateFocusNode,
@@ -722,7 +784,9 @@ class _UploadPostState extends State<UploadPost> {
                         onTap: () {
                           if (_stateSearchController.text.isEmpty) {
                             setState(() {
-                              _filteredStates = List.from(_allStatesForSelectedCountry);
+                              _filteredStates = List.from(
+                                _allStatesForSelectedCountry,
+                              );
                             });
                           }
                           _showStateOverlay();
@@ -730,37 +794,46 @@ class _UploadPostState extends State<UploadPost> {
                         decoration: InputDecoration(
                           labelText: 'State',
                           hintText: 'Search or select state',
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                           filled: true,
                           fillColor: Colors.white,
-                          suffixIcon: _selectedState != null
-                              ? IconButton(
-                                  icon: const Icon(Icons.clear),
-                                  onPressed: () {
-                                    setState(() {
-                                      _selectedState = null;
-                                      _stateSearchController.clear();
-                                      _filteredStates = List.from(_allStatesForSelectedCountry);
-                                    });
-                                    _removeStateOverlay();
-                                  },
-                                )
-                              : null,
+                          suffixIcon:
+                              _selectedState != null
+                                  ? IconButton(
+                                    icon: const Icon(Icons.clear),
+                                    onPressed: () {
+                                      setState(() {
+                                        _selectedState = null;
+                                        _stateSearchController.clear();
+                                        _filteredStates = List.from(
+                                          _allStatesForSelectedCountry,
+                                        );
+                                      });
+                                      _removeStateOverlay();
+                                    },
+                                  )
+                                  : null,
                         ),
                         validator: (value) {
-                          if (_selectedState == null && _selectedCountryObject!.states.isNotEmpty) {
+                          if (_selectedState == null &&
+                              _selectedCountryObject!.states.isNotEmpty) {
                             return 'Please select a state';
                           }
                           return null;
                         },
                       ),
-                    if (_selectedCountryObject != null && _allStatesForSelectedCountry.isEmpty)
+                    if (_selectedCountryObject != null &&
+                        _allStatesForSelectedCountry.isEmpty)
                       const SizedBox(height: 0),
 
                     const SizedBox(height: 20),
 
                     Text(
-                      _isImagePost ? 'Upload Images:' : 'Upload Video and Thumbnail:',
+                      _isImagePost
+                          ? 'Upload Images:'
+                          : 'Upload Video and Thumbnail:',
                       style: GoogleFonts.ubuntu(
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
@@ -775,21 +848,31 @@ class _UploadPostState extends State<UploadPost> {
                         children: [
                           ElevatedButton.icon(
                             onPressed: _pickImages,
-                            icon: const Icon(Icons.photo_library, color: Colors.white),
+                            icon: const Icon(
+                              Icons.photo_library,
+                              color: Colors.blue,
+                            ),
                             label: Text(
                               'Select Images',
-                              style: GoogleFonts.ubuntu(color: Colors.white),
+                              style: GoogleFonts.ubuntu(
+                                color: Colors.blue,
+                                fontSize: 18,
+                              ),
                             ),
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xff41729f),
+                              backgroundColor: Colors.white,
                               minimumSize: const Size(double.infinity, 50),
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                side: BorderSide(color: Colors.blue, width: 2),
+                              ),
                             ),
                           ),
 
                           const SizedBox(height: 10),
 
-                          if (_selectedImages != null && _selectedImages!.isNotEmpty)
+                          if (_selectedImages != null &&
+                              _selectedImages!.isNotEmpty)
                             SizedBox(
                               height: 100,
                               child: ReorderableListView.builder(
@@ -802,13 +885,19 @@ class _UploadPostState extends State<UploadPost> {
                                     key: ValueKey(imageFile.path),
                                     index: index,
                                     child: Padding(
-                                      padding: const EdgeInsets.only(right: 8.0),
+                                      padding: const EdgeInsets.only(
+                                        right: 8.0,
+                                      ),
                                       child: Stack(
                                         children: [
                                           ClipRRect(
-                                            borderRadius: BorderRadius.circular(12),
+                                            borderRadius: BorderRadius.circular(
+                                              12,
+                                            ),
                                             child: Image.file(
-                                              File(_selectedImages![index].path),
+                                              File(
+                                                _selectedImages![index].path,
+                                              ),
                                               fit: BoxFit.cover,
                                               width: 100,
                                               height: 100,
@@ -821,13 +910,19 @@ class _UploadPostState extends State<UploadPost> {
                                               onTap: () => _removeImage(index),
                                               child: Container(
                                                 decoration: BoxDecoration(
-                                                  color: Colors.black.withOpacity(0.5),
-                                                  borderRadius: const BorderRadius.only(
-                                                    topRight: Radius.circular(12),
-                                                    bottomLeft: Radius.circular(8),
-                                                  ),
+                                                  color: Colors.black
+                                                      .withOpacity(0.5),
+                                                  borderRadius:
+                                                      const BorderRadius.only(
+                                                        topRight:
+                                                            Radius.circular(12),
+                                                        bottomLeft:
+                                                            Radius.circular(8),
+                                                      ),
                                                 ),
-                                                padding: const EdgeInsets.all(4),
+                                                padding: const EdgeInsets.all(
+                                                  4,
+                                                ),
                                                 child: const Icon(
                                                   Icons.close,
                                                   color: Colors.white,
@@ -850,7 +945,10 @@ class _UploadPostState extends State<UploadPost> {
                         children: [
                           ElevatedButton.icon(
                             onPressed: _pickVideo,
-                            icon: const Icon(Icons.videocam, color: Colors.white),
+                            icon: const Icon(
+                              Icons.videocam,
+                              color: Colors.white,
+                            ),
                             label: Text(
                               'Select Video',
                               style: GoogleFonts.ubuntu(color: Colors.white),
@@ -858,7 +956,9 @@ class _UploadPostState extends State<UploadPost> {
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xff41729f),
                               minimumSize: const Size(double.infinity, 50),
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
                             ),
                           ),
                           const SizedBox(height: 10),
@@ -880,29 +980,37 @@ class _UploadPostState extends State<UploadPost> {
                               children: [
                                 _generatedVideoThumbnailBytes != null
                                     ? ClipRRect(
-                                        borderRadius: BorderRadius.circular(12),
-                                        child: Image.memory(
-                                          _generatedVideoThumbnailBytes!,
-                                          fit: BoxFit.cover,
-                                          width: 150,
-                                          height: 100,
-                                        ),
-                                      )
-                                    : Container(
-                                        height: 100,
+                                      borderRadius: BorderRadius.circular(12),
+                                      child: Image.memory(
+                                        _generatedVideoThumbnailBytes!,
+                                        fit: BoxFit.cover,
                                         width: 150,
-                                        decoration: BoxDecoration(
-                                          color: Colors.grey[200],
-                                          borderRadius: BorderRadius.circular(12),
-                                        ),
-                                        child: Center(
-                                          child: _selectedVideo != null
-                                              ? const CircularProgressIndicator(
-                                                  valueColor: AlwaysStoppedAnimation<Color>(Color(0xff41729f)),
-                                                )
-                                              : const Icon(Icons.video_file, size: 50, color: Colors.grey),
-                                        ),
+                                        height: 100,
                                       ),
+                                    )
+                                    : Container(
+                                      height: 100,
+                                      width: 150,
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey[200],
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      child: Center(
+                                        child:
+                                            _selectedVideo != null
+                                                ? const CircularProgressIndicator(
+                                                  valueColor:
+                                                      AlwaysStoppedAnimation<
+                                                        Color
+                                                      >(Color(0xff41729f)),
+                                                )
+                                                : const Icon(
+                                                  Icons.video_file,
+                                                  size: 50,
+                                                  color: Colors.grey,
+                                                ),
+                                      ),
+                                    ),
                                 Positioned(
                                   top: 0,
                                   right: 0,
@@ -940,7 +1048,9 @@ class _UploadPostState extends State<UploadPost> {
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xff41729f),
                               minimumSize: const Size(double.infinity, 50),
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
                             ),
                           ),
 
@@ -989,28 +1099,30 @@ class _UploadPostState extends State<UploadPost> {
 
                     _isLoading
                         ? const Center(
-                            child: CircularProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation<Color>(Color(0xff41729f)),
-                            ),
-                          )
-                        : ElevatedButton(
-                            onPressed: _uploadPost,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xff2d4059),
-                              minimumSize: const Size(double.infinity, 55),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                            ),
-                            child: Text(
-                              'Upload Post',
-                              style: GoogleFonts.ubuntu(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
+                          child: CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              Color(0xff41729f),
                             ),
                           ),
+                        )
+                        : ElevatedButton(
+                          onPressed: _uploadPost,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue,
+                            minimumSize: const Size(double.infinity, 55),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          child: Text(
+                            'Upload Post',
+                            style: GoogleFonts.ubuntu(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
                   ],
                 ),
               ),
@@ -1029,7 +1141,10 @@ class _UploadPostState extends State<UploadPost> {
                 child: Material(
                   color: Colors.transparent,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 12,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.black87,
                       borderRadius: BorderRadius.circular(10),

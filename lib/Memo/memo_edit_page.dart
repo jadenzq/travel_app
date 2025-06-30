@@ -217,7 +217,7 @@ class _MemoEditPageState extends State<MemoEditPage> {
                 children: [
                   Text(
                     "Saved Places",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                    style: GoogleFonts.ubuntu(fontSize: 18, fontWeight: FontWeight.w600),
                   ),
                   if (savedLocations.isNotEmpty)
                     TextButton.icon(
@@ -396,7 +396,7 @@ class _MemoEditPageState extends State<MemoEditPage> {
               children: [
                 Text(
                   "Place Suggestions",
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
+                  style: GoogleFonts.ubuntu(fontSize: 22, fontWeight: FontWeight.w500),
                 ),
                 IconButton(
                   iconSize: 40,
