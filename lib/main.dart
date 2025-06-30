@@ -1,27 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:travel_app/app.dart';
 import 'package:travel_app/Book/flightDetails.dart';
 import 'package:travel_app/Book/hotelDetails.dart';
-import 'package:travel_app/app.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:travel_app/Login/login.dart';
+import 'package:travel_app/Profile/profile.dart';
 
-// editing here
-void main() {
-  runApp(
-    MaterialApp(
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  void initState() {
+    FirebaseAuth.instance.signOut();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Travel App',
       debugShowCheckedModeBanner: false,
-      home: App(),
+      theme: ThemeData(primarySwatch: Colors.blue),
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         FlutterQuillLocalizations.delegate,
       ],
-      supportedLocales: const [Locale('en')],
-      routes: {
-        '/flightDetails': (context) => const Flightdetails(),
-        '/hotelDetails': (context) => const HotelDetails(),
-      },
-    ),
-  );
+      home: const App(),
+    );
+  }
 }
