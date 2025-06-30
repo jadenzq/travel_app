@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:travel_app/Forum/forum.dart';
 import 'package:travel_app/Login/Login.dart';
+import 'package:travel_app/Map/location_search_page.dart';
 import 'package:travel_app/Memo/Memo.dart';
 import 'package:travel_app/Profile/profile.dart';
 import 'package:travel_app/home_page.dart';
