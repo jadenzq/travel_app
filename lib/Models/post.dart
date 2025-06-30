@@ -3,20 +3,22 @@ class Post {
   String title;
   String content;
   String views;
-  List<String> images;
+  List<String> media;
   String authorName;
   String authorImage;
   String location;
   bool isLike = false;
+  bool isVideo = false;
 
   Post({
     required this.title,
     required this.content,
     required this.views,
-    required this.images,
+    required this.media,
     required this.authorName,
     required this.authorImage,
-    required this.location
+    required this.location,
+    this.isVideo = false
   });
 
   static List<Post> getAllPosts() {
@@ -28,7 +30,7 @@ class Post {
         content:
             "Penang's George Town is a UNESCO World Heritage site for a reason - every alley tells a story! I spent days wandering through historic shophouses, admiring incredible street art, and indulging in some of the best hawker food Malaysia has to offer. A paradise for foodies and culture lovers!",
         views: "20k",
-        images: [
+        media: [
           "assets/images/post-image/Penang-Street-Art.jpg",
           "assets/images/post-image/Penang-Street.jpg",
           "assets/images/post-image/Penang-Hokkien-Mee.jpg",
@@ -47,7 +49,7 @@ class Post {
         content:
             "From the glittering Eiffel Tower to the charming Montmartre streets, Paris captivated my heart. Every corner held a new surprise, a delightful cafe, or a masterpiece waiting to be admired. The boat cruise along the Seine was simply magical!",
         views: "2.4M",
-        images: [
+        media: [
           "assets/images/post-image/Paris-Notre-Dame.jpg",
           "assets/images/post-image/Paris-Eiffel-Tower.jpg",
           "assets/images/post-image/Paris-Coffee.jpg",
@@ -65,7 +67,7 @@ class Post {
         content:
             "Stepping into Kyoto felt like traveling back in time. The ancient temples, serene gardens, and traditional wooden houses create an atmosphere of unparalleled peace. Witnessing the cherry blossoms in full bloom at Arashiyama Bamboo Grove was an unforgettable experience.",
         views: "80k",
-        images: [
+        media: [
           "assets/images/post-image/Kyoto-Temple.jpg",
           "assets/images/post-image/Kyoto-Cherry-Blossom.jpg",
           "assets/images/post-image/Kyoto-Street.jpg"
@@ -82,7 +84,7 @@ class Post {
         content:
             "Santorini is every bit as breathtaking as the postcards suggest. The iconic white-washed buildings clinging to cliffs, the deep blue Aegean Sea, and sunsets that paint the sky in fiery hues... it's a paradise for romantics and photographers alike.",
         views: "1.5M",
-        images: [
+        media: [
           "assets/images/post-image/Santorini-Sea.jpg",
           "assets/images/post-image/Santorini-Sunset.jpg"
         ],
@@ -98,7 +100,7 @@ class Post {
         content:
             "Rome is a living museum. Walking through the Colosseum, visiting the Vatican, and tossing a coin in the Trevi Fountain felt like stepping back in time. The food, the history, the passion of the city - it all combined for an incredible journey.",
         views: "60k",
-        images: [
+        media: [
           "assets/images/post-image/Rome-Colosseum.jpg",
           "assets/images/post-image/Rome-Street.jpg",
           "assets/images/post-image/Rome-St-Peter-Square.jpg",
@@ -114,11 +116,27 @@ class Post {
 
     posts.add(
       Post(
+        title: "La Boqueria Market",
+        content: "Barcelona's La Boqueria market is a feast for the senses! From vibrant fruits to fresh seafood, every stall is bursting with color and flavor. I spent hours sampling tapas and soaking in the lively atmosphere. A must-visit for any foodie!",
+        views: "500k",
+        media: [
+          "assets/images/video-thumbnail/Barcelona-La-boqueria.jpg",
+          "assets/videos/post-video/Barcelona_La_boqueria.mp4"
+        ],
+        authorName: "Olivia",
+        authorImage: "assets/images/user/Olivia.jpg",
+        location: "Barcelona, Spain",
+        isVideo: true,
+      )
+    );
+
+    posts.add(
+      Post(
         title: "Chongqing's Vertical Cityscape & Spicy Delights",
         content:
             "Diving deep into the unique multi-layered architecture and thrilling flavors of Chongqing! The city truly comes alive after dark with its dazzling lights and bustling hotpot streets. A must-visit for urban explorers and foodies alike.",
         views: "1.0M",
-        images: [
+        media: [
           "assets/images/post-image/Chongqing-Hong-Ya-Dong.jpg",
           "assets/images/post-image/Chongqing-HotPot.jpg",
           "assets/images/post-image/Chongqing-Train.jpg"
@@ -135,7 +153,7 @@ class Post {
         content:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut scelerisque neque aliquam sollicitudin interdum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut scelerisque neque aliquam sollicitudin interdum.",
         views: "3.7M",
-        images: [
+        media: [
           "assets/images/post-image/Turkey-Hot-Air-Ballon-1.jpg",
           "assets/images/post-image/Turkey-Hot-Air-Ballon-2.jpg",
           "assets/images/post-image/Turkey-House-View.jpg"
@@ -152,7 +170,7 @@ class Post {
         content:
             "The Sydney Opera House is a multi-venue performing arts centre in Sydney, New South Wales, Australia. Located on the foreshore of Sydney Harbour, it is widely regarded as one of the world's most famous and distinctive buildings, and a masterpiece of 20th-century architecture.",
         views: "10k",
-        images: [
+        media: [
           "assets/images/post-image/Sydney-Opera-House.jpg"
         ],
         authorName: "Chloe",
