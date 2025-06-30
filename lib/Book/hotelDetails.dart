@@ -7,15 +7,18 @@ class HotelDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
+    final args =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
 
     final location = args?['location'] ?? 'Unknown';
-    final checkIn = args?['checkIn'] != null
-        ? DateTime.parse(args!['checkIn']).toString().split(' ')[0]
-        : 'N/A';
-    final checkOut = args?['checkOut'] != null
-        ? DateTime.parse(args!['checkOut']).toString().split(' ')[0]
-        : 'N/A';
+    final checkIn =
+        args?['checkIn'] != null
+            ? DateTime.parse(args!['checkIn']).toString().split(' ')[0]
+            : 'N/A';
+    final checkOut =
+        args?['checkOut'] != null
+            ? DateTime.parse(args!['checkOut']).toString().split(' ')[0]
+            : 'N/A';
 
     return Scaffold(
       appBar: AppBar(
@@ -25,34 +28,48 @@ class HotelDetails extends StatelessWidget {
           children: [
             Text(
               location,
-              style: GoogleFonts.ubuntu(color: Colors.white, fontSize: 18),
+              style: TextStyle(color: Colors.black, fontSize: 18),
               textAlign: TextAlign.center,
             ),
             Text(
               '$checkIn ~ $checkOut',
-              style: GoogleFonts.ubuntu(color: Colors.white70, fontSize: 14),
+              style: TextStyle(color: Colors.black45, fontSize: 14),
               textAlign: TextAlign.center,
             ),
           ],
         ),
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: Colors.white,
         centerTitle: true,
-      ),      
-      
+      ),
 
-        body: ListView(
-          padding: EdgeInsets.all(16),
-          children: [
-        
-            SizedBox(height: 24),
-            Text(
-              'Recommended Hotels',
-              style: GoogleFonts.ubuntu(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 12),
-        
-            // 酒店1
-            Card(
+      body: ListView(
+        padding: EdgeInsets.all(16),
+        children: [
+          SizedBox(height: 24),
+          Text(
+            'Recommended Hotels',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(height: 12),
+
+          // 酒店1
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+
+                '/hotelInfo',
+                arguments: {
+                  'hotelName': 'Santorini Blue Hotel',
+                  'rating': '4.5',
+                  'image': 'assets/images/hotels/hotel1.jpg',
+                  'location': location,
+                  'checkIn': checkIn,
+                  'checkOut': checkOut,
+                },
+              );
+            },
+            child: Card(
               elevation: 3,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -84,15 +101,35 @@ class HotelDetails extends StatelessWidget {
                     ),
                     trailing: Text(
                       '\$220',
-                      style: GoogleFonts.ubuntu(fontWeight: FontWeight.bold, color: Colors.blueAccent, fontSize: 20),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blueAccent,
+                        fontSize: 20,
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
-        
-            // 酒店2
-            Card(
+          ),
+
+          // 酒店2
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                '/hotelInfo',
+                arguments: {
+                  'hotelName': 'Aegean Sea Resort',
+                  'rating': '5.0',
+                  'image': 'assets/images/hotels/hotel2.jpg',
+                  'location': location,
+                  'checkIn': checkIn,
+                  'checkOut': checkOut,
+                },
+              );
+            },
+            child: Card(
               elevation: 3,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -125,15 +162,35 @@ class HotelDetails extends StatelessWidget {
 
                     trailing: Text(
                       '\$350',
-                      style: GoogleFonts.ubuntu(fontWeight: FontWeight.bold, color: Colors.blueAccent, fontSize: 20),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blueAccent,
+                        fontSize: 20,
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
+          ),
 
-                     // 酒店3
-            Card(
+          // 酒店3
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                '/hotelInfo',
+                arguments: {
+                  'hotelName': 'Ocean View Paradise',
+                  'rating': '4.0',
+                  'image': 'assets/images/hotels/hotel3.jpg',
+                  'location': location,
+                  'checkIn': checkIn,
+                  'checkOut': checkOut,
+                },
+              );
+            },
+            child: Card(
               elevation: 3,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -162,22 +219,38 @@ class HotelDetails extends StatelessWidget {
                         SizedBox(width: 8),
                         Text('4.0'),
                       ],
-
                     ),
                     trailing: Text(
                       '\$180',
-                      style: GoogleFonts.ubuntu(fontWeight: FontWeight.bold, color: Colors.blueAccent, fontSize: 20),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blueAccent,
+                        fontSize: 20,
+                      ),
                     ),
                   ),
-                  
-          
-
                 ],
+              ),
             ),
-            ),
-            
-            // 酒店4
-            Card(
+          ),
+
+          // 酒店4
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                '/hotelInfo',
+                arguments: {
+                  'hotelName': 'Luxury Beachfront Hotel',
+                  'rating': '4.5',
+                  'image': 'assets/images/hotels/hotel4.jpg',
+                  'location': location,
+                  'checkIn': checkIn,
+                  'checkOut': checkOut,
+                },
+              );
+            },
+            child: Card(
               elevation: 3,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -198,7 +271,7 @@ class HotelDetails extends StatelessWidget {
                     title: Text('Luxury Beachfront Hotel'),
                     subtitle: Row(
                       children: [
-                        Icon(Icons.star, color: Colors.amber, size: 18), 
+                        Icon(Icons.star, color: Colors.amber, size: 18),
                         Icon(Icons.star, color: Colors.amber, size: 18),
                         Icon(Icons.star, color: Colors.amber, size: 18),
                         Icon(Icons.star, color: Colors.amber, size: 18),
@@ -209,15 +282,35 @@ class HotelDetails extends StatelessWidget {
                     ),
                     trailing: Text(
                       '\$300',
-                      style: GoogleFonts.ubuntu(fontWeight: FontWeight.bold, color: Colors.blueAccent, fontSize: 20),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blueAccent,
+                        fontSize: 20,
+                      ),
                     ),
                   ),
                 ],
+              ),
             ),
-            ),
-        
-            // 你可以继续添加更多酒店Card
-            Card(
+          ),
+
+          // 酒店5
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                '/hotelInfo',
+                arguments: {
+                  'hotelName': 'Island Breeze Hotel',
+                  'rating': '4.0',
+                  'image': 'assets/images/hotels/hotel5.jpg',
+                  'location': location,
+                  'checkIn': checkIn,
+                  'checkOut': checkOut,
+                },
+              );
+            },
+            child: Card(
               elevation: 3,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -249,15 +342,35 @@ class HotelDetails extends StatelessWidget {
                     ),
                     trailing: Text(
                       '\$200',
-                      style: GoogleFonts.ubuntu(fontWeight: FontWeight.bold, color: Colors.blueAccent, fontSize: 20),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blueAccent,
+                        fontSize: 20,
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
+          ),
 
-            // 酒店6
-            Card(
+          // 酒店6
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                '/hotelInfo',
+                arguments: {
+                  'hotelName': 'Sunset Paradise Hotel',
+                  'rating': '4.0',
+                  'image': 'assets/images/hotels/hotel6.jpg',
+                  'location': location,
+                  'checkIn': checkIn,
+                  'checkOut': checkOut,
+                },
+              );
+            },
+            child: Card(
               elevation: 3,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -289,22 +402,21 @@ class HotelDetails extends StatelessWidget {
                     ),
                     trailing: Text(
                       '\$250',
-                      style: GoogleFonts.ubuntu(fontWeight: FontWeight.bold, color: Colors.blueAccent, fontSize: 20),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blueAccent,
+                        fontSize: 20,
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
-   
-          ],
+          ),
+        ],
+      ),
 
-          
-        ),
-        
-
-        
-        // ...existing code...
+      // ...existing code...
     );
-    
   }
 }
