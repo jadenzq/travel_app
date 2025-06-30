@@ -33,24 +33,25 @@ class _ProfilePageState extends State<ProfilePage> {
     String tempName = userName;
     final newName = await showDialog<String>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Change Username'),
-        content: TextField(
-          autofocus: true,
-          decoration: const InputDecoration(hintText: 'Enter new username'),
-          onChanged: (value) => tempName = value,
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+      builder:
+          (context) => AlertDialog(
+            title: const Text('Change Username'),
+            content: TextField(
+              autofocus: true,
+              decoration: const InputDecoration(hintText: 'Enter new username'),
+              onChanged: (value) => tempName = value,
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(context, tempName),
+                child: const Text('Save'),
+              ),
+            ],
           ),
-          TextButton(
-            onPressed: () => Navigator.pop(context, tempName),
-            child: const Text('Save'),
-          ),
-        ],
-      ),
     );
 
     if (newName != null && newName.isNotEmpty) {
@@ -80,7 +81,10 @@ class _ProfilePageState extends State<ProfilePage> {
                         height: 120,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          border: Border.all(color: Colors.blue.shade100, width: 3),
+                          border: Border.all(
+                            color: Colors.blue.shade100,
+                            width: 3,
+                          ),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.grey.withAlpha(77),
@@ -90,12 +94,16 @@ class _ProfilePageState extends State<ProfilePage> {
                           ],
                         ),
                         child: ClipOval(
-                          child: _selectedImage != null
-                              ? Image.file(_selectedImage!, fit: BoxFit.cover)
-                              : Image.asset(
-                                  'assets/images/photo111.jpg',
-                                  fit: BoxFit.cover,
-                                ),
+                          child:
+                              _selectedImage != null
+                                  ? Image.file(
+                                    _selectedImage!,
+                                    fit: BoxFit.cover,
+                                  )
+                                  : Image.asset(
+                                    'assets/images/photo111.jpg',
+                                    fit: BoxFit.cover,
+                                  ),
                         ),
                       ),
                       GestureDetector(
@@ -132,7 +140,11 @@ class _ProfilePageState extends State<ProfilePage> {
                       const SizedBox(width: 8),
                       GestureDetector(
                         onTap: _changeUsername,
-                        child: const Icon(Icons.edit, size: 20, color: Colors.blue),
+                        child: const Icon(
+                          Icons.edit,
+                          size: 20,
+                          color: Colors.blue,
+                        ),
                       ),
                     ],
                   ),
@@ -178,6 +190,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           label: 'Bookings',
                           onTap: () {
                             // Navigate to bookings page
+                            Navigator.of(context).pushNamed('/bookingHistory');
                           },
                         ),
                       ),
@@ -190,8 +203,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     onTap: () {
                       // 这里可以跳转页面或弹出反馈表单
                       Navigator.of(context).push(
-                        MaterialPageRoute(builder: (ctx) => HelpSupportPage()
-                        )
+                        MaterialPageRoute(builder: (ctx) => HelpSupportPage()),
                       );
                     },
                     child: Container(
@@ -225,10 +237,9 @@ class _ProfilePageState extends State<ProfilePage> {
               right: 20,
               child: GestureDetector(
                 onTap: () {
-                  Navigator.of(context).push(
-                        MaterialPageRoute(builder: (ctx) => SettingsScreen()
-                        )
-                      );
+                  Navigator.of(
+                    context,
+                  ).push(MaterialPageRoute(builder: (ctx) => SettingsScreen()));
                 },
                 child: Container(
                   padding: const EdgeInsets.all(10),
@@ -338,5 +349,3 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 }
-
-

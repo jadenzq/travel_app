@@ -519,52 +519,6 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
-
-        SizedBox(height: 15),
-
-        // 第二行：My Bookings
-        InkWell(
-          onTap: () {
-            selectBookingHistory(context);
-          },
-          borderRadius: BorderRadius.circular(12),
-          child: Container(
-            height: 80,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              gradient: LinearGradient(
-                colors: [
-                  Color.fromARGB(255, 230, 245, 255),
-                  Color.fromARGB(255, 200, 230, 255),
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: const Color.fromARGB(54, 0, 0, 0),
-                  blurRadius: 10,
-                  offset: Offset(0, 6),
-                ),
-              ],
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.bookmark, size: 35, color: Colors.blueAccent),
-                SizedBox(width: 12),
-                Text(
-                  "My Bookings",
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.blueAccent,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
       ],
     );
   }
