@@ -8,15 +8,21 @@ import 'package:travel_app/Models/post.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({super.key});
+  final List<Post> posts;
+  final String currentUserName;
+  final void Function(Post postToDelete) onDeletePost;
+  const HomePage({
+    super.key,
+    required this.posts,
+    required this.currentUserName,
+    required this.onDeletePost,
+  });
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Post> posts = [];
-
   List carouselImages = ["carousel1.png", "carousel2.png", "carousel3.png"];
 
   void selectFlight(context) {
@@ -35,30 +41,48 @@ class _HomePageState extends State<HomePage> {
     Navigator.of(context).pushNamed('/bookingHistory');
   }
 
-  void getInPost(BuildContext context, int index) {
-    Navigator.of(context).push(
+  void _navigateToPostDetail(BuildContext context, Post postBeingViewed) async {
+    final result = await Navigator.of(context).push(
       MaterialPageRoute(
         builder:
             (ctx) => PostDetail(
-              post: posts[index],
+              post: postBeingViewed,
+              currentUserName: widget.currentUserName,
               onToggleLike: () {
-                _toggleLike(index);
+                setState(() {
+                  _toggleLike(postBeingViewed);
+                });
               },
             ),
       ),
     );
+
+    if (result == true) {
+      widget.onDeletePost(postBeingViewed);
+    }
   }
 
-  void _toggleLike(int index) {
+  void _toggleLike(Post post) {
     setState(() {
-      posts[index].isLike = !posts[index].isLike;
+      post.isLike = !post.isLike;
     });
+  }
+
+  int _parseViewsToNumber(String views) {
+    if (views.endsWith('k')) {
+      return (double.parse(views.replaceAll('k', '')) * 1000).toInt();
+    } else if (views.endsWith('M')) {
+      return (double.parse(views.replaceAll('M', '')) * 1000000).toInt();
+    }
+    try {
+      return int.parse(views);
+    } catch (e) {
+      return 0;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    posts = Post.getAllPosts();
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: CustomScrollView(
@@ -139,6 +163,17 @@ class _HomePageState extends State<HomePage> {
   }
 
   Column _topExperiences() {
+    final List<Post> topPosts =
+        widget.posts.where((post) {
+          return _parseViewsToNumber(post.views) >= 10000;
+        }).toList();
+
+    topPosts.sort((a, b) {
+      return _parseViewsToNumber(
+        b.views,
+      ).compareTo(_parseViewsToNumber(a.views));
+    });
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: 0,
@@ -155,10 +190,9 @@ class _HomePageState extends State<HomePage> {
           crossAxisCount: 2,
           mainAxisSpacing: 10.0,
           crossAxisSpacing: 10.0,
-          itemCount: posts.length,
+          itemCount: topPosts.length,
           itemBuilder: (BuildContext context, int index) {
-            final Post data = posts[index];
-            final int? postId = data.id;
+            final Post data = topPosts[index];
 
             String imageUrl = '';
 
@@ -168,7 +202,7 @@ class _HomePageState extends State<HomePage> {
 
             return GestureDetector(
               onTap: () {
-                getInPost(context, index);
+                _navigateToPostDetail(context, data);
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -198,10 +232,29 @@ class _HomePageState extends State<HomePage> {
                               width: double.infinity,
                               height: double.infinity,
                             ),
+
+                            if (data.isVideo)
+                              Positioned(
+                                top: 8,
+                                right: 8,
+                                child: Container(
+                                  padding: const EdgeInsets.all(4),
+                                  decoration: BoxDecoration(
+                                    color: Colors.black.withOpacity(0.6),
+                                    borderRadius: BorderRadius.circular(32),
+                                  ),
+                                  child: const Icon(
+                                    Icons.play_arrow,
+                                    color: Colors.white,
+                                    size: 18,
+                                  ),
+                                ),
+                              ),
+
                             Positioned(
                               top: 8,
                               left: 8,
-                              right: 8,
+                              right: data.isVideo ? 40 : 8,
                               child: Row(
                                 children: [
                                   Stack(
@@ -250,7 +303,7 @@ class _HomePageState extends State<HomePage> {
                               child: Row(
                                 children: [
                                   InkWell(
-                                    onTap: () => _toggleLike(index),
+                                    onTap: () => _toggleLike(data),
                                     borderRadius: BorderRadius.circular(20),
                                     child: Padding(
                                       padding: const EdgeInsets.all(4.0),
@@ -323,15 +376,18 @@ class _HomePageState extends State<HomePage> {
                       ),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 0.0),
-                        child: Text(
-                          data.title,
-                          style: GoogleFonts.ubuntu(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
+                        child: SizedBox(
+                          height: 50,
+                          child: Text(
+                            data.title,
+                            style: GoogleFonts.ubuntu(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                       Padding(

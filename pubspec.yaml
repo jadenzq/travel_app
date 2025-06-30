@@ -49,6 +49,8 @@ dependencies:
   flutter_native_splash: ^2.4.6
   video_player: ^2.10.0
   chewie: ^1.11.3
+  video_thumbnail: ^0.5.6
+  path_provider: ^2.1.5
   google_maps_flutter: ^2.12.3
   http: ^1.4.0
   flutter_quill:
@@ -79,6 +81,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    - assets/countries+states.json
     - assets/images/
     - assets/images/airline/
     - assets/images/hotels/
