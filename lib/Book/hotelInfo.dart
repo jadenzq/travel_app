@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class HotelInfo extends StatefulWidget {
   const HotelInfo({super.key});
@@ -70,7 +71,7 @@ class _HotelInfoState extends State<HotelInfo> {
       appBar: AppBar(
         title: Text(
           hotelName,
-          style: TextStyle(
+          style: GoogleFonts.ubuntu(
             color: Colors.white,
             fontSize: 20,
             fontWeight: FontWeight.bold,
@@ -139,7 +140,7 @@ class _HotelInfoState extends State<HotelInfo> {
                             children: [
                               Text(
                                 hotelName,
-                                style: TextStyle(
+                                style: GoogleFonts.ubuntu(
                                   fontSize: 24,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.blueAccent,
@@ -148,7 +149,7 @@ class _HotelInfoState extends State<HotelInfo> {
                               SizedBox(height: 4),
                               Text(
                                 location,
-                                style: TextStyle(
+                                style: GoogleFonts.ubuntu(
                                   fontSize: 16,
                                   color: Colors.grey[600],
                                 ),
@@ -168,7 +169,7 @@ class _HotelInfoState extends State<HotelInfo> {
                               SizedBox(width: 4),
                               Text(
                                 hotelRating,
-                                style: TextStyle(
+                                style: GoogleFonts.ubuntu(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.amber[800],
                                 ),
@@ -184,7 +185,7 @@ class _HotelInfoState extends State<HotelInfo> {
                     // 房间类型选择标题
                     Text(
                       'Select Room Type',
-                      style: TextStyle(
+                      style: GoogleFonts.ubuntu(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: Colors.blueAccent,
@@ -220,7 +221,7 @@ class _HotelInfoState extends State<HotelInfo> {
                               ),
                               child: Text(
                                 roomType,
-                                style: TextStyle(
+                                style: GoogleFonts.ubuntu(
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
@@ -260,7 +261,7 @@ class _HotelInfoState extends State<HotelInfo> {
                               children: [
                                 Text(
                                   '${selectedRoom['type']} Room',
-                                  style: TextStyle(
+                                  style: GoogleFonts.ubuntu(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.blueAccent,
@@ -274,7 +275,7 @@ class _HotelInfoState extends State<HotelInfo> {
                                   ),
                                   child: Text(
                                     '\$${selectedRoom['price']}/night',
-                                    style: TextStyle(
+                                    style: GoogleFonts.ubuntu(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16,
@@ -286,7 +287,7 @@ class _HotelInfoState extends State<HotelInfo> {
                             SizedBox(height: 12),
                             Text(
                               selectedRoom['description'],
-                              style: TextStyle(
+                              style: GoogleFonts.ubuntu(
                                 fontSize: 16,
                                 color: Colors.grey[700],
                               ),
@@ -294,7 +295,7 @@ class _HotelInfoState extends State<HotelInfo> {
                             SizedBox(height: 16),
                             Text(
                               'Room Features:',
-                              style: TextStyle(
+                              style: GoogleFonts.ubuntu(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
                                 color: Colors.blueAccent,
@@ -314,7 +315,7 @@ class _HotelInfoState extends State<HotelInfo> {
                                   ),
                                   child: Text(
                                     feature,
-                                    style: TextStyle(
+                                    style: GoogleFonts.ubuntu(
                                       fontSize: 12,
                                       color: Colors.blueAccent,
                                       fontWeight: FontWeight.w500,
@@ -341,14 +342,14 @@ class _HotelInfoState extends State<HotelInfo> {
                                       children: [
                                         Text(
                                           'Check-in:',
-                                          style: TextStyle(
+                                          style: GoogleFonts.ubuntu(
                                             fontSize: 14,
                                             color: Colors.grey[600],
                                           ),
                                         ),
                                         Text(
                                           checkInDate.toLocal().toString().split(' ')[0],
-                                          style: TextStyle(
+                                          style: GoogleFonts.ubuntu(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w500,
                                           ),
@@ -361,14 +362,14 @@ class _HotelInfoState extends State<HotelInfo> {
                                       children: [
                                         Text(
                                           'Check-out:',
-                                          style: TextStyle(
+                                          style: GoogleFonts.ubuntu(
                                             fontSize: 14,
                                             color: Colors.grey[600],
                                           ),
                                         ),
                                         Text(
                                           checkOutDate.toLocal().toString().split(' ')[0],
-                                          style: TextStyle(
+                                          style: GoogleFonts.ubuntu(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w500,
                                           ),
@@ -381,14 +382,14 @@ class _HotelInfoState extends State<HotelInfo> {
                                       children: [
                                         Text(
                                           'Stay Duration:',
-                                          style: TextStyle(
+                                          style: GoogleFonts.ubuntu(
                                             fontSize: 14,
                                             color: Colors.grey[600],
                                           ),
                                         ),
                                         Text(
                                           '$stayDuration night${stayDuration > 1 ? 's' : ''}',
-                                          style: TextStyle(
+                                          style: GoogleFonts.ubuntu(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w500,
                                           ),
@@ -401,7 +402,7 @@ class _HotelInfoState extends State<HotelInfo> {
                                       children: [
                                         Text(
                                           'Total Price:',
-                                          style: TextStyle(
+                                          style: GoogleFonts.ubuntu(
                                             fontSize: 16,
                                             fontWeight: FontWeight.bold,
                                             color: Colors.blueAccent,
@@ -412,14 +413,14 @@ class _HotelInfoState extends State<HotelInfo> {
                                           children: [
                                             Text(
                                               '\$${roomPricePerNight} × $stayDuration night${stayDuration > 1 ? 's' : ''}',
-                                              style: TextStyle(
+                                              style: GoogleFonts.ubuntu(
                                                 fontSize: 12,
                                                 color: Colors.grey[600],
                                               ),
                                             ),
                                             Text(
                                               '\$$totalPrice',
-                                              style: TextStyle(
+                                              style: GoogleFonts.ubuntu(
                                                 fontSize: 18,
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.green,
@@ -487,7 +488,7 @@ class _HotelInfoState extends State<HotelInfo> {
                             SizedBox(width: 12),
                             Text(
                               'Book ${selectedRoom['type']} Room - \$${totalPrice}',
-                              style: TextStyle(
+                              style: GoogleFonts.ubuntu(
                                 fontSize: 18,
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,

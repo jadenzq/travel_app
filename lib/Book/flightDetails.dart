@@ -267,7 +267,7 @@ class Flightdetails extends StatelessWidget {
                 children: [
                   Text(
                     '\$320', // 每个航班可自定义价格
-                    style: TextStyle(
+                    style: GoogleFonts.ubuntu(
                       color: Colors.blueAccent,
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
@@ -310,7 +310,7 @@ class Flightdetails extends StatelessWidget {
                 children: [
                   Text(
                     '\$350', // 每个航班可自定义价格
-                    style: TextStyle(
+                    style: GoogleFonts.ubuntu(
                       color: Colors.blueAccent,
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
@@ -353,7 +353,7 @@ class Flightdetails extends StatelessWidget {
                 children: [
                   Text(
                     '\$280', // 每个航班可自定义价格
-                    style: TextStyle(
+                    style: GoogleFonts.ubuntu(
                       color: Colors.blueAccent,
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
@@ -396,7 +396,7 @@ class Flightdetails extends StatelessWidget {
                 children: [
                   Text(
                     '\$290', // 每个航班可自定义价格
-                    style: TextStyle(
+                    style: GoogleFonts.ubuntu(
                       color: Colors.blueAccent,
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
@@ -439,7 +439,7 @@ class Flightdetails extends StatelessWidget {
                 children: [
                   Text(
                     '\$380', // 每个航班可自定义价格
-                    style: TextStyle(
+                    style: GoogleFonts.ubuntu(
                       color: Colors.blueAccent,
                       fontWeight: FontWeight.bold,
                       fontSize: 16,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class FlightDetailInfo extends StatefulWidget {
   const FlightDetailInfo({super.key});
@@ -87,7 +88,7 @@ class _FlightDetailInfoState extends State<FlightDetailInfo> {
       appBar: AppBar(
         title: Text(
           flightNumber,
-          style: TextStyle(color: Colors.white),
+          style: GoogleFonts.ubuntu(color: Colors.white),
         ),
         backgroundColor: Colors.blueAccent,
         centerTitle: true,
@@ -133,7 +134,7 @@ class _FlightDetailInfoState extends State<FlightDetailInfo> {
                                   children: [
                                     Text(
                                       flightNumber,
-                                      style: TextStyle(
+                                      style: GoogleFonts.ubuntu(
                                         fontSize: 24,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.blueAccent,
@@ -141,7 +142,7 @@ class _FlightDetailInfoState extends State<FlightDetailInfo> {
                                     ),
                                     Text(
                                       airline,
-                                      style: TextStyle(
+                                      style: GoogleFonts.ubuntu(
                                         fontSize: 16,
                                         color: Colors.grey[600],
                                       ),
@@ -154,7 +155,7 @@ class _FlightDetailInfoState extends State<FlightDetailInfo> {
                         ),
                         Text(
                           price,
-                          style: TextStyle(
+                          style: GoogleFonts.ubuntu(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
                             color: Colors.green,
@@ -166,7 +167,7 @@ class _FlightDetailInfoState extends State<FlightDetailInfo> {
                       SizedBox(height: 8),
                       Text(
                         'Date: $date',
-                        style: TextStyle(
+                        style: GoogleFonts.ubuntu(
                           fontSize: 16,
                           color: Colors.grey[600],
                         ),
@@ -189,7 +190,7 @@ class _FlightDetailInfoState extends State<FlightDetailInfo> {
                   children: [
                     Text(
                       'Flight Route',
-                      style: TextStyle(
+                      style: GoogleFonts.ubuntu(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -203,21 +204,21 @@ class _FlightDetailInfoState extends State<FlightDetailInfo> {
                             children: [
                               Text(
                                 'Departure',
-                                style: TextStyle(
+                                style: GoogleFonts.ubuntu(
                                   fontSize: 14,
                                   color: Colors.grey[600],
                                 ),
                               ),
                               Text(
                                 from,
-                                style: TextStyle(
+                                style: GoogleFonts.ubuntu(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                               Text(
                                 departureTime,
-                                style: TextStyle(
+                                style: GoogleFonts.ubuntu(
                                   fontSize: 16,
                                   color: Colors.blueAccent,
                                 ),
@@ -233,7 +234,7 @@ class _FlightDetailInfoState extends State<FlightDetailInfo> {
                         SizedBox(width: 16),
                         Text(
                           '→',
-                          style: TextStyle(
+                          style: GoogleFonts.ubuntu(
                             fontSize: 24,
                             color: Colors.grey[400],
                           ),
@@ -250,21 +251,21 @@ class _FlightDetailInfoState extends State<FlightDetailInfo> {
                             children: [
                               Text(
                                 'Arrival',
-                                style: TextStyle(
+                                style: GoogleFonts.ubuntu(
                                   fontSize: 14,
                                   color: Colors.grey[600],
                                 ),
                               ),
                               Text(
                                 to,
-                                style: TextStyle(
+                                style: GoogleFonts.ubuntu(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                               Text(
                                 arrivalTime,
-                                style: TextStyle(
+                                style: GoogleFonts.ubuntu(
                                   fontSize: 16,
                                   color: Colors.blueAccent,
                                 ),
@@ -291,7 +292,7 @@ class _FlightDetailInfoState extends State<FlightDetailInfo> {
                   children: [
                     Text(
                       'Flight Services',
-                      style: TextStyle(
+                      style: GoogleFonts.ubuntu(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -345,7 +346,7 @@ class _FlightDetailInfoState extends State<FlightDetailInfo> {
                   children: [
                     Text(
                       'Select Your Fare',
-                      style: TextStyle(
+                      style: GoogleFonts.ubuntu(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -370,14 +371,14 @@ class _FlightDetailInfoState extends State<FlightDetailInfo> {
                               children: [
                                 Text(
                                   'Basic Fare',
-                                  style: TextStyle(
+                                  style: GoogleFonts.ubuntu(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 16,
                                   ),
                                 ),
                                 Text(
                                   'Baisic fare with no extras',
-                                  style: TextStyle(
+                                  style: GoogleFonts.ubuntu(
                                     color: Colors.grey[600],
                                     fontSize: 14,
                                   ),
@@ -386,7 +387,7 @@ class _FlightDetailInfoState extends State<FlightDetailInfo> {
                             ),
                             Text(
                               price,
-                              style: TextStyle(
+                              style: GoogleFonts.ubuntu(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.green,
@@ -424,14 +425,14 @@ class _FlightDetailInfoState extends State<FlightDetailInfo> {
                               children: [
                                 Text(
                                   'Baggage Included',
-                                  style: TextStyle(
+                                  style: GoogleFonts.ubuntu(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 16,
                                   ),
                                 ),
                                 Text(
                                   'extra 20kg baggage',
-                                  style: TextStyle(
+                                  style: GoogleFonts.ubuntu(
                                     color: Colors.grey[600],
                                     fontSize: 14,
                                   ),
@@ -440,7 +441,7 @@ class _FlightDetailInfoState extends State<FlightDetailInfo> {
                             ),
                             Text(
                               getStaticPrice(price, 'baggage'),
-                              style: TextStyle(
+                              style: GoogleFonts.ubuntu(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.green,
@@ -478,14 +479,14 @@ class _FlightDetailInfoState extends State<FlightDetailInfo> {
                               children: [
                                 Text(
                                   'Flexible Fare',
-                                  style: TextStyle(
+                                  style: GoogleFonts.ubuntu(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 16,
                                   ),
                                 ),
                                 Text(
                                   'reschedule free of charge',
-                                  style: TextStyle(
+                                  style: GoogleFonts.ubuntu(
                                     color: Colors.grey[600],
                                     fontSize: 14,
                                   ),
@@ -494,7 +495,7 @@ class _FlightDetailInfoState extends State<FlightDetailInfo> {
                             ),
                             Text(
                               getStaticPrice(price, 'flexible'),
-                              style: TextStyle(
+                              style: GoogleFonts.ubuntu(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.green,
@@ -548,7 +549,7 @@ class _FlightDetailInfoState extends State<FlightDetailInfo> {
                 ),
                 child: Text(
                   'Book Flight - ${getSelectedPrice(price)}',
-                  style: TextStyle(
+                  style: GoogleFonts.ubuntu(
                     fontSize: 18,
                     color: Colors.white,
                     fontWeight: FontWeight.bold,

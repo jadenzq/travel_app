@@ -62,8 +62,7 @@ class _RegisterPageState extends State<RegisterPage> {
       });
 
       if (!mounted) return;
-      _showCustomNotification("Registration successful!");
-      Navigator.of(context).pop(true); // 返回登录页面
+      Navigator.of(context).pop(); // 返回登录页面
     } on FirebaseAuthException catch (e) {
       String message = 'Registration failed.';
       if (e.code == 'email-already-in-use') {
@@ -135,7 +134,48 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
               ),
             ),
-            _popUpNotification(),
+            
+            AnimatedPositioned(
+              duration: const Duration(milliseconds: 400),
+              curve: Curves.easeInOut,
+              bottom: _notificationOpacity > 0 ? 20 : -100,
+              left: 20,
+              right: 20,
+              child: AnimatedOpacity(
+                opacity: _notificationOpacity,
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeInOut,
+                child: Material(
+                  color: Colors.transparent,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                    decoration: BoxDecoration(
+                      color: Colors.black87,
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.3),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: const Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Text(
+                        _notificationMessage,
+                        style: GoogleFonts.ubuntu(
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -296,57 +336,15 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  Widget _popUpNotification() {
-    return AnimatedPositioned(
-              duration: const Duration(milliseconds: 400),
-              curve: Curves.easeInOut,
-              bottom: _notificationOpacity > 0 ? 20 : -100,
-              left: 20,
-              right: 20,
-              child: AnimatedOpacity(
-                opacity: _notificationOpacity,
-                duration: const Duration(milliseconds: 300),
-                curve: Curves.easeInOut,
-                child: Material(
-                  color: Colors.transparent,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                    decoration: BoxDecoration(
-                      color: Colors.black87,
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.3),
-                          spreadRadius: 2,
-                          blurRadius: 5,
-                          offset: const Offset(0, 3),
-                        ),
-                      ],
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Text(
-                        _notificationMessage,
-                        style: GoogleFonts.ubuntu(
-                          color: Colors.white,
-                          fontSize: 16,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-    );
-  }
-
   @override
   void dispose() {
     _emailController.dispose();
     _phoneController.dispose();
     _usernameController.dispose();
     _passwordController.dispose();
+
     _notificationTimer?.cancel();
+
     super.dispose();
   }
 }

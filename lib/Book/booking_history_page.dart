@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../Models/booking_model.dart';
 import '../Models/booking_service.dart';
 
@@ -59,7 +60,7 @@ class _BookingHistoryPageState extends State<BookingHistoryPage> {
       appBar: AppBar(
         title: Text(
           'My Bookings',
-          style: TextStyle(
+          style: GoogleFonts.ubuntu(
             color: Colors.white,
             fontSize: 20,
             fontWeight: FontWeight.bold,
@@ -110,7 +111,7 @@ class _BookingHistoryPageState extends State<BookingHistoryPage> {
                         SizedBox(height: 16),
                         Text(
                           'Loading bookings...',
-                          style: TextStyle(
+                          style: GoogleFonts.ubuntu(
                             fontSize: 16,
                             color: Colors.grey[600],
                           ),
@@ -150,7 +151,7 @@ class _BookingHistoryPageState extends State<BookingHistoryPage> {
         ),
         label: Text(
           label,
-          style: TextStyle(
+          style: GoogleFonts.ubuntu(
             color: isSelected ? Colors.white : Colors.blueAccent,
             fontWeight: FontWeight.w600,
           ),
@@ -207,7 +208,7 @@ class _BookingHistoryPageState extends State<BookingHistoryPage> {
           SizedBox(height: 24),
           Text(
             message,
-            style: TextStyle(
+            style: GoogleFonts.ubuntu(
               fontSize: 20,
               fontWeight: FontWeight.w600,
               color: Colors.grey[600],
@@ -216,7 +217,7 @@ class _BookingHistoryPageState extends State<BookingHistoryPage> {
           SizedBox(height: 8),
           Text(
             'Start planning your next trip!',
-            style: TextStyle(
+            style: GoogleFonts.ubuntu(
               fontSize: 16,
               color: Colors.grey[500],
             ),
@@ -229,7 +230,7 @@ class _BookingHistoryPageState extends State<BookingHistoryPage> {
             icon: Icon(Icons.add, color: Colors.white),
             label: Text(
               'Book Now',
-              style: TextStyle(
+              style: GoogleFonts.ubuntu(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),
@@ -300,7 +301,7 @@ class _BookingHistoryPageState extends State<BookingHistoryPage> {
                     children: [
                       Text(
                         booking.title,
-                        style: TextStyle(
+                        style: GoogleFonts.ubuntu(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: Colors.black87,
@@ -309,7 +310,7 @@ class _BookingHistoryPageState extends State<BookingHistoryPage> {
                       SizedBox(height: 4),
                       Text(
                         booking.subtitle,
-                        style: TextStyle(
+                        style: GoogleFonts.ubuntu(
                           fontSize: 14,
                           color: Colors.grey[600],
                         ),
@@ -325,7 +326,7 @@ class _BookingHistoryPageState extends State<BookingHistoryPage> {
                   ),
                   child: Text(
                     _getTimeUntilBooking(booking),
-                    style: TextStyle(
+                    style: GoogleFonts.ubuntu(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
@@ -357,7 +358,7 @@ class _BookingHistoryPageState extends State<BookingHistoryPage> {
                       ),
                       child: Text(
                         _getStatusText(booking.status),
-                        style: TextStyle(
+                        style: GoogleFonts.ubuntu(
                           color: _getStatusColor(booking.status),
                           fontWeight: FontWeight.w600,
                           fontSize: 12,
@@ -366,7 +367,7 @@ class _BookingHistoryPageState extends State<BookingHistoryPage> {
                     ),
                     Text(
                       'Booked on ${_formatDate(booking.bookingDate)}',
-                      style: TextStyle(
+                      style: GoogleFonts.ubuntu(
                         fontSize: 12,
                         color: Colors.grey[500],
                       ),
@@ -392,7 +393,7 @@ class _BookingHistoryPageState extends State<BookingHistoryPage> {
           SizedBox(width: 8),
           Text(
             'Check-in: ${_formatDate(booking.startDate)}',
-            style: TextStyle(fontSize: 14, color: Colors.grey[700]),
+            style: GoogleFonts.ubuntu(fontSize: 14, color: Colors.grey[700]),
           ),
         ],
       ),
@@ -403,7 +404,7 @@ class _BookingHistoryPageState extends State<BookingHistoryPage> {
           SizedBox(width: 8),
           Text(
             'Check-out: ${_formatDate(booking.endDate!)}',
-            style: TextStyle(fontSize: 14, color: Colors.grey[700]),
+            style: GoogleFonts.ubuntu(fontSize: 14, color: Colors.grey[700]),
           ),
         ],
       ),
@@ -414,7 +415,7 @@ class _BookingHistoryPageState extends State<BookingHistoryPage> {
           SizedBox(width: 8),
           Text(
             '$stayDuration night${stayDuration > 1 ? 's' : ''}',
-            style: TextStyle(fontSize: 14, color: Colors.grey[700]),
+            style: GoogleFonts.ubuntu(fontSize: 14, color: Colors.grey[700]),
           ),
         ],
       ),
@@ -431,7 +432,7 @@ class _BookingHistoryPageState extends State<BookingHistoryPage> {
           SizedBox(width: 8),
           Text(
             'Departure: ${_formatDate(booking.startDate)}',
-            style: TextStyle(fontSize: 14, color: Colors.grey[700]),
+            style: GoogleFonts.ubuntu(fontSize: 14, color: Colors.grey[700]),
           ),
         ],
       ),
@@ -443,7 +444,7 @@ class _BookingHistoryPageState extends State<BookingHistoryPage> {
             SizedBox(width: 8),
             Text(
               'Time: ${details['departureTime']}',
-              style: TextStyle(fontSize: 14, color: Colors.grey[700]),
+              style: GoogleFonts.ubuntu(fontSize: 14, color: Colors.grey[700]),
             ),
           ],
         ),
