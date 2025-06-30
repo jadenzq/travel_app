@@ -20,7 +20,7 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   int currentPageIndex = 0;
-  bool isLoggedIn = false;
+  static bool isLoggedIn = false;
 
   List<Post> _allPosts = [];
   String _loggedInUserName = "Gloria";
@@ -38,7 +38,7 @@ class _AppState extends State<App> {
       currentPageIndex = 0;
     });
   }
-  
+
   void _addPost(Post newPost) {
     setState(() {
       newPost.id = _allPosts.length;

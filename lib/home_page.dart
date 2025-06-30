@@ -37,6 +37,10 @@ class _HomePageState extends State<HomePage> {
     ).push(MaterialPageRoute(builder: (ctx) => BookingHotel()));
   }
 
+  void selectBookingHistory(context) {
+    Navigator.of(context).pushNamed('/bookingHistory');
+  }
+
   void _navigateToPostDetail(BuildContext context, Post postBeingViewed) async {
     final result = await Navigator.of(context).push(
       MaterialPageRoute(
@@ -159,14 +163,16 @@ class _HomePageState extends State<HomePage> {
   }
 
   Column _topExperiences() {
-    final List<Post> topPosts = widget.posts.where((post) {
-      return _parseViewsToNumber(post.views) >= 10000;
-    }).toList();
+    final List<Post> topPosts =
+        widget.posts.where((post) {
+          return _parseViewsToNumber(post.views) >= 10000;
+        }).toList();
 
     topPosts.sort((a, b) {
-      return _parseViewsToNumber(b.views).compareTo(_parseViewsToNumber(a.views));
+      return _parseViewsToNumber(
+        b.views,
+      ).compareTo(_parseViewsToNumber(a.views));
     });
-
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -228,22 +234,22 @@ class _HomePageState extends State<HomePage> {
                             ),
 
                             if (data.isVideo)
-                            Positioned(
-                              top: 8,
-                              right: 8,
-                              child: Container(
-                                padding: const EdgeInsets.all(4),
-                                decoration: BoxDecoration(
-                                  color: Colors.black.withOpacity(0.6),
-                                  borderRadius: BorderRadius.circular(32),
-                                ),
-                                child: const Icon(
-                                  Icons.play_arrow,
-                                  color: Colors.white,
-                                  size: 18,
+                              Positioned(
+                                top: 8,
+                                right: 8,
+                                child: Container(
+                                  padding: const EdgeInsets.all(4),
+                                  decoration: BoxDecoration(
+                                    color: Colors.black.withOpacity(0.6),
+                                    borderRadius: BorderRadius.circular(32),
+                                  ),
+                                  child: const Icon(
+                                    Icons.play_arrow,
+                                    color: Colors.white,
+                                    size: 18,
+                                  ),
                                 ),
                               ),
-                            ),
 
                             Positioned(
                               top: 8,
@@ -382,7 +388,7 @@ class _HomePageState extends State<HomePage> {
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
-                        )
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 8.0),
@@ -512,6 +518,52 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ],
+        ),
+
+        SizedBox(height: 15),
+
+        // 第二行：My Bookings
+        InkWell(
+          onTap: () {
+            selectBookingHistory(context);
+          },
+          borderRadius: BorderRadius.circular(12),
+          child: Container(
+            height: 80,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              gradient: LinearGradient(
+                colors: [
+                  Color.fromARGB(255, 230, 245, 255),
+                  Color.fromARGB(255, 200, 230, 255),
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: const Color.fromARGB(54, 0, 0, 0),
+                  blurRadius: 10,
+                  offset: Offset(0, 6),
+                ),
+              ],
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.bookmark, size: 35, color: Colors.blueAccent),
+                SizedBox(width: 12),
+                Text(
+                  "My Bookings",
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.blueAccent,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ],
     );
