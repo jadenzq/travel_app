@@ -15,11 +15,18 @@ class Flightdetails extends StatelessWidget {
     final date = args?['date'] ?? '';
 
     return Scaffold(
+      backgroundColor: Color(0xfff5f5f5),
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.center, // 修改为center实现居中
           children: [
-            Text('$from → $to', style: GoogleFonts.ubuntu(color: Colors.white)),
+            Text('$from → $to', style: GoogleFonts.ubuntu(color: Colors.black)),
             if (date.isNotEmpty)
               Text(
                 'Departure $date',
@@ -36,6 +43,7 @@ class Flightdetails extends StatelessWidget {
           // 动态生成航班信息
           Card(
             child: ListTile(
+              tileColor: Colors.white,
               leading: Image.asset(
                 'assets/images/airline/airasia-logo-tail.png',
                 width: 40,
@@ -80,6 +88,7 @@ class Flightdetails extends StatelessWidget {
 
           Card(
             child: ListTile(
+              tileColor: Colors.white,
               leading: Image.asset(
                 'assets/images/airline/cathay-pacific-logo-tail.png',
                 width: 40,
@@ -123,6 +132,7 @@ class Flightdetails extends StatelessWidget {
           ),
           Card(
             child: ListTile(
+              tileColor: Colors.white,
               leading: Image.asset(
                 'assets/images/airline/jetstar-logo-tail.png',
                 width: 40,
@@ -167,6 +177,7 @@ class Flightdetails extends StatelessWidget {
           // 更多航班信息可以继续添加
           Card(
             child: ListTile(
+              tileColor: Colors.white,
               leading: Image.asset(
                 'assets/images/airline/japan-airlines-logo-tail.png',
                 width: 40,
@@ -210,6 +221,7 @@ class Flightdetails extends StatelessWidget {
           ),
           Card(
             child: ListTile(
+              tileColor: Colors.white,
               leading: Image.asset(
                 'assets/images/airline/singapore-airlines-logo-tail.png',
                 width: 40,
@@ -254,6 +266,7 @@ class Flightdetails extends StatelessWidget {
           // 其他航班信息
           Card(
             child: ListTile(
+              tileColor: Colors.white,
               leading: Image.asset(
                 'assets/images/airline/airasia-logo-tail.png',
                 width: 40,
@@ -297,6 +310,7 @@ class Flightdetails extends StatelessWidget {
           ),
           Card(
             child: ListTile(
+              tileColor: Colors.white,
               leading: Image.asset(
                 'assets/images/airline/cathay-pacific-logo-tail.png',
                 width: 40,
@@ -340,6 +354,7 @@ class Flightdetails extends StatelessWidget {
           ),
           Card(
             child: ListTile(
+              tileColor: Colors.white,
               leading: Image.asset(
                 'assets/images/airline/air-india-logo-tail.png',
                 width: 40,
@@ -383,6 +398,7 @@ class Flightdetails extends StatelessWidget {
           ),
           Card(
             child: ListTile(
+              tileColor: Colors.white,
               leading: Image.asset(
                 'assets/images/airline/japan-airlines-logo-tail.png',
                 width: 40,
@@ -426,6 +442,7 @@ class Flightdetails extends StatelessWidget {
           ),
           Card(
             child: ListTile(
+              tileColor: Colors.white,
               leading: Image.asset(
                 'assets/images/airline/japan-airlines-logo-tail.png',
                 width: 40,
@@ -469,6 +486,7 @@ class Flightdetails extends StatelessWidget {
           ),
           Card(
             child: ListTile(
+              tileColor: Colors.white,
               leading: Image.asset(
                 'assets/images/airline/cathay-pacific-logo-tail.png',
                 width: 40,
@@ -512,6 +530,7 @@ class Flightdetails extends StatelessWidget {
           ),
           Card(
             child: ListTile(
+              tileColor: Colors.white,
               leading: Image.asset(
                 'assets/images/airline/cathay-pacific-logo-tail.png',
                 width: 40,
