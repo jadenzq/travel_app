@@ -1,3 +1,6 @@
+import 'dart:developer' as developer;
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -23,13 +26,86 @@ class _AppState extends State<App> {
   bool isLoggedIn = false;
 
   List<Post> _allPosts = [];
-  String _loggedInUserName = "Gloria";
-  String _loggedInUserProfileImage = "assets/images/photo111.jpg";
+  String _loggedInUserName = "Guest";
+  String _loggedInUserProfileImage = "assets/images/default-avatar.jpg";
+    String _loggedInUserEmail = "";
+  String _loggedInUserPhone = "";
 
   @override
   void initState() {
     super.initState();
     _allPosts = Post.getAllPosts();
+    _initializeUser();
+  }
+
+  void _initializeUser() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      setState(() {
+        isLoggedIn = true;
+        _loggedInUserName = user.displayName ?? user.email ?? "User";
+        _loggedInUserProfileImage = user.photoURL ?? "assets/images/default-avatar.jpg";
+        _loggedInUserEmail = user.email ?? "";
+        _loggedInUserPhone = user.phoneNumber ?? "";
+
+      });
+
+      try {
+        DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
+        if (userDoc.exists) {
+          setState(() {
+            _loggedInUserName = userDoc.get('username') ?? _loggedInUserName;
+            _loggedInUserEmail = userDoc.get('email') ?? _loggedInUserEmail;
+            _loggedInUserPhone = userDoc.get('phone') ?? _loggedInUserPhone;
+
+          });
+        }
+      } catch (e) {
+        developer.log("Error fetching user data from Firestore: $e");
+      }
+    } else {
+      setState(() {
+        isLoggedIn = false;
+        _loggedInUserName = "Guest";
+        _loggedInUserProfileImage = "assets/images/default-avatar.jpg";
+        _loggedInUserEmail = "";
+        _loggedInUserPhone = "";
+      });
+    }
+
+    FirebaseAuth.instance.authStateChanges().listen((user) async {
+      if (!mounted) return;
+      setState(() {
+        isLoggedIn = user != null;
+      });
+      if (user != null) {
+        setState(() {
+          _loggedInUserName = user.displayName ?? user.email ?? "User";
+          _loggedInUserProfileImage = user.photoURL ?? "assets/images/default-avatar.jpg";
+          _loggedInUserEmail = user.email ?? "";
+          _loggedInUserPhone = user.phoneNumber ?? "";
+        });
+        try {
+          DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
+          if (userDoc.exists) {
+            setState(() {
+              _loggedInUserName = userDoc.get('username') ?? _loggedInUserName;
+              _loggedInUserEmail = userDoc.get('email') ?? _loggedInUserEmail;
+              _loggedInUserPhone = userDoc.get('phone') ?? _loggedInUserPhone;
+            });
+          }
+        } catch (e) {
+          developer.log("Error fetching user data from Firestore on auth state change: $e");
+        }
+      } else {
+        setState(() {
+          _loggedInUserName = "Guest";
+          _loggedInUserProfileImage = "assets/images/default-avatar.jpg";
+          _loggedInUserEmail = "";
+          _loggedInUserPhone = "";
+        });
+      }
+    });
   }
 
   void handleLogIn() {
@@ -37,6 +113,7 @@ class _AppState extends State<App> {
       isLoggedIn = true;
       currentPageIndex = 0;
     });
+    _initializeUser();
   }
   
   void _addPost(Post newPost) {
@@ -70,7 +147,12 @@ class _AppState extends State<App> {
         onDeletePost: _deletePost,
       ),
       Memo(),
-      isLoggedIn ? ProfilePage() : LoginPage(onLogIn: handleLogIn),
+      isLoggedIn ? ProfilePage(
+        getUserName: _loggedInUserName,
+        getEmail: _loggedInUserEmail,
+        getPhone: _loggedInUserPhone,
+        getProfileImagePath: _loggedInUserProfileImage,
+      ) : LoginPage(onLogIn: handleLogIn),
     ];
 
     // 用户已登录，进入 Profile 页面

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:travel_app/Register/register.dart';
+
 
 class LoginPage extends StatefulWidget {
   final VoidCallback onLogIn;
@@ -63,6 +65,17 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  void _navigateToRegister() async {
+    final registrationSuccessful = await Navigator.of(context).push(
+      MaterialPageRoute(builder: (ctx) => const RegisterPage()),
+    );
+
+    // If registrationSuccessful is true, trigger the onLogIn callback
+    if (registrationSuccessful == true) {
+      widget.onLogIn(); // This will trigger _initializeUser and navigate to HomePage
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,10 +97,12 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(height: 10),
                   Text(
                     _generalError!,
-                    style: const TextStyle(color: Colors.red),
+                    style: GoogleFonts.ubuntu(color: Colors.red),
                   ),
                 ],
-                const SizedBox(height: 40),
+                const SizedBox(height: 10),
+                _buildFooterLinks(context),
+                const SizedBox(height: 20),
                 _buildConfirmButton(),
               ],
             ),
@@ -158,6 +173,20 @@ class _LoginPageState extends State<LoginPage> {
         }
         return null;
       },
+    );
+  }
+
+
+    Widget _buildFooterLinks(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        TextButton(
+              onPressed: _navigateToRegister, // Call the new method
+              child: const Text('Don\'t have an account? Register here.'),
+            ),
+
+      ],
     );
   }
 

@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:google_fonts/google_fonts.dart";
 import "package:google_maps_flutter/google_maps_flutter.dart";
 import "package:travel_app/Map/location_list_tile.dart";
 import "package:travel_app/Map/map_page.dart";
@@ -80,7 +81,7 @@ class _LocationSearchPageState extends State<LocationSearchPage> {
             SliverToBoxAdapter(
               child: Text(
                 "Saved Places",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: GoogleFonts.ubuntu(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
             SliverList.separated(
@@ -112,7 +113,7 @@ class _LocationSearchPageState extends State<LocationSearchPage> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xff41729f),
                   foregroundColor: Colors.white,
-                  textStyle: TextStyle(
+                  textStyle: GoogleFonts.ubuntu(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
@@ -140,7 +141,7 @@ class _LocationSearchPageState extends State<LocationSearchPage> {
             SliverToBoxAdapter(
               child: Text(
                 "Places Suggestions",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: GoogleFonts.ubuntu(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
             SliverList.separated(
