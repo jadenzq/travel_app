@@ -13,7 +13,8 @@ class _FlightDetailInfoState extends State<FlightDetailInfo> {
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
+    final args =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
 
     final flightNumber = args?['flightNumber'] ?? 'Unknown Flight';
     final from = args?['from'] ?? 'Unknown';
@@ -86,6 +87,12 @@ class _FlightDetailInfoState extends State<FlightDetailInfo> {
 
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
         title: Text(
           flightNumber,
           style: GoogleFonts.ubuntu(color: Colors.white),
@@ -101,6 +108,7 @@ class _FlightDetailInfoState extends State<FlightDetailInfo> {
           children: [
             // 航班基本信息卡片
             Card(
+              color: Colors.white,
               elevation: 4,
               child: Padding(
                 padding: EdgeInsets.all(20),
@@ -182,6 +190,7 @@ class _FlightDetailInfoState extends State<FlightDetailInfo> {
 
             // 航班路线信息
             Card(
+              color: Colors.white,
               elevation: 4,
               child: Padding(
                 padding: EdgeInsets.all(20),
@@ -284,6 +293,7 @@ class _FlightDetailInfoState extends State<FlightDetailInfo> {
 
             // 航班服务信息
             Card(
+              color: Colors.white,
               elevation: 4,
               child: Padding(
                 padding: EdgeInsets.all(20),
@@ -338,6 +348,7 @@ class _FlightDetailInfoState extends State<FlightDetailInfo> {
 
             // 价格选择选项
             Card(
+              color: Colors.white,
               elevation: 4,
               child: Padding(
                 padding: EdgeInsets.all(20),
@@ -352,12 +363,15 @@ class _FlightDetailInfoState extends State<FlightDetailInfo> {
                       ),
                     ),
                     SizedBox(height: 16),
-                    
+
                     // 基础价格选项
                     Container(
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: _selectedPriceOption == 'basic' ? Colors.blueAccent : Colors.grey[300]!,
+                          color:
+                              _selectedPriceOption == 'basic'
+                                  ? Colors.blueAccent
+                                  : Colors.grey[300]!,
                           width: 2,
                         ),
                         borderRadius: BorderRadius.circular(8),
@@ -404,14 +418,17 @@ class _FlightDetailInfoState extends State<FlightDetailInfo> {
                         },
                       ),
                     ),
-                    
+
                     SizedBox(height: 8),
-                    
+
                     // 行李额度选项
                     Container(
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: _selectedPriceOption == 'baggage' ? Colors.blueAccent : Colors.grey[300]!,
+                          color:
+                              _selectedPriceOption == 'baggage'
+                                  ? Colors.blueAccent
+                                  : Colors.grey[300]!,
                           width: 2,
                         ),
                         borderRadius: BorderRadius.circular(8),
@@ -458,14 +475,17 @@ class _FlightDetailInfoState extends State<FlightDetailInfo> {
                         },
                       ),
                     ),
-                    
+
                     SizedBox(height: 8),
-                    
+
                     // 灵活改签选项
                     Container(
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: _selectedPriceOption == 'flexible' ? Colors.blueAccent : Colors.grey[300]!,
+                          color:
+                              _selectedPriceOption == 'flexible'
+                                  ? Colors.blueAccent
+                                  : Colors.grey[300]!,
                           width: 2,
                         ),
                         borderRadius: BorderRadius.circular(8),

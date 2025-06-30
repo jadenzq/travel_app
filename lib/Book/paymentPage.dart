@@ -14,16 +14,16 @@ class _PaymentPageState extends State<PaymentPage> {
   // 倒计时相关
   late Timer _timer;
   int _remainingSeconds = 600; // 10分钟 = 600秒
-  
+
   // 支付方式选择
   String _selectedPaymentMethod = 'card'; // 'card' 或 'ewallet'
-  
+
   // 银行卡信息控制器
   final TextEditingController _cardNumberController = TextEditingController();
   final TextEditingController _expiryDateController = TextEditingController();
   final TextEditingController _cvcController = TextEditingController();
   final TextEditingController _cardHolderController = TextEditingController();
-  
+
   // 电子钱包选择
   String _selectedEWallet = 'tng';
 
@@ -91,11 +91,12 @@ class _PaymentPageState extends State<PaymentPage> {
 
   void _processPayment() async {
     // 获取订单参数以确定订单类型
-    final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
+    final args =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
     final orderType = args?['orderType'] ?? 'flight';
     final hotelName = args?['hotelName'] ?? 'Unknown Hotel';
     final roomType = args?['roomType'] ?? 'Standard';
-    
+
     // 验证输入
     if (_selectedPaymentMethod == 'card') {
       if (_cardNumberController.text.isEmpty ||
@@ -109,36 +110,44 @@ class _PaymentPageState extends State<PaymentPage> {
 
     // 获取预订服务实例
     final bookingService = BookingService();
-    
+
     // 预定义消息
     String successMessage = 'Your booking has been confirmed successfully!';
     String successTitle = 'Payment Successful';
-    
+
     try {
       if (orderType == 'hotel') {
-        successMessage = 'Your $roomType room at $hotelName has been booked successfully!';
-        
+        successMessage =
+            'Your $roomType room at $hotelName has been booked successfully!';
+
         // 保存酒店预订记录
         final hotelBooking = BookingService.createHotelBooking(
           hotelName: hotelName,
           location: args?['location'] ?? 'Unknown Location',
           roomType: roomType,
           price: args?['price'] ?? '\$0',
-          checkInDate: DateTime.parse(args?['checkInDate'] ?? DateTime.now().toIso8601String()),
-          checkOutDate: DateTime.parse(args?['checkOutDate'] ?? DateTime.now().add(Duration(days: 1)).toIso8601String()),
+          checkInDate: DateTime.parse(
+            args?['checkInDate'] ?? DateTime.now().toIso8601String(),
+          ),
+          checkOutDate: DateTime.parse(
+            args?['checkOutDate'] ??
+                DateTime.now().add(Duration(days: 1)).toIso8601String(),
+          ),
           stayDuration: args?['stayDuration'] ?? 1,
           rating: args?['rating'],
         );
         await bookingService.addBooking(hotelBooking);
       } else {
         successMessage = 'Your flight has been booked successfully!';
-        
+
         // 保存航班预订记录
         final flightBooking = BookingService.createFlightBooking(
           flightNumber: args?['flightNumber'] ?? 'Unknown',
           airline: args?['airline'] ?? 'Unknown Airline',
           price: args?['price'] ?? '\$0',
-          departureDate: DateTime.parse(args?['departureDate'] ?? DateTime.now().toIso8601String()),
+          departureDate: DateTime.parse(
+            args?['departureDate'] ?? DateTime.now().toIso8601String(),
+          ),
           departureTime: args?['departureTime'],
           arrivalTime: args?['arrivalTime'],
           from: args?['from'],
@@ -168,10 +177,9 @@ class _PaymentPageState extends State<PaymentPage> {
               onPressed: () {
                 Navigator.of(context).pop(); // 关闭对话框
                 // 返回到主页面
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                  '/',
-                  (route) => false,
-                );
+                Navigator.of(
+                  context,
+                ).pushNamedAndRemoveUntil('/', (route) => false);
               },
               child: Text('OK'),
             ),
@@ -187,7 +195,6 @@ class _PaymentPageState extends State<PaymentPage> {
       _notificationOpacity = 1.0;
     });
 
-
     _notificationTimer?.cancel();
     _notificationTimer = Timer(const Duration(seconds: 2), () {
       if (mounted) {
@@ -200,16 +207,17 @@ class _PaymentPageState extends State<PaymentPage> {
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
-    
+    final args =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
+
     // 通用参数
     final orderType = args?['orderType'] ?? 'flight'; // 'flight' 或 'hotel'
     final price = args?['price'] ?? '\$0';
-    
+
     // 航班相关参数
     final flightNumber = args?['flightNumber'] ?? 'Unknown Flight';
     final airline = args?['airline'] ?? 'Unknown Airline';
-    
+
     // 酒店相关参数
     final hotelName = args?['hotelName'] ?? 'Unknown Hotel';
     final pricePerNight = args?['pricePerNight'] ?? '\$0';
@@ -218,15 +226,18 @@ class _PaymentPageState extends State<PaymentPage> {
     final checkOutDate = args?['checkOutDate'] ?? 'Unknown';
 
     return Scaffold(
+      backgroundColor: Color(0xfff5f5f5),
       appBar: AppBar(
-        title: Text(
-          'Payment',
-          style: GoogleFonts.ubuntu(color: Colors.white),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
         ),
+        title: Text('Payment', style: GoogleFonts.ubuntu(color: Colors.white)),
         backgroundColor: Colors.blueAccent,
         centerTitle: true,
       ),
-      backgroundColor: Colors.grey[50],
       body: SizedBox.expand(
         child: Stack(
           children: [
@@ -238,7 +249,10 @@ class _PaymentPageState extends State<PaymentPage> {
                   // 倒计时卡片
                   Card(
                     elevation: 4,
-                    color: _remainingSeconds <= 60 ? Colors.red[50] : Colors.orange[50],
+                    color:
+                        _remainingSeconds <= 60
+                            ? Colors.red[50]
+                            : Colors.orange[50],
                     child: Padding(
                       padding: EdgeInsets.all(16),
                       child: Row(
@@ -246,7 +260,10 @@ class _PaymentPageState extends State<PaymentPage> {
                         children: [
                           Icon(
                             Icons.timer,
-                            color: _remainingSeconds <= 60 ? Colors.red : Colors.orange,
+                            color:
+                                _remainingSeconds <= 60
+                                    ? Colors.red
+                                    : Colors.orange,
                             size: 24,
                           ),
                           SizedBox(width: 8),
@@ -255,18 +272,22 @@ class _PaymentPageState extends State<PaymentPage> {
                             style: GoogleFonts.ubuntu(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
-                              color: _remainingSeconds <= 60 ? Colors.red : Colors.orange,
+                              color:
+                                  _remainingSeconds <= 60
+                                      ? Colors.red
+                                      : Colors.orange,
                             ),
                           ),
                         ],
                       ),
                     ),
                   ),
-            
+
                   SizedBox(height: 16),
-            
+
                   // 订单信息
                   Card(
+                    color: Colors.white,
                     elevation: 4,
                     child: Padding(
                       padding: EdgeInsets.all(16),
@@ -281,7 +302,7 @@ class _PaymentPageState extends State<PaymentPage> {
                             ),
                           ),
                           Divider(),
-                          
+
                           // 根据订单类型显示不同内容
                           if (orderType == 'flight') ...[
                             Row(
@@ -301,7 +322,9 @@ class _PaymentPageState extends State<PaymentPage> {
                                   child: Text(
                                     hotelName,
                                     textAlign: TextAlign.right,
-                                    style: GoogleFonts.ubuntu(fontWeight: FontWeight.w500),
+                                    style: GoogleFonts.ubuntu(
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -313,7 +336,9 @@ class _PaymentPageState extends State<PaymentPage> {
                                 Text('Check-in Date:'),
                                 Text(
                                   checkInDate,
-                                  style: GoogleFonts.ubuntu(fontWeight: FontWeight.w500),
+                                  style: GoogleFonts.ubuntu(
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
                               ],
                             ),
@@ -324,7 +349,9 @@ class _PaymentPageState extends State<PaymentPage> {
                                 Text('Check-out Date:'),
                                 Text(
                                   checkOutDate,
-                                  style: GoogleFonts.ubuntu(fontWeight: FontWeight.w500),
+                                  style: GoogleFonts.ubuntu(
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
                               ],
                             ),
@@ -335,7 +362,9 @@ class _PaymentPageState extends State<PaymentPage> {
                                 Text('Stay Duration:'),
                                 Text(
                                   '$stayDuration night${stayDuration > 1 ? 's' : ''}',
-                                  style: GoogleFonts.ubuntu(fontWeight: FontWeight.w500),
+                                  style: GoogleFonts.ubuntu(
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
                               ],
                             ),
@@ -346,13 +375,15 @@ class _PaymentPageState extends State<PaymentPage> {
                                 Text('Price per Night:'),
                                 Text(
                                   pricePerNight,
-                                  style: GoogleFonts.ubuntu(color: Colors.grey[600]),
+                                  style: GoogleFonts.ubuntu(
+                                    color: Colors.grey[600],
+                                  ),
                                 ),
                               ],
                             ),
                             SizedBox(height: 8),
                           ],
-                          
+
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -377,11 +408,12 @@ class _PaymentPageState extends State<PaymentPage> {
                       ),
                     ),
                   ),
-            
+
                   SizedBox(height: 16),
-            
+
                   // 支付方式选择
                   Card(
+                    color: Colors.white,
                     elevation: 4,
                     child: Padding(
                       padding: EdgeInsets.all(16),
@@ -396,12 +428,15 @@ class _PaymentPageState extends State<PaymentPage> {
                             ),
                           ),
                           SizedBox(height: 16),
-                          
+
                           // 银行卡选项
                           RadioListTile<String>(
                             title: Row(
                               children: [
-                                Icon(Icons.credit_card, color: Colors.blueAccent),
+                                Icon(
+                                  Icons.credit_card,
+                                  color: Colors.blueAccent,
+                                ),
                                 SizedBox(width: 8),
                                 Text('Bank Card'),
                               ],
@@ -414,12 +449,15 @@ class _PaymentPageState extends State<PaymentPage> {
                               });
                             },
                           ),
-                          
+
                           // 电子钱包选项
                           RadioListTile<String>(
                             title: Row(
                               children: [
-                                Icon(Icons.account_balance_wallet, color: Colors.green),
+                                Icon(
+                                  Icons.account_balance_wallet,
+                                  color: Colors.green,
+                                ),
                                 SizedBox(width: 8),
                                 Text('E-Wallet'),
                               ],
@@ -436,12 +474,13 @@ class _PaymentPageState extends State<PaymentPage> {
                       ),
                     ),
                   ),
-            
+
                   SizedBox(height: 16),
-            
+
                   // 支付详情
                   if (_selectedPaymentMethod == 'card') ...[
                     Card(
+                      color: Colors.white,
                       elevation: 4,
                       child: Padding(
                         padding: EdgeInsets.all(16),
@@ -486,7 +525,7 @@ class _PaymentPageState extends State<PaymentPage> {
                               ],
                             ),
                             SizedBox(height: 20),
-                            
+
                             // 卡号
                             TextField(
                               controller: _cardNumberController,
@@ -499,7 +538,7 @@ class _PaymentPageState extends State<PaymentPage> {
                               keyboardType: TextInputType.number,
                             ),
                             SizedBox(height: 16),
-                            
+
                             // 持卡人姓名
                             TextField(
                               controller: _cardHolderController,
@@ -511,7 +550,7 @@ class _PaymentPageState extends State<PaymentPage> {
                               ),
                             ),
                             SizedBox(height: 16),
-                            
+
                             Row(
                               children: [
                                 // 过期日期
@@ -549,6 +588,7 @@ class _PaymentPageState extends State<PaymentPage> {
                     ),
                   ] else ...[
                     Card(
+                      color: Colors.white,
                       elevation: 4,
                       child: Padding(
                         padding: EdgeInsets.all(16),
@@ -563,7 +603,7 @@ class _PaymentPageState extends State<PaymentPage> {
                               ),
                             ),
                             SizedBox(height: 16),
-                            
+
                             // Touch n Go
                             RadioListTile<String>(
                               title: Row(
@@ -591,7 +631,7 @@ class _PaymentPageState extends State<PaymentPage> {
                                 });
                               },
                             ),
-                            
+
                             // 支付宝
                             RadioListTile<String>(
                               title: Row(
@@ -619,7 +659,7 @@ class _PaymentPageState extends State<PaymentPage> {
                                 });
                               },
                             ),
-                            
+
                             // PayPal
                             RadioListTile<String>(
                               title: Row(
@@ -659,9 +699,9 @@ class _PaymentPageState extends State<PaymentPage> {
                       ),
                     ),
                   ],
-            
+
                   SizedBox(height: 24),
-            
+
                   // 支付按钮
                   SizedBox(
                     width: double.infinity,
@@ -669,13 +709,18 @@ class _PaymentPageState extends State<PaymentPage> {
                     child: ElevatedButton(
                       onPressed: _remainingSeconds > 0 ? _processPayment : null,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: _remainingSeconds > 0 ? Colors.blueAccent : Colors.grey,
+                        backgroundColor:
+                            _remainingSeconds > 0
+                                ? Colors.blueAccent
+                                : Colors.grey,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
                       child: Text(
-                        _remainingSeconds > 0 ? 'Pay Now $price' : 'Payment Expired',
+                        _remainingSeconds > 0
+                            ? 'Pay Now $price'
+                            : 'Payment Expired',
                         style: GoogleFonts.ubuntu(
                           fontSize: 18,
                           color: Colors.white,
@@ -700,7 +745,10 @@ class _PaymentPageState extends State<PaymentPage> {
                 child: Material(
                   color: Colors.transparent,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 12,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.black87,
                       borderRadius: BorderRadius.circular(10),
