@@ -356,6 +356,7 @@ class _UploadPostState extends State<UploadPost> {
       _notificationOpacity = 1.0;
     });
 
+
     _notificationTimer?.cancel();
     _notificationTimer = Timer(const Duration(seconds: 2), () {
       if (mounted) {
@@ -567,7 +568,7 @@ class _UploadPostState extends State<UploadPost> {
           },
         ),
       ),
-      body: SizedBox.expand( // Removed the GestureDetector here
+      body: SizedBox.expand(
         child: Stack(
           children: [
             SingleChildScrollView(
