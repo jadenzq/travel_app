@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:travel_app/Models/post.dart';
 
@@ -96,31 +98,31 @@ class _PostDetailState extends State<PostDetail>
                 children: [
                   Stack(
                     children: [
-                      //For blur background
-                      // Container(
-                      //   height: 300,
-                      //   child: ClipRect(
-                      //     child: Stack(
-                      //       children: [
-                      //         Image.asset(
-                      //           widget.post.images[_currentPage],
-                      //           fit: BoxFit.cover,
-                      //           width: double.infinity,
-                      //           height: double.infinity,
-                      //         ),
-                      //         BackdropFilter(
-                      //           filter: ImageFilter.blur(
-                      //             sigmaX: 10.0,
-                      //             sigmaY: 10.0,
-                      //           ), 
-                      //           child: Container(
-                      //             color: Colors.black.withOpacity(0.3),
-                      //           ),
-                      //         ),
-                      //       ],
-                      //     ),
-                      //   ),
-                      // ),
+                      // Blur background image
+                      Container(
+                        height: 300,
+                        child: ClipRect(
+                          child: Stack(
+                            children: [
+                              Image.asset(
+                                widget.post.images[_currentPage],
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                                height: double.infinity,
+                              ),
+                              BackdropFilter(
+                                filter: ImageFilter.blur(
+                                  sigmaX: 15.0,
+                                  sigmaY: 15.0,
+                                ), 
+                                child: Container(
+                                  color: Colors.black.withOpacity(0.3),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                       Container(
                         height: 300,
                         child: PageView.builder(
@@ -130,10 +132,11 @@ class _PostDetailState extends State<PostDetail>
                             return Center(
                               child: Image.asset(
                                 widget.post.images[index],
-                                //fit: BoxFit.contain //This is for blur background
-                                fit: BoxFit.cover,
-                                width: double.infinity,
-                                height: double.infinity,
+                                fit: BoxFit.contain //This is for blur background
+                                // Expand images
+                                // fit: BoxFit.cover,
+                                // width: double.infinity,
+                                // height: double.infinity,
                               ),
                             );
                           },
