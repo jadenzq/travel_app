@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
 class HotelDetails extends StatelessWidget {
   const HotelDetails({super.key});
 
@@ -21,6 +20,7 @@ class HotelDetails extends StatelessWidget {
             : 'N/A';
 
     return Scaffold(
+      backgroundColor: const Color(0xfff5f5f5),
       appBar: AppBar(
         title: Column(
           mainAxisSize: MainAxisSize.min,
@@ -113,6 +113,8 @@ class HotelDetails extends StatelessWidget {
             ),
           ),
 
+          SizedBox(height: 12),
+
           // 酒店2
           GestureDetector(
             onTap: () {
@@ -174,6 +176,8 @@ class HotelDetails extends StatelessWidget {
             ),
           ),
 
+          SizedBox(height: 12),
+
           // 酒店3
           GestureDetector(
             onTap: () {
@@ -233,6 +237,8 @@ class HotelDetails extends StatelessWidget {
               ),
             ),
           ),
+
+          SizedBox(height: 12),
 
           // 酒店4
           GestureDetector(
@@ -294,6 +300,8 @@ class HotelDetails extends StatelessWidget {
             ),
           ),
 
+          SizedBox(height: 12),
+
           // 酒店5
           GestureDetector(
             onTap: () {
@@ -353,6 +361,8 @@ class HotelDetails extends StatelessWidget {
               ),
             ),
           ),
+
+          SizedBox(height: 12),
 
           // 酒店6
           GestureDetector(

@@ -54,11 +54,7 @@ class _BookingHotelState extends State<BookingHotel> {
       appBar: AppBar(
         title: Text(
           'Booking Hotel',
-          style: GoogleFonts.ubuntu(
-            color: Colors.black,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
+          style: GoogleFonts.ubuntu(color: Colors.black, fontSize: 20),
         ),
         backgroundColor: Colors.white,
         centerTitle: true,
