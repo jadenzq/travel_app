@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:travel_app/Forum/Forum.dart';
@@ -53,6 +54,8 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser;
+
     List<Widget> pages = [
       HomePage(
         posts: _allPosts,
@@ -69,6 +72,16 @@ class _AppState extends State<App> {
       Memo(),
       isLoggedIn ? ProfilePage() : LoginPage(onLogIn: handleLogIn),
     ];
+
+    // 用户已登录，进入 Profile 页面
+    if (user == null) {
+      return LoginPage(
+        onLogIn: () {
+          if (!mounted) return;
+          handleLogIn();
+        },
+      );
+    }
 
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 245, 245, 245),
