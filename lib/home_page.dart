@@ -555,7 +555,7 @@ class _HomePageState extends State<HomePage> {
                 SizedBox(width: 12),
                 Text(
                   "My Bookings",
-                  style: TextStyle(
+                  style: GoogleFonts.ubuntu(
                     fontSize: 18,
                     color: Colors.blueAccent,
                     fontWeight: FontWeight.w600,
