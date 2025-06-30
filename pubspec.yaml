@@ -28,18 +28,33 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+
+  js: ^0.6.7
+    
+  provider: ^6.1.1
+
   flutter:
     sdk: flutter
 
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
+  firebase_core: ^3.14.0
+  firebase_auth: ^5.6.0       # 用户认证
+  cloud_firestore: ^5.6.9     # 数据库
+
   cupertino_icons: ^1.0.8
   shared_preferences: ^2.0.15
   image_picker: ^1.0.4
   flutter_staggered_grid_view: ^0.7.0
   carousel_slider: ^5.0.0
-  firebase_core: ^3.14.0
-  cloud_firestore: ^5.6.9
+  google_fonts: ^6.2.1
+  flutter_native_splash: ^2.4.6
+  video_player: ^2.10.0
+  chewie: ^1.11.3
+  google_maps_flutter: ^2.12.3
+  http: ^1.4.0
+  flutter_quill:
+    git:
+      url: https://github.com/singerdmx/flutter-quill.git
+      ref: v11.4.1
 
 dev_dependencies:
   flutter_test:
@@ -69,6 +84,9 @@ flutter:
     - assets/images/hotels/
     - assets/images/post-image/
     - assets/images/user/
+    - assets/icons/
+    - assets/images/video-thumbnail/
+    - assets/videos/post-video/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
@@ -95,3 +113,17 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+flutter_native_splash:
+  android: true
+  ios: true
+  web: false
+
+  color: "#ffffff"
+  image: "assets/images/luggage.png"
+  branding: "assets/images/TripleFun.jpeg"
+
+  android_12:
+    color: "#ffffff"
+    image: "assets/images/luggage.png"
+    branding: "assets/images/TripleFun.jpeg"

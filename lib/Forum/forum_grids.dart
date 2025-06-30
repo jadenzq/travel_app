@@ -1,51 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:travel_app/Forum/post_detail.dart';
 import 'package:travel_app/Models/post.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-class ExperienceGrids extends StatefulWidget
-{
+class ExperienceGrids extends StatefulWidget {
   const ExperienceGrids({super.key});
 
   @override
   State<ExperienceGrids> createState() => _ExperienceGridsState();
 }
 
-class _ExperienceGridsState extends State<ExperienceGrids>
-{
+class _ExperienceGridsState extends State<ExperienceGrids> {
   List<Post> posts = [];
 
   @override
-  void initState()
-  {
+  void initState() {
     super.initState();
     posts = Post.getAllPosts();
   }
 
-  void _toggleLike(int index)
-  {
+  void _toggleLike(int index) {
     setState(() {
       posts[index].isLike = !posts[index].isLike;
     });
   }
 
-  void getInPost(BuildContext context, int index)
-  {
+  void getInPost(BuildContext context, int index) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (ctx) => PostDetail(
-          post: posts[index],
-          onToggleLike: () {
-            _toggleLike(index);
-          },
-        ),
+        builder:
+            (ctx) => PostDetail(
+              post: posts[index],
+              onToggleLike: () {
+                _toggleLike(index);
+              },
+            ),
       ),
     );
   }
 
   @override
-  Widget build(BuildContext context)
-  {
+  Widget build(BuildContext context) {
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -62,24 +58,17 @@ class _ExperienceGridsState extends State<ExperienceGrids>
 
             String imageUrl = '';
 
-            if (data.images.isNotEmpty)
-            {
-              imageUrl = data.images[0];
+            if (data.media.isNotEmpty) {
+              imageUrl = data.media[0];
             }
 
             double aspectRatio = 1.0;
-            if (postId != null)
-            {
-              if (postId % 5 == 0)
-              {
+            if (postId != null) {
+              if (postId % 5 == 0) {
                 aspectRatio = 0.5;
-              }
-              else if (postId % 5 == 1 || postId % 5 == 3)
-              {
+              } else if (postId % 5 == 1 || postId % 5 == 3) {
                 aspectRatio = 0.8;
-              }
-              else
-              {
+              } else {
                 aspectRatio = 1.2;
               }
             }
@@ -90,8 +79,7 @@ class _ExperienceGridsState extends State<ExperienceGrids>
               },
               child: Container(
                 decoration: BoxDecoration(
-                  color:
-                      Theme.of(context).cardColor,
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
@@ -105,8 +93,7 @@ class _ExperienceGridsState extends State<ExperienceGrids>
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(12),
                   child: Column(
-                    crossAxisAlignment:
-                        CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       AspectRatio(
                         aspectRatio: aspectRatio,
@@ -118,6 +105,7 @@ class _ExperienceGridsState extends State<ExperienceGrids>
                               width: double.infinity,
                               height: double.infinity,
                             ),
+                            
                             Positioned(
                               top: 8,
                               left: 8,
@@ -146,23 +134,14 @@ class _ExperienceGridsState extends State<ExperienceGrids>
                                   Flexible(
                                     child: Text(
                                       data.location,
-                                      style: TextStyle(
+                                      style: GoogleFonts.ubuntu(
                                         color: Colors.white,
                                         fontSize: 16,
                                         shadows: [
                                           Shadow(
                                             offset: const Offset(1.0, 1.0),
                                             blurRadius: 3.0,
-                                            color: Colors.black.withOpacity(
-                                              0.6,
-                                            ),
-                                          ),
-                                          Shadow(
-                                            offset: const Offset(-1.0, -1.0),
-                                            blurRadius: 3.0,
-                                            color: Colors.black.withOpacity(
-                                              0.6,
-                                            ),
+                                            color: Colors.black
                                           ),
                                         ],
                                       ),
@@ -191,13 +170,18 @@ class _ExperienceGridsState extends State<ExperienceGrids>
                                             child: Icon(
                                               Icons.favorite,
                                               size: 21,
-                                              color: Colors.black.withOpacity(0.6),   
+                                              color: Colors.black.withOpacity(
+                                                0.6,
+                                              ),
                                             ),
                                           ),
                                           Icon(
                                             Icons.favorite,
                                             size: 20, // Original size
-                                            color: data.isLike ? Colors.red : Colors.white,
+                                            color:
+                                                data.isLike
+                                                    ? Colors.red
+                                                    : Colors.white,
                                           ),
                                         ],
                                       ),
@@ -206,25 +190,19 @@ class _ExperienceGridsState extends State<ExperienceGrids>
                                   const Spacer(),
                                   Text(
                                     data.views,
-                                    style: TextStyle(
+                                    style: GoogleFonts.ubuntu(
                                       color: Colors.white,
                                       fontSize: 16,
                                       shadows: [
                                         Shadow(
                                           offset: const Offset(1.0, 1.0),
                                           blurRadius: 3.0,
-                                          color: Colors.black.withOpacity(0.6),
-                                        ),
-                                        Shadow(
-                                          offset: const Offset(-1.0, -1.0),
-                                          blurRadius: 3.0,
-                                          color: Colors.black.withOpacity(0.6),
+                                          color: Colors.black,
                                         ),
                                       ],
                                     ),
                                   ),
                                   const SizedBox(width: 5.0),
-                                  // --- Shadow effect for Views Icon ---
                                   Stack(
                                     children: [
                                       Positioned(
@@ -232,13 +210,16 @@ class _ExperienceGridsState extends State<ExperienceGrids>
                                         left: 1.0,
                                         child: Icon(
                                           Icons.remove_red_eye_outlined,
-                                          size: 21, // Slightly larger for shadow
-                                          color: Colors.black.withOpacity(0.6), // Shadow color
+                                          size:
+                                              21,
+                                          color: Colors.black.withOpacity(
+                                            0.6,
+                                          ),
                                         ),
                                       ),
                                       const Icon(
                                         Icons.remove_red_eye_outlined,
-                                        size: 20, // Original size
+                                        size: 20,
                                         color: Colors.white,
                                       ),
                                     ],
@@ -253,7 +234,7 @@ class _ExperienceGridsState extends State<ExperienceGrids>
                         padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 0.0),
                         child: Text(
                           data.title,
-                          style: const TextStyle(
+                          style: GoogleFonts.ubuntu(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                             color: Colors.black,
@@ -274,7 +255,7 @@ class _ExperienceGridsState extends State<ExperienceGrids>
                             Flexible(
                               child: Text(
                                 data.authorName,
-                                style: TextStyle(
+                                style: GoogleFonts.ubuntu(
                                   fontSize: 14,
                                   color: Colors.grey[700],
                                 ),

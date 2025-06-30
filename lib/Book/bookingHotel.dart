@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class BookingHotel extends StatefulWidget {
   const BookingHotel({super.key});
@@ -24,17 +25,28 @@ class _BookingHotelState extends State<BookingHotel> {
 
   // Format date display
   String _formatDate(DateTime date) {
-    List<String> months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    List<String> months = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
     List<String> weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-    
+
     String month = months[date.month - 1];
     String day = '${date.day}';
     String weekday = weekdays[date.weekday - 1];
-    
+
     return '$month $day $weekday';
   }
-
-
 
   @override
   Widget build(context) {
@@ -42,13 +54,13 @@ class _BookingHotelState extends State<BookingHotel> {
       appBar: AppBar(
         title: Text(
           'Booking Hotel',
-          style: TextStyle(
-            color: Colors.white,
+          style: GoogleFonts.ubuntu(
+            color: Colors.black,
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
         ),
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: Colors.white,
         centerTitle: true,
         elevation: 0,
       ),
@@ -136,14 +148,20 @@ class _BookingHotelState extends State<BookingHotel> {
                         decoration: InputDecoration(
                           labelText: 'Location',
                           labelStyle: TextStyle(color: Colors.blueAccent),
-                          prefixIcon: Icon(Icons.location_on, color: Colors.blueAccent),
+                          prefixIcon: Icon(
+                            Icons.location_on,
+                            color: Colors.blueAccent,
+                          ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
                             borderSide: BorderSide(color: Colors.blue[300]!),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide(color: Colors.blueAccent, width: 2),
+                            borderSide: BorderSide(
+                              color: Colors.blueAccent,
+                              width: 2,
+                            ),
                           ),
                           filled: true,
                           fillColor: Colors.blue[50],
@@ -151,7 +169,7 @@ class _BookingHotelState extends State<BookingHotel> {
                       ),
                     ),
                     SizedBox(height: 24),
-                  
+
                     // 日期选择区域 - 放在同一行
                     Container(
                       padding: EdgeInsets.all(16),
@@ -187,7 +205,8 @@ class _BookingHotelState extends State<BookingHotel> {
                                 if (picked != null) {
                                   setState(() {
                                     checkInDate = picked;
-                                    if (checkOutDate != null && checkOutDate!.isBefore(checkInDate!)) {
+                                    if (checkOutDate != null &&
+                                        checkOutDate!.isBefore(checkInDate!)) {
                                       checkOutDate = null;
                                     }
                                   });
@@ -199,7 +218,10 @@ class _BookingHotelState extends State<BookingHotel> {
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(12),
                                   border: Border.all(
-                                    color: checkInDate != null ? Colors.blueAccent : Colors.grey[300]!,
+                                    color:
+                                        checkInDate != null
+                                            ? Colors.blueAccent
+                                            : Colors.grey[300]!,
                                     width: 1,
                                   ),
                                 ),
@@ -208,8 +230,11 @@ class _BookingHotelState extends State<BookingHotel> {
                                   children: [
                                     Row(
                                       children: [
-                                        Icon(Icons.calendar_today, 
-                                          color: Colors.blueAccent, size: 16),
+                                        Icon(
+                                          Icons.calendar_today,
+                                          color: Colors.blueAccent,
+                                          size: 16,
+                                        ),
                                         SizedBox(width: 6),
                                         Text(
                                           'Check-in',
@@ -229,7 +254,10 @@ class _BookingHotelState extends State<BookingHotel> {
                                       style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.bold,
-                                        color: checkInDate == null ? Colors.grey[500] : Colors.blueAccent,
+                                        color:
+                                            checkInDate == null
+                                                ? Colors.grey[500]
+                                                : Colors.blueAccent,
                                       ),
                                     ),
                                   ],
@@ -237,26 +265,30 @@ class _BookingHotelState extends State<BookingHotel> {
                               ),
                             ),
                           ),
-                          
+
                           SizedBox(width: 12),
-                          
+
                           // 分隔符
                           Container(
                             height: 40,
                             width: 1,
                             color: Colors.grey[300],
                           ),
-                          
+
                           SizedBox(width: 12),
-                          
+
                           // Check-out 部分
                           Expanded(
                             child: GestureDetector(
                               onTap: () async {
                                 DateTime? picked = await showDatePicker(
                                   context: context,
-                                  initialDate: checkInDate?.add(Duration(days: 1)) ?? DateTime.now().add(Duration(days: 1)),
-                                  firstDate: checkInDate?.add(Duration(days: 1)) ?? DateTime.now(),
+                                  initialDate:
+                                      checkInDate?.add(Duration(days: 1)) ??
+                                      DateTime.now().add(Duration(days: 1)),
+                                  firstDate:
+                                      checkInDate?.add(Duration(days: 1)) ??
+                                      DateTime.now(),
                                   lastDate: DateTime(2100),
                                 );
                                 if (picked != null) {
@@ -271,7 +303,10 @@ class _BookingHotelState extends State<BookingHotel> {
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(12),
                                   border: Border.all(
-                                    color: checkOutDate != null ? Colors.blueAccent : Colors.grey[300]!,
+                                    color:
+                                        checkOutDate != null
+                                            ? Colors.blueAccent
+                                            : Colors.grey[300]!,
                                     width: 1,
                                   ),
                                 ),
@@ -280,8 +315,11 @@ class _BookingHotelState extends State<BookingHotel> {
                                   children: [
                                     Row(
                                       children: [
-                                        Icon(Icons.event, 
-                                          color: Colors.blueAccent, size: 16),
+                                        Icon(
+                                          Icons.event,
+                                          color: Colors.blueAccent,
+                                          size: 16,
+                                        ),
                                         SizedBox(width: 6),
                                         Text(
                                           'Check-out',
@@ -301,7 +339,10 @@ class _BookingHotelState extends State<BookingHotel> {
                                       style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.bold,
-                                        color: checkOutDate == null ? Colors.grey[500] : Colors.blueAccent,
+                                        color:
+                                            checkOutDate == null
+                                                ? Colors.grey[500]
+                                                : Colors.blueAccent,
                                       ),
                                     ),
                                   ],
@@ -312,7 +353,7 @@ class _BookingHotelState extends State<BookingHotel> {
                         ],
                       ),
                     ),
-                    
+
                     // 停留天数显示
                     if (stayDuration != null) ...[
                       Container(
@@ -367,7 +408,7 @@ class _BookingHotelState extends State<BookingHotel> {
                         ),
                       ),
                     ],
-                    
+
                     // 客人数量选择
                     Container(
                       padding: EdgeInsets.all(16),
@@ -397,7 +438,11 @@ class _BookingHotelState extends State<BookingHotel> {
                           children: [
                             Row(
                               children: [
-                                Icon(Icons.people, color: Colors.blueAccent, size: 24),
+                                Icon(
+                                  Icons.people,
+                                  color: Colors.blueAccent,
+                                  size: 24,
+                                ),
                                 SizedBox(width: 12),
                                 Text(
                                   'Guests',
@@ -412,12 +457,18 @@ class _BookingHotelState extends State<BookingHotel> {
                             Row(
                               children: [
                                 GestureDetector(
-                                  onTap: guests > 1 ? () => setState(() => guests--) : null,
+                                  onTap:
+                                      guests > 1
+                                          ? () => setState(() => guests--)
+                                          : null,
                                   child: Container(
                                     width: 32,
                                     height: 32,
                                     decoration: BoxDecoration(
-                                      color: guests > 1 ? Colors.blueAccent : Colors.grey[300],
+                                      color:
+                                          guests > 1
+                                              ? Colors.blueAccent
+                                              : Colors.grey[300],
                                       borderRadius: BorderRadius.circular(16),
                                     ),
                                     child: Icon(
@@ -434,7 +485,9 @@ class _BookingHotelState extends State<BookingHotel> {
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(16),
-                                    border: Border.all(color: Colors.blueAccent),
+                                    border: Border.all(
+                                      color: Colors.blueAccent,
+                                    ),
                                   ),
                                   child: Center(
                                     child: Text(
@@ -469,7 +522,7 @@ class _BookingHotelState extends State<BookingHotel> {
                         ),
                       ),
                     ),
-                    
+
                     // Search Button
                     Container(
                       height: 60,
@@ -491,7 +544,9 @@ class _BookingHotelState extends State<BookingHotel> {
                       ),
                       child: ElevatedButton(
                         onPressed: () {
-                          if (locationController.text.isNotEmpty && checkInDate != null && checkOutDate != null) {
+                          if (locationController.text.isNotEmpty &&
+                              checkInDate != null &&
+                              checkOutDate != null) {
                             Navigator.pushNamed(
                               context,
                               '/hotelDetails',

@@ -10,14 +10,15 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  String userName = "Travel Explorer";
+  String userName = "Gloria";
   String email = "user@gmail.com";
   String phone = "+60 123 456 789";
   File? _selectedImage;
 
-  //handle image selection from gallery
   Future<void> _pickImage() async {
-    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final pickedFile = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+    );
     if (pickedFile != null) {
       setState(() {
         _selectedImage = File(pickedFile.path);
@@ -25,8 +26,8 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
-  //handle username change
   Future<void> _changeUsername() async {
+    String tempName = userName;
     final newName = await showDialog<String>(
       context: context,
       builder: (context) => AlertDialog(
@@ -34,7 +35,7 @@ class _ProfilePageState extends State<ProfilePage> {
         content: TextField(
           autofocus: true,
           decoration: const InputDecoration(hintText: 'Enter new username'),
-          onChanged: (value) => userName = value,
+          onChanged: (value) => tempName = value,
         ),
         actions: [
           TextButton(
@@ -42,7 +43,7 @@ class _ProfilePageState extends State<ProfilePage> {
             child: const Text('Cancel'),
           ),
           TextButton(
-            onPressed: () => Navigator.pop(context, userName),
+            onPressed: () => Navigator.pop(context, tempName),
             child: const Text('Save'),
           ),
         ],
@@ -59,144 +60,209 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xfff5f5f5),
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-          child: Column(
-            children: [
-              // Profile Avatar Section
-              Stack(
-                alignment: Alignment.bottomRight,
+        child: Stack(
+          children: [
+            SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+              child: Column(
                 children: [
-                  Container(
-                    width: 120,
-                    height: 120,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: Colors.blue.shade100,
-                        width: 3,
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withAlpha((0.3 * 255).toInt()),
-                          blurRadius: 10,
-                          offset: const Offset(0, 5),
-                          )
-                      ],
-                    ),
-                    child: ClipOval(
-                      child: _selectedImage != null
-                          ? Image.file(_selectedImage!, fit: BoxFit.cover)
-                          : Image.asset(
-                              'assets/images/photo111.jpg',
-                              fit: BoxFit.cover,
+                  // Profile Avatar Section
+                  Stack(
+                    alignment: Alignment.bottomRight,
+                    children: [
+                      Container(
+                        width: 120,
+                        height: 120,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(color: Colors.blue.shade100, width: 3),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withAlpha(77),
+                              blurRadius: 10,
+                              offset: const Offset(0, 5),
                             ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: _pickImage,
-                    child: Container(
-                      padding: const EdgeInsets.all(6),
-                      decoration: BoxDecoration(
-                        color: Colors.blue,
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: Colors.white,
-                          width: 2,
+                          ],
+                        ),
+                        child: ClipOval(
+                          child: _selectedImage != null
+                              ? Image.file(_selectedImage!, fit: BoxFit.cover)
+                              : Image.asset(
+                                  'assets/images/photo111.jpg',
+                                  fit: BoxFit.cover,
+                                ),
                         ),
                       ),
-                      child: const Icon(
-                        Icons.edit,
-                        size: 18,
-                        color: Colors.white,
+                      GestureDetector(
+                        onTap: _pickImage,
+                        child: Container(
+                          padding: const EdgeInsets.all(6),
+                          decoration: BoxDecoration(
+                            color: Colors.blue,
+                            shape: BoxShape.circle,
+                            border: Border.all(color: Colors.white, width: 2),
+                          ),
+                          child: const Icon(
+                            Icons.edit,
+                            size: 18,
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+
+                  // Username Section
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        userName,
+                        style: const TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      GestureDetector(
+                        onTap: _changeUsername,
+                        child: const Icon(Icons.edit, size: 20, color: Colors.blue),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 30),
+
+                  // Contact Information Section
+                  _buildInfoCard(
+                    child: Column(
+                      children: [
+                        _buildInfoRow(
+                          icon: Icons.email,
+                          label: 'Email',
+                          value: email,
+                        ),
+                        const Divider(height: 20, thickness: 1),
+                        _buildInfoRow(
+                          icon: Icons.phone,
+                          label: 'Phone',
+                          value: phone,
+                        ),
+                      ],
                     ),
                   ),
+                  const SizedBox(height: 30),
+
+                  // Action Buttons Section
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: _buildActionButton(
+                          icon: Icons.receipt,
+                          label: 'History',
+                          onTap: () {
+                            // Navigate to history page
+                          },
+                        ),
+                      ),
+                      const SizedBox(width: 20),
+                      Expanded(
+                        child: _buildActionButton(
+                          icon: Icons.star,
+                          label: 'Bookings',
+                          onTap: () {
+                            // Navigate to bookings page
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 30),
+
+// Feedback / Help Icon
+GestureDetector(
+  onTap: () {
+    // 这里可以跳转页面或弹出反馈表单
+    showDialog(
+  context: context,
+  builder: (BuildContext dialogContext) {
+    return AlertDialog(
+      title: const Text('Feedback & Help'),
+      content: const Text('You can send us your questions or feedback.'),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(dialogContext),
+          child: const Text('Close'),
+        ),
+      ],
+    );
+  },
+);
+
+  },
+  child: Container(
+    padding: const EdgeInsets.all(10),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      shape: BoxShape.circle,
+      boxShadow: [
+        BoxShadow(
+          color: Colors.grey.withAlpha(77),
+          blurRadius: 10,
+          offset: const Offset(0, 5),
+        ),
+      ],
+    ),
+    child: const Icon(
+      Icons.help_outline,
+      size: 28,
+      color: Colors.blue,
+    ),
+  ),
+),
+const SizedBox(height: 20),
                 ],
               ),
-              const SizedBox(height: 20),
+            ),
 
-              // Username Section
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    userName,
-                    style: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
+            // Settings Button
+            Positioned(
+              top: 20,
+              right: 20,
+              child: GestureDetector(
+                onTap: () {
+                  // Open settings
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withAlpha(77),
+                        blurRadius: 10,
+                        offset: const Offset(0, 5),
+                      ),
+                    ],
                   ),
-                  const SizedBox(width: 8),
-                  GestureDetector(
-                    onTap: _changeUsername,
-                    child: const Icon(
-                      Icons.edit,
-                      size: 20,
-                      color: Colors.blue,
-                    ),
+                  child: const Icon(
+                    Icons.settings,
+                    color: Colors.blue,
+                    size: 28,
                   ),
-                ],
-              ),
-              const SizedBox(height: 30),
-
-              // Contact Information Section
-              _buildInfoCard(
-                child: Column(
-                  children: [
-                    _buildInfoRow(
-                      icon: Icons.email,
-                      label: 'Email',
-                      value: email,
-                    ),
-                    const Divider(height: 20, thickness: 1),
-                    _buildInfoRow(
-                      icon: Icons.phone,
-                      label: 'Phone',
-                      value: phone,
-                    ),
-                  ],
                 ),
               ),
-              const SizedBox(height: 30),
-
-              // Action Buttons Section
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  // Orders Button
-                  Expanded(
-                    child: _buildActionButton(
-                      icon: Icons.receipt,
-                      label: 'My Orders',
-                      onTap: () {
-                        // Navigate to orders page
-                      },
-                    ),
-                  ),
-                  const SizedBox(width: 20),
-
-                  // Favorites Button
-                  Expanded(
-                    child: _buildActionButton(
-                      icon: Icons.star,
-                      label: 'Favorites',
-                      onTap: () {
-                        // Navigate to favorites page
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  // Reusable widget for info cards
   Widget _buildInfoCard({required Widget child}) {
     return Container(
       width: double.infinity,
@@ -206,7 +272,7 @@ class _ProfilePageState extends State<ProfilePage> {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withAlpha((0.3 * 255).toInt()),
+            color: Colors.grey.withAlpha(77),
             blurRadius: 10,
             offset: const Offset(0, 5),
           ),
@@ -216,7 +282,6 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  // Reusable widget for info rows (email/phone)
   Widget _buildInfoRow({
     required IconData icon,
     required String label,
@@ -231,18 +296,12 @@ class _ProfilePageState extends State<ProfilePage> {
           children: [
             Text(
               label,
-              style: const TextStyle(
-                fontSize: 12,
-                color: Colors.grey,
-              ),
+              style: const TextStyle(fontSize: 12, color: Colors.grey),
             ),
             const SizedBox(height: 2),
             Text(
               value,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-              ),
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
             ),
           ],
         ),
@@ -250,7 +309,6 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  // Reusable widget for action buttons (orders/favorites)
   Widget _buildActionButton({
     required IconData icon,
     required String label,
@@ -266,7 +324,7 @@ class _ProfilePageState extends State<ProfilePage> {
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withAlpha((0.2 * 255).toInt()),
+              color: Colors.grey.withAlpha(51),
               blurRadius: 10,
               offset: const Offset(0, 5),
             ),
@@ -278,10 +336,7 @@ class _ProfilePageState extends State<ProfilePage> {
             const SizedBox(height: 10),
             Text(
               label,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-              ),
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
             ),
           ],
         ),
@@ -289,3 +344,5 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 }
+
+

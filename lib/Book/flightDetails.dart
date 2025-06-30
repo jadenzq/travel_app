@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 
 class Flightdetails extends StatelessWidget {
   const Flightdetails({super.key});
@@ -19,12 +21,12 @@ class Flightdetails extends StatelessWidget {
           children: [
         Text(
           '$from → $to',
-          style: TextStyle(color: Colors.black),
+          style: GoogleFonts.ubuntu(color: Colors.white),
         ),
         if (date.isNotEmpty)
           Text(
             'Departure $date',
-            style: TextStyle(color: Colors.black45, fontSize: 14,),
+            style: GoogleFonts.ubuntu(color: Colors.white70, fontSize: 14,),
           ),
           ],
         ),
@@ -49,8 +51,8 @@ class Flightdetails extends StatelessWidget {
   mainAxisSize: MainAxisSize.min,
   children: [
     Text(
-      '\$320', // Price of each flight can be customized
-      style: TextStyle(
+      '\$320', // 每个航班可自定义价格
+      style: GoogleFonts.ubuntu(
         color: Colors.blueAccent,
         fontWeight: FontWeight.bold,
         fontSize: 16,
@@ -95,8 +97,8 @@ class Flightdetails extends StatelessWidget {
   mainAxisSize: MainAxisSize.min,
   children: [
     Text(
-      '\$350', // 每个航班可自定义价格
-      style: TextStyle(
+      '\$320', // 每个航班可自定义价格
+      style: GoogleFonts.ubuntu(
         color: Colors.blueAccent,
         fontWeight: FontWeight.bold,
         fontSize: 16,
@@ -138,8 +140,8 @@ class Flightdetails extends StatelessWidget {
   mainAxisSize: MainAxisSize.min,
   children: [
     Text(
-      '\$280', // 每个航班可自定义价格
-      style: TextStyle(
+      '\$320', // 每个航班可自定义价格
+      style: GoogleFonts.ubuntu(
         color: Colors.blueAccent,
         fontWeight: FontWeight.bold,
         fontSize: 16,
@@ -182,8 +184,8 @@ class Flightdetails extends StatelessWidget {
   mainAxisSize: MainAxisSize.min,
   children: [
     Text(
-      '\$290', // 每个航班可自定义价格
-      style: TextStyle(
+      '\$320', // 每个航班可自定义价格
+      style: GoogleFonts.ubuntu(
         color: Colors.blueAccent,
         fontWeight: FontWeight.bold,
         fontSize: 16,
@@ -224,8 +226,8 @@ class Flightdetails extends StatelessWidget {
   mainAxisSize: MainAxisSize.min,
   children: [
     Text(
-      '\$380', // 每个航班可自定义价格
-      style: TextStyle(
+      '\$320', // 每个航班可自定义价格
+      style: GoogleFonts.ubuntu(
         color: Colors.blueAccent,
         fontWeight: FontWeight.bold,
         fontSize: 16,
@@ -483,7 +485,7 @@ class Flightdetails extends StatelessWidget {
   children: [
     Text(
       '\$320', // 每个航班可自定义价格
-      style: TextStyle(
+      style: GoogleFonts.ubuntu(
         color: Colors.blueAccent,
         fontWeight: FontWeight.bold,
         fontSize: 16,
@@ -525,8 +527,8 @@ class Flightdetails extends StatelessWidget {
   mainAxisSize: MainAxisSize.min,
   children: [
     Text(
-      '\$350', // 每个航班可自定义价格
-      style: TextStyle(
+      '\$320', // 每个航班可自定义价格
+      style: GoogleFonts.ubuntu(
         color: Colors.blueAccent,
         fontWeight: FontWeight.bold,
         fontSize: 16,

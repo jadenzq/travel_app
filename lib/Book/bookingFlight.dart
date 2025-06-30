@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 
 class BookingFlight extends StatefulWidget {
   const BookingFlight({super.key});
@@ -21,9 +23,9 @@ class _BookingFlightState extends State<BookingFlight> {
       appBar: AppBar(
         title: Text(
           'Booking Flight',
-          style: TextStyle(color: Colors.white),
+          style: GoogleFonts.ubuntu(color: Colors.black),
         ),
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: Colors.white,
         centerTitle: true,
       ),
 
@@ -50,7 +52,7 @@ class _BookingFlightState extends State<BookingFlight> {
                   // title
                   Text(
                     'Book Flight For Your Next Trip!',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    style: GoogleFonts.ubuntu(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
 
 
@@ -217,7 +219,7 @@ class _BookingFlightState extends State<BookingFlight> {
                                   child: Center(
                                     child: Text(
                                       'Economy',
-                                      style: TextStyle(
+                                      style: GoogleFonts.ubuntu(
                                         color: seatClass == 'Economy' ? Colors.white : Colors.grey,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 14,
@@ -248,7 +250,7 @@ class _BookingFlightState extends State<BookingFlight> {
                                   child: Center(
                                     child: Text(
                                       'Business',
-                                      style: TextStyle(
+                                      style: GoogleFonts.ubuntu(
                                         color: seatClass == 'Business' ? Colors.white : Colors.grey,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 14,
@@ -288,7 +290,7 @@ class _BookingFlightState extends State<BookingFlight> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blueAccent,
                     ),
-                    child: Text('Search', style: TextStyle(fontSize: 18, color: Colors.white)),
+                    child: Text('Search', style: GoogleFonts.ubuntu(fontSize: 18, color: Colors.white)),
                   ),
                 ],
               ),
