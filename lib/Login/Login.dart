@@ -42,10 +42,7 @@ class _LoginPageState extends State<LoginPage> {
         email: email,
         password: password,
       );
-
-      if (!mounted) return;
-      widget.onLogIn(); // Trigger refresh from RootPage
-
+      widget.onLogIn();
     } on FirebaseAuthException catch (e) {
       setState(() {
         if (e.code == 'user-not-found') {
@@ -84,7 +81,10 @@ class _LoginPageState extends State<LoginPage> {
         child: Form(
           key: _formKey,
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 15.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 12.0,
+              vertical: 15.0,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -147,8 +147,10 @@ class _LoginPageState extends State<LoginPage> {
     return TextFormField(
       controller: _emailController,
       keyboardType: TextInputType.emailAddress,
-      decoration: _inputDecoration('Email', Icons.email_outlined)
-          .copyWith(errorText: _emailError),
+      decoration: _inputDecoration(
+        'Email',
+        Icons.email_outlined,
+      ).copyWith(errorText: _emailError),
       validator: (value) {
         if (value == null || value.trim().isEmpty) {
           return 'Email is required.';
@@ -165,8 +167,10 @@ class _LoginPageState extends State<LoginPage> {
     return TextFormField(
       controller: _passwordController,
       obscureText: true,
-      decoration: _inputDecoration('Password', Icons.lock)
-          .copyWith(errorText: _passwordError),
+      decoration: _inputDecoration(
+        'Password',
+        Icons.lock,
+      ).copyWith(errorText: _passwordError),
       validator: (value) {
         if (value == null || value.isEmpty) {
           return 'Password is required.';
@@ -210,16 +214,17 @@ class _LoginPageState extends State<LoginPage> {
             ],
           ),
           child: Center(
-            child: _loading
-                ? const CircularProgressIndicator(color: Colors.white)
-                : Text(
-                    'Login',
-                    style: GoogleFonts.ubuntu(
-                      fontSize: 18,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
+            child:
+                _loading
+                    ? const CircularProgressIndicator(color: Colors.white)
+                    : Text(
+                      'Login',
+                      style: GoogleFonts.ubuntu(
+                        fontSize: 18,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
-                  ),
           ),
         ),
       ),
